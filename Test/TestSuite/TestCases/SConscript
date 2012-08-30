@@ -1,0 +1,47 @@
+import os
+pj = os.path.join
+
+sources = Split("""
+   AABoxContainTest
+   AABoxOpsTest
+   AABoxTest
+   AxisAngleClassTest
+   AxisAngleCompareTest
+   ConvertTest
+   CoordClassTest
+   CoordCompareTest
+   CoordGenTest
+   EulerAngleClassTest
+   EulerAngleCompareTest
+   IntersectionTest
+   LineSegTest
+   MathTest
+   MatrixClassTest
+   MatrixCompareTest
+   MatrixGenTest
+   MatrixOpsTest
+   MatrixStateTrackingTest
+   OutputTest
+   PlaneTest
+   PointTest
+   QuatClassTest
+   QuatCompareTest
+   QuatGenTest
+   QuatOpsTest
+   QuatStuffTest
+   SphereTest
+   TriTest
+   VecBaseTest
+   VecGenTest
+   VecTest
+   XformTest
+""")
+
+sources = map(lambda n: n + '.cpp', sources)
+
+# Get sources in the InfoTests dir
+#infotests_sources = SConscript(dirs = 'InfoTests')
+#infotests_sources = map(lambda n: pj('InfoTests', n), infotests_sources)
+#sources.extend(infotests_sources)
+
+Return('sources')

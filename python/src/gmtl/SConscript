@@ -1,0 +1,9 @@
+import glob
+
+Import('pkg baseEnv PREFIX')
+
+cpp_files = glob.glob('*.cpp')
+
+for f in cpp_files:
+   pkg.addExtraDist([File(f)])
+

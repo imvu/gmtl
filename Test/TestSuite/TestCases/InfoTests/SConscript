@@ -1,0 +1,7 @@
+sources = Split("""
+   OptTest
+""")
+
+sources = map(lambda n: n + '.cpp', sources)
+
+Return('sources')

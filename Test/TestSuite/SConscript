@@ -1,0 +1,32 @@
+import os
+pj = os.path.join
+
+Import('baseEnv PREFIX')
+Import('GetPlatform ApplyCppUnitOptions')
+
+sources = Split("""
+   runner.cpp
+""")
+
+# Add in the sources from the subdirectories
+testcases_sources = SConscript(dirs = 'TestCases')
+testcases_sources = map(lambda n: pj('TestCases', n), testcases_sources)
+sources.extend(testcases_sources)
+
+# Setup the runtests executable target
+env = baseEnv.Clone()
+ApplyCppUnitOptions(env)
+env.Append(CPPPATH = Split('#Test/TestSuite #'))
+
+# Win32 doesn't have libdl
+if GetPlatform() != 'win32' and GetPlatform()[:7] != 'freebsd':
+   env.Append(LIBS = Split('dl'))
+
+if GetPlatform() == 'linux':
+   env.Append(CXXFLAGS = ['-fexceptions'])
+
+if GetPlatform() == 'irix':
+   env.Append(CPPPATH = ['#../../external/boost/boost/compatibility/cpp_c_headers'],
+              LIBS = ['m'])
+
+env.Program('runtests', sources)

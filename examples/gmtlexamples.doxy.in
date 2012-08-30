@@ -1,0 +1,69 @@
+/** @example faqexample.cpp
+*
+* This is an example of doing stuff
+*/
+
+/** @page gmtlexample Examples of including stuff
+*
+* This is an example of including some stuff
+*
+* @include faqexample.cpp
+*
+*/
+
+/** @page gmtldontinclude Examples of dontincluding stuff
+*
+* This is an example where we don't include stuff.
+*
+* @dontinclude faqexample.cpp
+*
+* Our headers look like this:
+*
+* @until main()
+* 
+* The main function starts like this:
+*
+* @until {
+*
+*  Now we have an example of doing something cool.
+*
+* @until gmtl::invert
+*
+*  Now we have another example.
+*
+* @until test_vector
+*
+* And now we finish off the function.
+*
+* @until donenow
+*/
+
+/** @page gmtlexamplecode Example of trying to use code instead
+*
+* This is some code.
+*
+@code
+#include <gmtl/gmtl.h>
+#include <gmtl/Matrix.h>
+
+int main()
+{
+@endcode
+*
+* This is some more code
+*
+@code 
+   // Example of creating a matrix and doing stuff
+   gmtl::Matrix44f test_matrix;
+   gmtl::invert(test_matrix);
+@endcode
+
+And then we have some more later that we don't show
+*/
+
+/** @page gmtlexampletest Test of doing an example with processing code
+*
+* @exincludeexample faqexample.cpp
+*/
+
+   

@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+cxxflags=@gmtl_cxxflags@
+includedir=@includedir@
+
+Name: GMTL
+Provides: @provides@
+Version: @version@
+Description: Generic Math Template Library
+URL: http://ggt.sf.net/
+Requires:
+Libs:
+Cflags: -I${includedir}
+Arch: @arch@
+prefix: ${prefix}

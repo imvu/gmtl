@@ -1,0 +1,45 @@
+import glob
+import os
+pj = os.path.join
+
+Import('baseEnv optimize pkg')
+Import('GetPlatform ApplyBoostOptions ApplyPythonOptions')
+
+
+subdirs = Split("""
+   pyste
+   src
+   test
+""")
+
+for s in subdirs:
+   SConscript(dirs = s)
+
+sources = glob.glob(pj(str(Dir('#python/src/gmtl')), '*.cpp'))
+sources = map(lambda n: pj('src', 'gmtl', os.path.basename(n)), sources)
+
+
+# Define the Python module
+env = baseEnv.Clone()
+
+# If using GCC, deal with ld O(n^2) algorithm.
+if env['CXX'][:3] == 'g++' and WhereIs('objcopy'):
+   env['CXXCOM'] += " ; objcopy --set-section-flags .debug_str=contents,debug $TARGET"
+   env['SHCXXCOM'] += " ; objcopy -v --set-section-flags .debug_str=contents,debug $TARGET $TARGET"
+   gcc_major_version = int(env["CXXVERSION"][:1])
+   if gcc_major_version >= 4:
+      env.Append(CXXFLAGS = ['-fvisibility=hidden',])   
+
+ApplyBoostOptions(env)
+ApplyPythonOptions(env)
+env.Prepend(CPPPATH   = ['#', '#python/src'])
+env.Append(CXXFLAGS = ['-DGMTL_NO_METAPROG',])
+
+python_module = 'gmtl'
+
+# On Windows, it seems that a debug build of Python prefers that the modules
+# have file names that end in _d.
+if GetPlatform() == 'win32' and optimize != 'yes':
+   python_module += '_d'
+
+env.SharedLibrary(python_module, sources, SHLIBPREFIX='')

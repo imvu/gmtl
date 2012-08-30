@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="file://localhost/home/users/allenb/Docs/vj_docs/stylesheet/docbook_ab.css" type="text/css"?>
+<?morphon-document-settings
+  morphon.document.settings.whitespaces.amount="3"
+  morphon.document.settings.print.fixed.attributes="true"
+  morphon.document.settings.stylesheetpi.autoupdate="true"
+  morphon.document.settings.print.defaultvalues.attributes="false"
+  morphon.document.settings.relative.systemids="2"
+  morphon.document.settings.endofline.type="2"
+  morphon.document.settings.whitespaces.type="indent.attr"
+?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<article lang="en">
+   <articleinfo>
+      <title>GMTL Programmer's Guide</title>
+      <subtitle>Generic Math Template Library</subtitle>
+      <authorgroup>
+         <author>
+            <firstname>Allen</firstname>
+            <surname>Bierbaum, </surname>
+         </author>
+         <author>
+            <firstname>Kevin</firstname>
+            <surname>Meinert, </surname>
+         </author>
+         <author>
+            <firstname>Ben</firstname>
+            <surname>Scott, </surname>
+         </author>
+      </authorgroup>
+      <pubdate>$Date: 2002-07-15 19:52:31 $</pubdate>
+      <address><email>ggt-info@lists.sf.net</email></address>
+   </articleinfo>
+   <section>
+      <title>Introduction</title>
+      <para> GMTL stands for (G)eneric (M)ath (T)emplate (L)ibrary. It is a math library designed to be high-performance, extensible, and generic. The design is based upon discussion with many experts in the field of computer graphics and virtual reality and is the culmination of many previous graphics math library efforts. GMTL gives the graphics programmer several core math types and a rich library of graphics/math operations on those types. </para>
+      <section>
+         <title>Design</title>
+         <para> The design of GMTL allows extensibility while mantaining a stable core. Core data types are separated from operations to improve encapsulation <xref linkend="Meyars"/>. This allows anyone to write their own math routines to extend or replace parts of the GMTL. This feature allows a very stable core set of math primitives that seldom change due to extensions, maintainance, or programmer error. </para>
+         <para> All math primitives in GMTL use generic programming techniques <xref linkend="ModernC++"/> to give the programmer many options to define their data. For example, matrices and vectors can be any dimension and any type. GMTL suffers no loss of performance due to these generalities because the parameter choices made are bound at <emphasis>compile time</emphasis>. </para>
+      </section>
+      <section>
+         <title>Implementation</title>
+         <para> GMTL is implemented using generic programming and template metaprogramming <xref linkend="ModernC++"/><xref linkend="GenerativeProgramming"/>. Generic programming allows selection by the user of size and type information for all data types in GMTL. For example, the generic Matrix type allows a programmer to select between any size (N x M) and any datatype (float, double, int...). The selection of these parameters is done through <emphasis>template parameters</emphasis>. To ease the use of these parameters, the system declares several typedefs that capture commonly used options.</para>
+         <para> Requested data types are statically bound and optimized by the compiler. The operations supplied with GMTL are implemented generically using a technique called <emphasis>template metaprogramming</emphasis>. Template metaprogramming allows things such as loops to be unrolled and conditionals to be evaluated <emphasis>by the compiler</emphasis>. Things such as loops and conditionals are evaluated statically, rather than at runtime. In addition, advanced optimizations can be performed that do this such as eliminate temporary variables and other intermediate computations. The result is compiled code that can behave as fast (or faster) then using traditional hand-coding methods such as loop unrolling, etc..</para>
+      </section>
+      <section>
+         <title>Testing</title>
+         <para> GMTL has an integrated test suite included in the source code distribution. The suite tests GMTL for correctness as well as performance degradation. The GMTL developers have put much time and effort into the test suite because we think that it will ensure that the code stays stable when changes are made, and that changes don't introduce performance hits. The bottom line is, if any behaviour changes in GMTL we want to know about it before it bites us. As a result of this philosophy, any contributions to GMTL also need to be well tested. Submissions will not be accepted without tests for correctness and performance. </para>
+      </section>
+   </section>
+   <section>
+      <title>The GMTL API</title>
+      <para> The GMTL API has two aspects you should keep in mind. The <emphasis>data</emphasis> types, and the <emphasis>operations</emphasis> on the data.  </para>
+      <para>All data types and operations are defined in the <classname>gmtl</classname> namespace. Thus all types must be prefixed with the <classname>gmtl::</classname> scope or a <classname>using gmtl;</classname> command can be used to bring all of the GMTL functionality into the local scope.</para>
+      <section>
+         <title>Supplied GMTL Math Types</title>
+         <para> GMTL comes with many math data types: Vec, Point,
+         Matrix, Quat, Coord, Sphere. The only member functions allowed
+         within each class are: </para>
+         <itemizedlist>
+            <listitem>
+               <para> Constructor, Copy Constructor, and Destructor </para>
+            </listitem>
+            <listitem>
+               <para> assignment operator - the compiler defines this automatically </para>
+            </listitem>
+            <listitem>
+               <para> Set/Get member functions</para>
+            </listitem>
+            <listitem>
+               <para> bracket (or paren) - operator for data element access. </para>
+            </listitem>
+            <listitem>
+               <para> getData - function to retrieve a pointer to internal data. </para>
+            </listitem>
+            <listitem>
+               <para> DataType - a typedef for the internal data format, useful for generic programming. </para>
+            </listitem>
+         </itemizedlist>
+         <para> Additionally many of the types have predefined typedefs available for commonly used types. For example instead of typing gmtl::Matrix&lt;4, 4, float&gt;, a user could instead use the gmtl::Matrix44f typedef. </para>
+         <para> Filenames for each math type are always [PrimitiveType].h. For example, documentation on the gmtl::Quat type is located in Quat.h. </para>
+      </section>
+      <section>
+         <title>Supplied GMTL Operations</title>
+         <para> In <xref linkend="FunctionCategories"/> we illustrate how the operations in GMTL are grouped and specified. Use this table for quick reference. Using the information here, such as file and function names, you can then go to the GMTL programmer reference for specific information. Alternatively you can look in the specified header files for documentation. </para>
+         <table
+           frame = "all"
+           id    = "FunctionCategories"
+         >
+            <title>Mathematical operations supplied with GMTL are arranged into files by the following categories.</title>
+            <tgroup
+              cols   = "4"
+              colsep = "1"
+              rowsep = "1"
+              align  = "left"
+            >
+               <colspec
+                 colname  = "Category"
+                 colwidth = "1*"
+               />
+               <colspec
+                 colname  = "File"
+                 colwidth = "1*"
+               />
+               <colspec
+                 colname  = "What you might find there"
+                 colwidth = "2*"
+               />
+               <colspec
+                 colname  = "Discussion"
+                 colwidth = "2*"
+               />
+               <thead
+                 valign = "top"
+               >
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "center"
+                       valign = "top"
+                     > Category </entry>
+                     <entry
+                       align  = "center"
+                       valign = "top"
+                     > File </entry>
+                     <entry
+                       align  = "center"
+                       valign = "top"
+                     > What you might find there </entry>
+                     <entry
+                       align  = "center"
+                       valign = "top"
+                     > Discussion </entry>
+                  </row>
+               </thead>
+               <tbody
+                 valign = "top"
+               >
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Mathematical Operations </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> [PrimitiveType]Ops.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> type operator*( type, type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> normalize( type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> bool invert( type ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Implements fundamental mathematical operations such as +, -, *, invert, dot product. </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Geometric Transformations </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Xform.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> void xform( result, a, b ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> type operator*( a, b ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Transforms a * b, stores into result. </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Creational (Factory Functions) </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Generate.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> type makeTrans&lt;type&gt;( type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> type makeRot&lt;type&gt;( rad, x, y, z ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> type makeRot&lt;type&gt;( x, y, z, rotation_order ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> A "make" function should be thought of as
+                     a constructor.  
+                     Any time a temporary is needed, use a
+                     "make" function.  
+                     Make functions are <emphasis>creational</emphasis>
+                     in nature, and most takes data as input to
+                     "seed" that creation.  The result can be a 
+                     clone or a conversion from the input data.
+                     </para>
+                     <para>
+                     The "make" functions all create a
+                     <emphasis>temporary</emphasis> object and return it
+                     "out the back".  
+                     The "make" functions are convenient in certain cases. 
+                     </para>
+                     <para>
+                     For example to
+                     construct a translation matrix on one line of code: Matrix44f mat( makeTrans&lt;Matrix44f&gt;( 1, 2, 3 ) ); See <xref linkend="Patterns"/> for discussion on Factory. 
+                     </para>
+                     <para>
+                     NOTE: Since the functions are inlined, a smart compiler should be able to optimize out the temporary making these perform fast. Beware, when using a dumb compiler (or debug mode), these functions will be slower (because of the temporary) than the get/set functions. 
+                     </para> 
+                     </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Setters (and Getters) </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Generate.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> getRot( type, result_rad, result_x, result_y, result_z ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> setTrans( type, result_vec ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> getScale( type, result_scale ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> 
+                     Setter functions all take some input, and write to
+                     some output.  A "Getter" is simply a Setter except
+                     backward, and is why we refer to them all as "Setters".
+                     </para>
+                     <para>
+                     A Setter extracts information from const data,
+                     and writes information to the non-const data.
+                     Sometimes like in the case of x,y,z a group of
+                     inputs is considered one input.
+                     </para>
+                     <para>
+                     A Setter never returns a temporary "out the back",
+                     and because of this is usually more efficient than
+                     their "make" Creational counterpart.
+                     </para>
+                     
+                     <para>
+                     Following object oriented style, the first
+                     parameter is always the object being set (for
+                     set's) or read (for get's). </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > Conversions </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > Convert.h </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > convert( src, dest ) </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     >
+                     <para>
+                     Convert one type to another. For example, convert
+                     Matrix to Quat, Quat to Matrix, and others...
+                     </para>
+                     <para>
+                     Convert functions are purely functional in nature
+                     since they do not particularly "belong" to either
+                     class.  The first parameter is always the source
+                     (read-only), and the second is the destination of
+                     the converstion (writable).
+                     </para>
+                     </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > Comparisons </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > [PrimitiveType]Ops.h </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> bool operator==( type, type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> bool operator!=( type, type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> bool isEqual( type, type, tol ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Compare similar types.  Compare functions
+                     always take two objects, and return a boolean. 
+                     The special isEqual, takes a third parameter to
+                     specify a tolerance.  Each of these three functions
+                     are defined for every type in GMTL.
+                     </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> OStream Outputs (operator&lt;&lt;) </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Output.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> std::ostream&amp; operator&lt;&lt;( std::ostream&amp;, type ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> There is one operator&lt;&lt; defined for each Math type in GMTL. </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> C Math Abstraction </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Math.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> type Math::sin( type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> type Math::aTan2( type ) </para>
+                           </listitem>
+                           <listitem>
+                              <para> type Math::isEqual( type ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Anything you would find in the C math library (such as sinf, sin, cosf, cos, fabsf, or fabs, etc...) is templated here using only one name each. For example, instead of using ::sin() for 64bit float and ::sinf() for 32bit float, you can use the templated gmtl::Math::sin() function with allows the compiler to autodetect the datatype passed to it and select sinf or sin appropriately. </para><para>NOTE: All items in the GMTL C Math abstraction are in the "gmtl::Math::" namespace. </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Collision Detection </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Intersection.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> bool intersect( a, b ) </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Test whether a intersects b. </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Bounding Volumes </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Containment.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> [] </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Builders of bounding volumes around geometric types such as Point, Sphere. </para> </entry>
+                  </row>
+                  <row
+                    valign = "top"
+                  >
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Template Metaprogramming Utilities </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Meta.h </para> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <itemizedlist>
+                           <listitem>
+                              <para> class Type2Type </para>
+                           </listitem>
+                        </itemizedlist> </entry>
+                     <entry
+                       align  = "left"
+                       valign = "top"
+                     > <para> Template metaprogramming utilities for use in optimization of generic programming used throughout GMTL. </para> </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </section>
+   </section>
+   <bibliography>
+      <title>References</title>
+      <biblioentry
+        id = "Patterns"
+      >
+         <abbrev>Patterns</abbrev>
+         <biblioset
+           relation = "book"
+         >
+            <author>
+               <surname>Gamma</surname>
+               <firstname>Erich</firstname>
+            </author>
+            <author>
+               <surname>Helm</surname>
+               <firstname>Richard</firstname>
+            </author>
+            <author>
+               <surname>Johnson</surname>
+               <firstname>Ralph</firstname>
+            </author>
+            <author>
+               <surname>Vlissides</surname>
+               <firstname>John</firstname>
+            </author>
+            <title>Design Patterns</title>
+            <subtitle>Elements of Reusable Object-Oriented Software</subtitle>
+            <publishername>Addison Wesley </publishername>
+            <pubdate>1995</pubdate>
+            <copyright>
+               <year>1995</year>
+               <holder>Addison Wesley Longman, Inc</holder>
+            </copyright>
+         </biblioset>
+      </biblioentry>
+      <biblioentry
+        id = "ModernC++"
+      >
+         <abbrev>ModernC++</abbrev>
+         <biblioset
+           relation = "book"
+         >
+            <author>
+               <surname>Alexandrescu</surname>
+               <firstname>Andrei</firstname>
+            </author>
+            <title>Modern C++ Design</title>
+            <subtitle>Generic Programming and Design Patterns Applied</subtitle>
+            <publishername>Addison Wesley </publishername>
+            <pubdate>2001</pubdate>
+            <copyright>
+               <year>2001</year>
+               <holder>Addison Wesley</holder>
+            </copyright>
+         </biblioset>
+      </biblioentry>
+      <biblioentry
+        id = "GenerativeProgramming"
+      >
+         <abbrev>GenerativeProgramming</abbrev>
+         <biblioset
+           relation = "book"
+         >
+            <author>
+               <surname>Eisenecker</surname>
+               <firstname>Ulrich</firstname>
+            </author>
+            <author>
+               <surname>Czarnecki</surname>
+               <firstname>Krzysztof</firstname>
+            </author>
+            <title>Generative Programming</title>
+            <subtitle>Methods, Tools, and Applications</subtitle>
+            <publishername>Addison Wesley Pub. Co.</publishername>
+            <pubdate>2000</pubdate>
+            <copyright>
+               <year>2000</year>
+               <holder>Addison Wesley</holder>
+            </copyright>
+         </biblioset>
+      </biblioentry>
+      <biblioentry
+        id = "Meyars"
+      >
+         <abbrev>Meyars</abbrev>
+         <biblioset
+           relation = "article"
+         >
+            <author>
+               <surname>Meyars</surname>
+               <firstname>Scott</firstname>
+            </author>
+            <title>C++ Users Journal</title>
+            <subtitle>How Non-Member Functions Improve Encapsulation</subtitle>
+            <publishername>CMP</publishername>
+            <pubdate>February 2000</pubdate>
+         </biblioset>
+      </biblioentry>
+   </bibliography>
+</article>

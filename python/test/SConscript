@@ -1,0 +1,14 @@
+import os
+pj = os.path.join
+
+Import('pkg baseEnv PREFIX')
+
+test_files = Split("""
+   gmtl-test.py
+   testsuite.py
+""")
+
+for f in test_files:
+   baseEnv.Install(pj(PREFIX, 'python', 'test'), f)
+   pkg.addExtraDist([File(f)])
+

@@ -1,0 +1,98 @@
+o------------------------------------------------------------------------------o
+|
+| PyGMTL
+| Python bindings for the Generic Math Template Library
+|
+o------------------------------------------------------------------------------o
+
+o------------------------------------------------------------------------------o
+| What is PyGMTL?
+o------------------------------------------------------------------------------o
+
+  The Python bindings for Generic Math Template Library (GMTL), a
+  high-performance, extensible, and generic math library.  The GMTL design is
+  based upon discussion with many experts in the field of computer graphics
+  and virtual reality, culminating the efforts of many previous math library
+  efforts.  GMTL gives the graphics programmer several core math types and a
+  rich library of graphics/math operations on those types.  PyGMTL provides
+  access to all of this through Python.
+
+o------------------------------------------------------------------------------o
+| Requirements
+o------------------------------------------------------------------------------o
+
+  There are several requirements necessary to compile and use PyGMTL.  Here is
+  a list of the minimum requirements.
+
+    * A standards comformant C++ compiler with good template support
+       - To compile PyGMTL on Windows, Visual C++ 7.1 (part of Visual
+         Studio .NET 2003) or newer is required
+    * SCons 0.96
+    * Python 2.2 or newer
+    * Boost.Python v2 compiled and installed from Boost 1.31.0 or newer
+
+o------------------------------------------------------------------------------o
+| Installation
+o------------------------------------------------------------------------------o
+
+  While GMTL is comprised completely of header files, PyGMTL must be compiled
+  into a dynamically loadable Python extension module.  In order compile
+  PyGMTL, use the following command.  The value for <BOOST_PYTHON_HOME> must
+  be the directory where Boost.Python v2 was installed, and the value for
+  <BOOST_VERSION> must be the version of Boost (e.g., 1.31, 1.32, etc.).
+
+       # cd <GMTL_HOME>
+       # scons optimize=yes EnablePython=True \
+            BoostPythonDir=<BOOST_PYTHON_HOME> BoostVersion=<BOOST_VERSION>
+
+  Once PyGMTL is compiled, the Python extension module will be in the
+  'python' subdirectory.  Its name is platform-specific.  The following
+  shows some likely names depending on the operating system:
+
+      * UNIX/Linux/Mac OS X: gmtl.so
+      * Windows: gmtl.pyd
+
+  Copy the PyGMTL Python extension module to a logical place where Python
+  will be able to find it.  On Windows, the easiest place to put the file
+  is in the Python installation directory.  On UNIX-based platforms, it
+  can be placed into <PYTHON_ROOT>/lib/pythonX.Y/site-packages.  Otherwise,
+  it can be placed into a subdirectory of the user's home directory such
+  as $HOME/lib/pythonX.Y/site-packages.  In that case, the environment
+  variable $PYTHONPATH must be set in order for Python to be able to find
+  PyGMTL at run time.
+
+o------------------------------------------------------------------------------o
+| Documentation
+o------------------------------------------------------------------------------o
+
+  A FAQ, API reference, and programmer's guide are available on GMTL's web
+  site.  The PyGMTL API corresponds very closely with the GMTL C++ API,
+  though there are differences since Python does not support templates.
+
+       http://ggt.sourceforge.net
+
+o------------------------------------------------------------------------------o
+| License
+o------------------------------------------------------------------------------o
+
+  This library is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License as published by the
+  Free Software Foundation; either version 2.1 of the License, or (at your
+  option) any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+  for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation,
+  Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+o------------------------------------------------------------------------------o
+| Questions
+o------------------------------------------------------------------------------o
+
+  Please feel free to email comments, questions, suggestions, etc to
+
+        ggt-devel@lists.sourceforge.net

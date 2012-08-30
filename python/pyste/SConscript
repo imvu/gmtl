@@ -1,0 +1,15 @@
+import os
+pj = os.path.join
+
+Import('pkg baseEnv PREFIX')
+
+pyste_files = Split("""
+   gmtl
+""")
+
+pyste_files = map(lambda n: n + '.pyste', pyste_files)
+
+for f in pyste_files:
+#   baseEnv.Install(pj(PREFIX, 'python', 'pyste'), f)
+   pkg.addExtraDist([File(f)])
+

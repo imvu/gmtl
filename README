@@ -1,0 +1,94 @@
+o------------------------------------------------------------------------------o
+|
+| GMTL
+| Generic Math Template Library
+|
+o------------------------------------------------------------------------------o
+
+o------------------------------------------------------------------------------o
+| What is GMTL?
+o------------------------------------------------------------------------------o
+
+  The Generic Math Template Library (GMTL) is a high-performance, extensible,
+  and generic math library. The design is based upon discussion with many
+  experts in the field of computer graphics and virtual reality, culminating the
+  efforts of many previous math library efforts. GMTL gives the graphics
+  programmer several core math types and a rich library of graphics/math
+  operations on those types.
+
+
+o------------------------------------------------------------------------------o
+| Requirements
+o------------------------------------------------------------------------------o
+
+  There are several requirements necessary to compile and use GMTL. Here is a
+  list of the minimum requirements.
+
+    * A standards comformant C++ compiler with good template support
+    * SCons 0.96
+
+  If you wish to compile and use the tests in GMTL, you will also need CppUnit.
+  GMTL uses a patched version of CppUnit, the most recent version of which is
+  available from teh VR Juggler Subversion respository:
+
+    http://vrjuggler.googlecode.com/svn/cppunit/trunk/
+
+
+o------------------------------------------------------------------------------o
+| Installation
+o------------------------------------------------------------------------------o
+
+  Much like the Standard Template Library, GMTL is completely comprised of
+  header files. Thus there is no compilation step needed to build any libraries.
+ 
+  In order to install GMTL to /usr/local, use the following command. This will
+  install gmtl-config to /usr/local/bin and the associated header files to
+  /usr/local/include.
+
+       # cd <GMTL_HOME>
+       # scons install
+
+  If you wish to install GMTL to an alternate location, such as your home
+  directory, use the prefix option.
+
+       $ cd <GMTL_HOME>
+       $ scons install prefix=$HOME
+
+  This will install GMTL to the appropriate locations relative to $HOME -- that
+  is, the gmtl-config script will be installed to $HOME/bin and the associated
+  header files to $HOME/include.
+
+o------------------------------------------------------------------------------o
+| Documentation
+o------------------------------------------------------------------------------o
+
+  A FAQ, API reference, and programmer's guide are available on GMTL's web site.
+
+       http://ggt.sourceforge.net
+
+o------------------------------------------------------------------------------o
+| License
+o------------------------------------------------------------------------------o
+
+  This library is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License as published by the
+  Free Software Foundation; either version 2.1 of the License, or (at your
+  option) any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+  for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation,
+  Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+o------------------------------------------------------------------------------o
+| Questions
+o------------------------------------------------------------------------------o
+
+  Please feel free to email comments, questions, suggestions, etc to
+
+        ggt-devel@lists.sourceforge.net

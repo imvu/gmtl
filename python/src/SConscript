@@ -1,0 +1,16 @@
+import glob
+
+Import('pkg baseEnv PREFIX')
+
+headers = glob.glob('*.h')
+
+subdirs = Split("""
+   gmtl
+""")
+
+for s in subdirs:
+   SConscript(dirs = s)
+
+for h in headers:
+   pkg.addExtraDist([File(h)])
+

@@ -1,0 +1,10 @@
+# gmtl-config.cmake - GMTL CMake configuration file for external projects.
+# to use the definitions in this file, add "find_package(GMTL)" to your CMakeLists.txt
+
+# Compute the installation prefix from GMTL_DIR.
+SET(GMTL_INSTALL_PREFIX "@prefix@")
+
+# The GMTL include file directories.
+SET(GMTL_INCLUDE_DIRS "@includedir@")
+
+# GMTL_VERSION* is set by CMake after reading gmtl-config-version.cmake

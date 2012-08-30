@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+
+# GMTL is (C) Copyright 2001-2011 by Allen Bierbaum
+# Distributed under the GNU Lesser General Public License 2.1 with an
+# addendum covering inlined code. (See accompanying files LICENSE and
+# LICENSE.addendum or http://www.gnu.org/copyleft/lesser.txt)
+
+import os, sys
+from optparse import OptionParser
+
+parser = OptionParser(usage = "%prog [OPTIONS]",
+                      description = "GMTL config option processor.")
+
+parser.add_option("--prefix", action = "store_true",
+                  help = "Print the installation prefix.")
+parser.add_option("--version", action = "store_true",
+                  help = "Print the installed GMTL's version number.")
+parser.add_option("--cxxflags", action = "store_true",
+                  help = "Pring the GMTL-specific flags for the C++ compiler.")
+parser.add_option("--all", action = "store_true",
+                  help = "Print all the flags used for compiling or linking.")
+parser.add_option("--basedir", action = "store_true",
+                  help = "For compatibility. (disabled in this wrapper)")
+
+(options, pos_args) = parser.parse_args()
+
+if 0 != len(pos_args):
+   parser.print_help()
+
+# Build up flags for flagpoll
+command_flags = " gmtl --concat"
+
+if options.prefix:
+   command_flags += " --get-prefix"
+elif options.version:
+   command_flags += " --modversion"
+elif options.cxxflags:
+   if options.cxxflags:
+      command_flags += " --cflags"
+   if not options.all:
+      command_flags += " --no-deps"
+else:
+   parser.print_help()
+   sys.exit(1)      
+   
+command_line = "flagpoll " + command_flags
+
+#print "Command: ", command_line
+os.system(command_line)

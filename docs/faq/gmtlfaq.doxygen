@@ -1,0 +1,1568 @@
+/** @file gmtlfaq.doxygen
+  *
+  */
+
+/** @page gmtlfaq Generic Math Template Library FAQ
+ *  Welcome to the GMTL frequently asked questions list.
+ *
+ *  Topics:
+ *
+ *  - @ref faqgeneral
+ *  - @ref Vectors
+ *  - @ref Matrices
+ *  - @ref Quaternions
+ *  - @ref Collision
+ *  - @ref General
+ *  - @ref CompileProblems
+ * 
+ *
+ *  @section faqgeneral General Questions about GMTL
+ *
+ *  @subsection faqwhytemplates Why do you use templated code?
+ *
+ *  There are several benefits to using the templated code approach. First, it
+ *  allows us to easily support multiple versions of very similar data types.
+ *  For instance, there are many different types of matrices, varying in both
+ *  size and data type. We could have 4x4 floating point, 3x3 double precision, 
+ *  2x2 floating point, etcetera. These are very different matrices, but in
+ *  general they all support the same kinds of operations. With templated code,
+ *  we can write a single function in many cases that will handle all possible
+ *  variations of a GMTL object.
+ *
+ *  Templated code also makes GMTL very easy to extend. Although GMTL provides
+ *  many data types to begin with, it allows a lot of flexibility for developers
+ *  to customize their own code. For instance, GMTL provides several 
+ *  commonly-used vector types such as 2, 3, and 4-dimensional floating point
+ *  vectors. But maybe you're a physicist doing research in the 6th 
+ *  dimension, and you need a 6-D vector. GMTL's templated code allows you to 
+ *  create a vector of arbitrary dimensionality. And the vector's math 
+ *  operations are written in such a way that they will work for vectors of 
+ *  any size, eliminating the need for the physicist to rewrite all of the
+ *  vector math.
+ *
+ *  It also allows us to provide a unified interface to GMTL objects. This is
+ *  why many of the functions in GMTL have the same name, but can work on a wide
+ *  variety of data types. Developers using GMTL have much less to remember than
+ *  if we had a separate function name for each possible combination of data
+ *  types. Instead, functions that conceptually do a similar function have many
+ *  versions overloaded with different data type combinations.
+ *  
+ *
+ *  <b>What's with these namespaces?</b>
+ *
+ *  All of GMTL's functions and data types are defined within the 'gmtl'
+ *  namespace. 
+ * 
+ *  In C++, you can reference something in a namespace by prepending it to 
+ *  the thing you want to reference. For instance, when creating any GMTL
+ *  object, you need to prepend "gmtl::" to its name. The following code
+ *  shows the instantiation of several different objects.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMatrix;
+ *  gmtl::Vec3f myVector;
+ *  gmtl::Quatf myQuaternion;
+ *
+ *  @endcode
+ *  
+ *  Similarly, GMTL's function calls also need to have this namespace:
+ *
+ *  @code
+ *
+ *  gmtl::identity( myMatrix );
+ *  gmtl::normalize( myVector );
+ *
+ *  @endcode
+ *
+ *  Developers can also specify that they are using a particular namespace 
+ *  in their code, aleviating the need to specify the namespace for each
+ *  object.
+ *
+ *  @code
+ *
+ *  using namespace gmtl
+ *  {
+ *      Matrix44f myMatrix;
+ *      Vec3f myVector;
+ *      normalize( myVector );
+ *  };
+ *
+ *  @endcode
+ *
+ *  Additionally, GMTL's C math functions are further encapsulated by a 
+ *  namespace called "Math". To reference these functions, you must prepend
+ *  "gmtl::Math::" to the function names.
+ *
+ *  @code
+ *
+ *  float cosine = gmtl::Math::cos( 3.14 );
+ *  float minimum = gmtl::Math::Min( 3.0, 1.4, -43.2 );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>Why would I want to use GMTL's C math abstraction rather than the regular C math library?</b>
+ *
+ *  GMTL has abstracted the C math libraries to ensure cross-platform 
+ *  compatibility. If you write an application using GMTL's math functions, you
+ *  do not have to make any changes when building on different platforms.
+ *  
+ *  The math abstraction is also designed to be type safe. It will work for 
+ *  different mathematical data types such as float and double without 
+ *  having different function syntax for each data type. For instance, on
+ *  some platforms, the math library is designed solely for double-precision
+ *  floating point numbers and separate functions are provided for regular
+ *  float numbers, with an 'f' appended to each function name. On such 
+ *  platforms, you have math functions like 'floor' & 'floorf' as well as
+ *  'cos' and 'cosf'. 
+ *  
+ *  In GMTL, there is only one function name to remember for each type of
+ *  operation, regardless of the data type. So you could pass either a double
+ *  or a float to GMTL's 'cos' function to get the cosine value. 
+ *
+ *  <b>What is an AABox?</b>
+ *
+ *  This is an axially-aligned bounding box. Think of it as a box in 3D space
+ *  with its each of its sides parallel to one of the coordinate axes. Such a
+ *  box can be described using only 2 points, the minimum and maximum. AABoxes
+ *  can be useful in object collision detection.
+ *
+ *  <b>What is an AxisAngle?</b>
+ *
+ *  This is a rotational data type, defined by an arbitrary axis vector in 
+ *  space and an amount of rotation. 
+ *
+ *  <b>What is a Coord?</b>
+ *
+ *  This is a coordinate frame, defined by a position and a rotation value. 
+ *  
+ *  <b>What is an EulerAngle?</b>
+ *
+ *  This is a data type that represents a rotational value. It consists of three
+ *  values, each representing a rotation about one of the coordinate axes X, Y,
+ *  and Z. Note that Euler angle representations are often more intuitive to
+ *  use, but suffer from the problem of Gimble lock.
+ *
+ *  <b>What is a LineSeg?</b>
+ *
+ *  This is a line segment of finite length. It consists of 2 endpoints in space.
+ *  Internally to GMTL, a LineSeg is defined by an endpoint in space
+ *  and a vector that shows where the other endpoint is relative to the first
+ *  point.
+ *
+ *  <b>What is a Matrix?</b>
+ *
+ *  This is a data type commonly used in graphical applications. It simply
+ *  contains rows and columns of data, with any number of rows and columns.
+ *  4x4 matrices can represent any transformation in 3D space, containing
+ *  (but not limited to) translational, rotational, skew, and scaling 
+ *  information.
+ *
+ *  <b>What is a Plane?</b>
+ *
+ *  A plane is a flat surface in 3D space with no boundaries. It is defined by
+ *  a point in 3D space and a surface normal vector.
+ *
+ *  <b>What is a Point?</b>
+ *
+ *  Points represent a position in space, with one data value per dimension of
+ *  that space. 
+ *
+ *  <b>What is a Quat?</b>
+ *
+ *  This is a quaternion, which is represents a rotation in 3D space.
+ *  Quaternions can be used for rotational interpolation along the surface
+ *  of a sphere. They are represented at a 4-element normalized vector.
+ *
+ *  <b>What is a Ray?</b>
+ *
+ *  A ray is a line in space that has an origin point extends to infinity
+ *  in some direction. In GMTL, a ray is represented by a Point object denoting
+ *  its origin and a vector showing the direction it is pointing.
+ *
+ *  <b>What is a Sphere?</b>
+ *
+ *  This is a 3D dimensional round object such that every point on the outer
+ *  boundary of the object is the same distance away from the centerpoint. A
+ *  sphere can be described by a centerpoint position and a radius.
+ *
+ *  <b>What is a Tri?</b>
+ *
+ *  This is a triangle, defined by three points in space. The counterclockwise
+ *  ordering of the points determines the direction of the triangle's surface
+ *  normal (using a right-handed coordinate system). 
+ *
+ *  <b>What is a Vec?</b>
+ *
+ *  This is a vector that represents a direction in space, with one data value
+ *  per dimension of the space.
+ *
+ *  <b>What is the difference between a point and a vector?</b>
+ *
+ *  Points represent positions in space, while vectors represent a direction.
+ *  Even though they may seem to represent the same data, it is generally 
+ *  discouraged to use them interchangably. Differences occur when operations
+ *  are performed on them. For instance, if you transform a point using a 
+ *  matrix, the full transformation will be applied to the point (translation,
+ *  rotation, skew, and scale). But when a vector is transformed by a matrix,
+ *  only the rotational transform is applied to it.
+ *
+ *  <b>Why doesn't my vector move?</b>
+ *
+ *  If you are transforming a vector using a matrix, only the matrix's 
+ *  rotational information will be applied. Hence, you may be expecting the
+ *  vector's endpoint to change but it will not. You most likely want to use
+ *  a Point object instead of a Vec.
+ *
+ *  <b>What is the difference between AxisAngle, EulerAngle and Quat?</b>
+ *
+ *  An axis angle consists of a vector designating the axis to rotate about,
+ *  and the rotation amount to use. 
+ *  An Euler angle object consists of 3 rotation amounts, one for each
+ *  coordinate axis X, Y, and Z. Euler angles are often the most intuitive
+ *  rotation type, but suffer from the Gimble lock problem.
+ *  A quaternion has 4 values that can be translated into an axis and a
+ *  rotation amount, but are stored in a normalized form that maintain the
+ *  mathematical properties of quaternions, including the ability of spherical
+ *  interpolation.  
+ *  
+ *  <b>How is data represented in a matrix?</b>
+ *
+ *  GMTL matrices have their data stored in a 2-dimension natrix array in 
+ *  column major order. This means that you can access the data using the
+ *  following syntax:
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  int row, column = 2;
+ *  float data = myMat[column][row];
+ *
+ *  @endcode
+ *
+ *  This representation is the same for many graphics API's, including OpenGL,
+ *  DirectX, Performer, and OpenSG - each of which uses matrix data in a column
+ *  major ordering.
+ *
+ *
+ *  <b>What are the general concepts behind GMTL?</b>
+ *
+ *  This question is best answered by our "Light Overview of GMTL" in the
+ *  online documentation of GMTL. It is located at the following webpage:
+ *  http://ggt.sourceforge.net/html/main.html
+ *
+ *  
+ *  <b>What's with all the 'make' and 'set' functions?</b>
+ *
+ *  In general, think of the make function as creating a new object based on 
+ *  an existing object, or extracting some part (or all) of an existing object.
+ *  By comparison, use the set function to copy some part of one object to
+ *  another existing object. 
+ * 
+ *  You use the 'make' function to generate new objects based on existing
+ *  objects that may not even be the same type. For instance, we
+ *  can create a quaternion rotation from an existing Euler angle rotation.
+ *  Once made, the quaternion will perform the exact same rotation as the 
+ *  Euler angle.
+ *
+ *  @code
+ *
+ *  gmtl::EulerAngleXYZf myEuler;
+ *  gmtl::Quatf myQuat = gmtl::make<gmtl::Quatf>( myEuler );
+ *
+ *  @endcode
+ *
+ *  Note that you have to specify a templated argument that says what kind of
+ *  object you want to be made.
+ *
+ *  Although you can usually make one object from any other type of object, 
+ *  there are some fundamental limitations. For instance, you can't make a 
+ *  quaternion (purely rotational information) from a vector (purely 
+ *  translational information), with the exception of using the makePure 
+ *  function (see below for details). Similarly, if you have a matrix 
+ *  containing both translational and rotational information, you can only 
+ *  make a vector based on the translational data.
+ *
+ *  In the following example, we make a new axis angle object that has the
+ *  same rotational data as our existing matrix. Regardless of whatever 
+ *  translation and scaling data our matrix contains, only the rotation is
+ *  represented in the new axis angle.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::AxisAnglef myAA = gmtl::make<gmtl::AxisAnglef>( myMat );
+ *
+ *  @endcode
+ *
+ *  The 'set' function, however, modifies an existing object with data from
+ *  another object. For instance, if you already have a quaternion and you 
+ *  want to change its rotation data to match an Euler angle, the 'set' 
+ *  function is appropriate. Note that the first argument is ALWAYS the object
+ *  that you want to change, and the second argument is ALWAYS the object that
+ *  you want to use as the data source. The source data will not be changed.
+ *
+ *  @code
+ *
+ *  gmtl::EulerAngleXYZf myEuler;
+ *  gmtl::Quatf myQuat;
+ *
+ *  gmtl::set( myQuat, myEuler );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>What are the makeTrans, makeRot, setTrans, setScale, etc. functions?</b>
+ *
+ *  These are altered versions of the 'make' and 'set' functions that 
+ *  specifically target certain types of data, such as rotational,
+ *  translational, or scaling information.
+ *
+ *  Data types such as coordinate frame objects and matrices can have a
+ *  combination of different types of transformations. For instance, 
+ *  a particular matrix could describe a translation and a rotation. But perhaps
+ *  you only want to know the translation of it. In this case, the makeTrans
+ *  function can be useful.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myFullMat;
+ *  gmtl::Matrix44f myTransMat;
+ *
+ *  myTransMat = gmtl::makeTrans<gmtl::Matrix44f>( myFullMat );
+ *
+ *  @endcode
+ *
+ *  Now 'myTransMat' represents the translational aspect of 'myFullMat'. If
+ *  we had simply used the 'make' function instead of 'makeTrans', then 
+ *  myTransMat would be a complete copy of myFullMat.
+ *
+ *  As with the 'set' function, other functions like 'setTrans' or 'setRot'
+ *  copy a feature from one object to another, with the objects not 
+ *  necessarily being the same type. The following example shows how to set
+ *  the translation of a matrix from a coordinate frame object:
+ *  
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::CoordVec3EulerAngleXYZf myCoord;
+ *
+ *  gmtl::setTrans( myMat, myCoord );
+ *
+ *  @endcode
+ *
+ *  Note that whatever rotational data the matrix had is maintained even
+ *  after using the setTrans function, which will only modify its translational
+ *  aspect.
+ *
+ *  There are many altered 'make' and 'set' extensions beyond what we have 
+ *  discussed, but they all work in the same manner. Some commonly-used ones are
+ *  makeTrans, setTrans, makeRot, setRot, makeScale, and setScale. Here are
+ *  a few others that you might use:
+ *
+ *  The makeDirCos function creates a matrix or quaternion rotation using
+ *  direction cosines. 
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f xDestAxis, yDestAxis, zDestAxis;
+ *  gmtl::Vec3f xSrcAxis, ySrcAxis, zSrcAxis;
+ *
+ *  gmtl::Matrix44f myMat = gmtl::makeDirCos<gmtl::Matrix44f>( xDestAxis, yDestAxis, zDestAxis, xSrcAxis, ySrcAxis, zSrcAxis );
+ *
+ *  @endcode
+ *  
+ *  The makePure function allows you to start with a vector and create a
+ *  quaternion with that vector as its rotation axis, but without any twist
+ *  value. 
+ *  
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  gmtl::Quatf myQuat = gmtl::makePure<gmtl::Quatf>( myVec );
+ *
+ *  @endcode
+ *
+ *  You can use the makeVec function to extract the axis of rotation from a 
+ *  quaternion object.
+ *
+ *  @code
+ *
+ *  gmtl::Quatf myQuat;
+ *  gmtl::Vec3f myVec = gmtl::makeVec<gmtl::Vec3f>( myQuat );
+ *
+ *  @endcode
+ *
+ *  The makeNormal function allows you to create a normalized object from a
+ *  source object. Usually this will deal with vectors.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f srcVec;
+ *  gmtl::Vec3f normVec = gmtl::makeNormal<gmtl::Vec3f>( srcVec );
+ *
+ *  @endcode
+ *
+ *  The makeXRot, makeYRot, makeZRot functions can be used to extract rotational
+ *  data about particular axes.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  float xrot = gmtl::makeXRot( myMat );
+ *
+ *  @endcode
+ *
+ *  <b>Why do we need all the extensions on the end of data types?</b>
+ *
+ *  This refers to the fact that you can use our provided type definitions to
+ *  create specific versions of an object. For instance, there are many types
+ *  of matrices, with varying numbers of rows and columns, as well as the kind
+ *  of data contained therein. You can't simply make a Matrix, you must specify
+ *  what kind:
+ *
+ *  @code
+ *
+ *  gmtl::Matrix myMatrix;      //This will not work
+ *  gmtl::Matrix44f myMatrix;   //This is correct
+ *
+ *  @endcode
+ *
+ *  The reason we have these extensions (shown here by "44f" appended to the
+ *  Matrix data type) is purely for simplicity. You can always create objects
+ *  using templated arguments, but the extended versions of the data types are
+ *  provided for convenience. As an example, we can create the 4x4 floating
+ *  point matrix shown previously:
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMatrix;
+ *  gmtl::Matrix<float, 4, 4> myMatrix;
+ *
+ *  @endcode
+ *
+ *  These two instantiations of myMatrix are equivalent, but you can see how the
+ *  first version can be much easier to read and write. If you want to get
+ *  more serious about simplifying your code, you can create your own type
+ *  definitions.
+ *
+ *  @code
+ *
+ *  typedef gmtl::Matrix<float, 4, 4> Mat;
+ *  typedef gmtl::Vec<float, 3> Vector;
+ *
+ *  @endcode
+ *
+ *  These type definitions make the following pairs of object instantiations 
+ *  equivalent:
+ *
+ *  @code
+ *
+ *  gmtl::Matrix<float, 4, 4> myMatrix;
+ *  Mat myMatrix;
+ *
+ *  gmtl::Vec<float, 3> myVec;
+ *  Vector myVec;
+ *
+ *  @endcode
+ *  
+ *
+ *  @section Spatial Spatial Objects
+ *  <b>What is a spatial object?</b>
+ *
+ *  A spatial object is something that has some sort of geometric meaning,
+ *  rather than being purely mathematical. Spatial objects can be visualized
+ *  in some way, such that you could draw them on a piece of paper or render
+ *  them using 3-D graphics. They occupy some portion of an n-dimensional 
+ *  space, typically 2-D or 3-D. 
+ *
+ *  Spatial objects are typically used for generating boundaries or performing
+ *  collision detection. They can be extremely useful in graphical applications.
+ *  We can perform special operations on spatial objects, such as testing
+ *  whether certain objects intersect with each other or whether one volumetric
+ *  object (such as a sphere) contains another spatial object.
+ *
+ *
+ *  <b>What kinds of spatial objects does GMTL support?</b>
+ *
+ *  Points, vectors, line segments, rays, planes, spheres, axially-aligned 
+ *  boxes, and triangles.
+ *
+ *
+ *  <b>What objects in GMTL are not considered spatial?</b>
+ *
+ *  Matrices, quaternions, axis angles, Euler angles, and coordinate frames.
+ *
+ *
+ *  @section Howto How Do I ...?
+ *
+ *  @subsection Vectors Vectors
+ *  <b>How do I rotate a vector?</b>
+ *
+ *  In most cases you can simply use the * operator with your vector and one of
+ *  the rotaional data types.
+ *  
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  gmtl::AxisAngle myAA;
+ *  gmtl::Quaternion myQuat;
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::EulerAngleXYZf myEuler;
+ * 
+ *  myVec = myAA * myVec;
+ *  myVec = myQuat * myVec;
+ *  myVec = myMat * myVec;
+ *  myVec = myEuler * myVec;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I find the cross product of 2 vectors?</b>
+ *
+ *  You can use the makeCross function, which returns another vector.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f vecA, vecB, crossVec;
+ *  crossVec = gmtl::makeCross( vecA, vecB );
+ *
+ *  @endcode
+ *
+ * 
+ *  <b>How do I find the dot product of 2 vectors?</b>
+ *
+ *  Use the dot function, which returns a number (depending on the type of
+ *  data in the vectors). 
+ * 
+ *  @code
+ *
+ *  gmtl::Vec3d vecA, vecB;
+ *  double x = gmtl::dot( vecA, vecB );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I check if a vector is normalized?</b> 
+ *
+ *  Use the isNormalized function, which returns a boolean value.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  if ( gmtl::isNormalized( myVec ) )
+ *  {
+ *     cout << "Vector is normalized" << endl;
+ *  }
+ *
+ *  @endcode
+ *  
+ *
+ *  <b>How do I normalize a vector?</b>
+ *
+ *  Use the normalize function. After this, the length of the vector will be
+ *  1, unless the original length was 0, in which case normalization is not
+ *  possible.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  gmtl::normalize( myVec );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I check if 2 vectors are equal?</b>
+ *
+ *  Use the == operator, just as you would when testing the equality of simple
+ *  data types like `int'.
+ *  
+ *  @code
+ *
+ *  gmtl::Vec3f vecA, vecB;
+ *  if ( vecA == vecB )
+ *  {
+ *     cout << "Vectors are equal" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I find the length of a vector?</b>
+ *
+ *  Use the length function. The numeric type returned depends on the data type
+ *  of the vector.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  float length = gmtl::length( myVec );
+ *
+ *  @endcode
+ *
+ *  Another potential function to use is lengthSquared. This function is
+ *  provided as a convenience because GMTL users frequently need this value
+ *  rather than merely the length.
+ *
+ *  @code
+ *
+ *  float lengthSq = gmtl::lengthSquared( myVec );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I invert a vector?</b>
+ *
+ *  Use A scalar multiplication by -1. This will cause the vector to be 
+ *  pointing in the exact opposite direction and keep the same length.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  myVec *= -1;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I interpolate between 2 vectors?</b>
+ *
+ *  Use the lerp function. This will perform a linearly-interpolated vector
+ *  based on 2 original vectors and an interpolation weight between 0 and 1.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f resultVec, vecA. vecB;
+ *  float weight = 0.333;
+ *
+ *  gmtl::lerp( resultVec, weight, vecA, vecB );
+ *
+ *  @endcode
+ *
+ *  After this function, resultVec now contains a vector that is one third of
+ *  the way from vecA to vecB. This resulting vector is closer to vecA.
+ *
+ *
+ *  <b>How do I multiply a vector by a scalar value?</b>
+ *
+ *  Simply use the * or *= operator.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec, anotherVec;
+ *  float myScalar = 3.5;
+ *
+ *  myVec *= myScalar;
+ *  anotherVec = myVec * myScalar;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I add, subtract, divide and multiply vectors?</b>
+ *
+ *  Generally, you can use any of the standard mathematical operators
+ *  ('+', '-', '*', '/') to perform math functions on vectors.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f vecA, vecB, vecC;
+ *
+ *  vecA = vecB * vecC;
+ *  vecA = vecB / vecC;
+ *  vecA += vecB;
+ *  vecA = vecB + vecC;
+ *  vecA -= vecC;
+ *  vecA = vecB - vecC;
+ *
+ *  @endcode
+ *
+ *  etc.
+ *
+ *
+ *
+ *  @subsection Matrices Matrices
+ *  <b>How do I multiply matrices?</b>
+ *
+ *  The simplest way to multiply one matrix by another is to use the * operator.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f A, B, C;
+ *  A = B * C;
+ *
+ *  @endcode
+ *
+ *  Note that when multiplying matrices, the ordering matters. The following
+ *  line of code could make matrix A have a different result:
+ *
+ *  @code
+ *
+ *  A = C * B;
+ *
+ *  @endcode
+ *
+ *  Alternatively, you can use the preMult and postMult functions. 
+ *
+ *  This preMult call is the same as "A = B * A;"
+ *
+ *  @code
+ *
+ *  gmtl::preMult( A, B ); 
+ *
+ *  @endcode
+ *
+ *  This postMult call is the same as "A = A * B;"
+ *
+ *  @code
+ *
+ *  gmtl::postMult( A, B );
+ *
+ *  @endcode
+ *  
+ *  The *= operator also acts as a postMult function.
+ *
+ *  @code
+ *
+ *  A *= B;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I create a matrix?</b>
+ *
+ *  You can create a new matrix simply by instantiating it. You can use one of
+ *  the GMTL-provided type definitions. The first matrix is a 4x4 matrix of 
+ *  floating point numbers. The second is a 2x3 matrix of double precision
+ *  floating point numbers. 
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::Matrix23d otherMat;
+ *
+ *  @endcode
+ * 
+ *  You can also create matrices of arbitrary size and data type using the
+ *  templated constructor. The templated arguments are (in order) the data type,
+ *  the number of rows, and the number of columns. For example, the following 
+ *  creates a 4x6 matrix of floating point numbers.
+ *  
+ *  @code
+ *
+ *  gmtl::Matrix< float, 4, 6 > newMatrix;
+ *
+ *  @endcode
+ *
+ *  You can also create a matrix from any of the other transformation data
+ *  types. See below for examples.
+ *
+ *
+ *  <b>How do I create a matrix from a vector?</b>
+ *
+ *  Using the makeTrans function, you can create a purely translational matrix 
+ *  from a vector. 
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  gmtl::Matrix44f myMat = gmtl::makeTrans< gmtl::Matrix44f >( myVec );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I create a matrix from a point?</b>
+ *
+ *  Using the make function, you can create a purely translational matrix from a
+ *  point. 
+ *
+ *  @code
+ *
+ *  gmtl::Point3f myPoint;
+ *  gmtl::Matrix44f myMat = gmtl::makeTrans< gmtl::Matrix44f >( myPoint );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I create a matrix from a quaterion?</b>
+ *
+ *  Using the make function, you can create a purely rotational matrix from a
+ *  quaternion object. 
+ *
+ *  @code
+ *
+ *  gmtl::Quatf myQuat;
+ *  gmtl::Matrix44f myMat = gmtl::make< gmtl::Matrix44f >( myQuat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I create a matrix from an Euler angle?</b>
+ *
+ *  Using the make function, you can create a purely rotational matrix from an
+ *  EulerAngle object. 
+ *
+ *  @code
+ *
+ *  gmtl::EulerAngleXYZf myEulerAngle;
+ *  gmtl::Matrix44f myMat = gmtl::make< gmtl::Matrix44f >( myEulerAngle );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I create a matrix from an axis angle?</b>
+ *
+ *  Using the make function, you can create a purely rotational matrix from an
+ *  AxisAngle object. 
+ *
+ *  @code
+ *
+ *  gmtl::AxisAnglef myAxisAngle;
+ *  gmtl::Matrix44f myMat = gmtl::make< gmtl::Matrix44f >( myAxisAngle );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I scale a matrix?</b>
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  float scale = 0.5;
+ *
+ *  gmtl::setScale( myMat, scale );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I copy a matrix?</b>
+ *
+ *  You can simply use the '=' operator to copy from one matrix to another.
+ * 
+ *  @code
+ *
+ *  gmtl::Matrix44f matA, matB;
+ *  matA = matB;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I access individual data elements of a matrix?</b>
+ *
+ *  You can simply use the [ row# ][ column# ] operators, just as you would 
+ *  if you were accessing elements of a double array.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  float x = myMat[3][2];
+ *
+ *  @endcode
+ *
+ *  
+ *  <b>How do I extract just the rotation data from a matrix?</b>
+ *
+ *  You can extract the rotational data as any of GMTL's rotation data types.
+ *  In any case, you need to use the makeRot templated function. Note that you
+ *  need to specify which rotation data type you want to extract.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::EulerAngleXYZf myEuler;
+ *  gmtl::AxisAnglef myAxisAngle;
+ *  gmtl::Quatf myQuat;
+ *  gmtl::Matrix44f myRotationMat;
+ *
+ *  myEuler = gmtl::makeRot< gmtl::EulerAngleXYZf >( myMat );
+ *  myAxisAngle = gmtl::makeRot< gmtl::AxisAnglef >( myMat );
+ *  myQuat = gmtl::makeRot< gmtl::Quatf >( myMat );
+ *  myRotationMat = gmtl::makeRot< gmtl::EulerAngleXYZf >( myMat );
+ *
+ *  @endcode
+ *
+ * 
+ *  <b>How do I extract just the translation data from a matrix?</b>
+ *
+ *  You can extract the translational data as either a vector or a point.
+ *  You need to use the templated makeTrans function.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::Point3f myPoint;
+ *  gmtl::Vec3f myVec;
+ * 
+ *  myVec = gmtl::makeTrans< gmtl::Vec3f >( myMat );
+ *  myPoint = gmtl::makeTrans< gmtl::Point3f >( myMat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I set a matrix to be the identity matrix?</b>
+ *
+ *  Matrices will automatically be identity matrices upon creation. If you
+ *  want to set them to the identity later, use the identity function.
+ *  
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::identity( myMat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I set a matrix to contain all zeros?</b>
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::zero( myMat );
+ *
+ *  @endcode
+ *
+ * 
+ *  <b>How do I invert a matrix?</b>
+ *
+ *  In most cases you can simply use the invert function. This will perform a
+ *  "smart" inversion that selects an inversion method (full, affine, 
+ *  orthonormal, orthogonal, or identity) based on the kinds of transformations
+ *  it has been through.
+ * 
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::invert( myMat );
+ *
+ *  @endcode
+ *
+ *  You can optionally force a full inversion by using the invertFull function.
+ * 
+ *  @code
+ *
+ *  gmtl::invertFull( myMat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I transpose a matrix?</b>
+ *
+ *  Use the transpose function.
+ *
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::transpose( myMat );
+ *
+ *  @endcode
+ * 
+ *
+ *  <b>How do I transform a point using a matrix?</b>
+ *
+ *  This will perform a full transformation on the point.
+ *
+ *  @code
+ *
+ *  gmtl::Point3f myPoint;
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::xform( myPoint, myMat, myPoint );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I transform a vector using a matrix?</b>
+ *
+ *  It is important to note that a vector will only be modified by the
+ *  rotational transformation contained in a matrix.
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f myVec;
+ *  gmtl::Matrix44f myMat;
+ *  gmtl::xform( myVec, myMat, myVec ); 
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I use my matrix data with OpenGL?</b>
+ *
+ *  You can access the raw matrix data for use with OpenGL using the getData()
+ *  function.  For instance, you may want to multiply the OpenGL matrix stack
+ *  by a GMTL matrix.
+ *  
+ *  @code
+ *
+ *  gmtl::Matrix44f myMat;
+ *  glMultMatrixf( myMat.getData() );
+ *
+ *  @endcode
+ *
+ *  Note that GMTL matrix data is also safe to use for other graphics APIs
+ *  such as DirectX, Performer, and OpenSG. 
+ *
+ *
+ *
+ *  @subsection Quaternions Quaternions
+ *  <b>How do I create quaternions?</b>
+ *
+ *  You can create quaternions directly using known values.
+ * 
+ *  @code
+ *
+ *  float x = 1.0;
+ *  float y, z, w = 0.0;
+ *  gmtl::Quatf myQuat(x, y, z, w);
+ *
+ *  @endcode
+ *
+ *  You can also create quaternions based on other rotational types, such
+ *  as an EulerAngle or matrix.
+ *  
+ *  @code
+ *
+ *  gmtl::EulerAngleXYZf myEuler;
+ *  gmtl::Matrix44f myMat;
+ *  myQuat = gmtl::make<gmtl::Quatf>( myEuler );
+ *  myQuat = gmtl::make<gmtl::Quatf>( myMat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I multiply quaternions?</b>
+ *
+ *  Simply use the * and *= operators.
+ *
+ *  @code
+ *
+ *  gmtl::Quatf quatA, quatB, quatC;
+ *  quatA *= quatB;
+ *  quatC = quatA * quatB;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I combine quaternion rotations?</b>
+ *
+ *  This is the same as multiplying quaternions.
+ *
+ *  @code
+ *
+ *  gmtl::Quatf quatA, quatB, quatC;
+ *  quatA *= quatB;
+ *  quatC = quatA * quatB;
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I perform spherical interpolation with quaternions?</b>
+ *
+ *  Use the slerp function. You need an origin quaternion, a target quaternion,
+ *  and an interpolation amount between 0 and 1. The following example 
+ *  interpolated halfway between the origin and target quaternions. Note that
+ *  the interpolation path follows the shortest length arc around a sphere.
+ *
+ *  @code
+ *
+ *  gmtl::Quatf resultQuat, originQuat, targetQuat;
+ *  float amount = 0.5;
+ *
+ *  gmtl::slerp( resultQuat, amount, originQuat, targetQuat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I perform linear interpolation with quaternions?</b>
+ *
+ *  This is similar to performing spherical interpolation, but follows a 
+ *  straight line interpolation path rather than a shortest arc around a sphere.
+ *  
+ *  @code
+ *
+ *  gmtl::Quatf resultQuat, originQuat, targetQuat;
+ *  float amount = 0.5;
+ *
+ *  gmtl::lerp( resultQuat, amount, originQuat, targetQuat );
+ *
+ *  @endcode
+ *  
+ *
+ *  <b>How do I make a quaternion that rotates one vector to another along the shortest arc?</b>
+ *
+ *  If you have an origin vector and a target vector, you can use the makeRot 
+ *  function. Note that you should normalize these vectors first.
+ * 
+ *  @code
+ *
+ *  gmtl::Vec3f originVec, targetVec;
+ *  gmtl::Quatf myQuat;
+ *
+ *  gmtl::normalize( originVec );
+ *  gmtl::normalize( targetVec );
+ *  myQuat = gmtl::makeRot<gmtl::Quatf>( originVec, targetVec );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I invert a quaternion?</b>
+ *
+ *  Use the invert function. 
+ *
+ *  @code
+ *
+ *  gmtl::Quatf myQuat;
+ *  gmtl::invert( myQuat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I conjugate a quaternion?</b>
+ *
+ *  Use the conj function.
+ * 
+ *  @code
+ *
+ *  gmtl::Quatf myQuat;
+ *  gmtl::conj( myQuat );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I check if 2 quaternions are the same?</b>
+ *
+ *  Use the == and != operators.
+ *
+ *  @code
+ *
+ *  gmtl::Quatf quatA, quatB;
+ *  if (quatA == quatB)
+ *  {
+ *     cout << "Quaternions are equal" << endl;
+ *  }
+ *  if (quatA != quatB)
+ *  {
+ *     cout << "Quaternions are not equal" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *
+ *  @subsection Collision Collision and Containment Detection
+ *
+ *  <b>How do I perform collision detection and containment tests?</b>
+ *
+ *  GMTL provides various spatial objects, including spheres, line segments, 
+ *  rays, points, triangles, planes, axially-aligned bounding boxes, and 
+ *  oriented bounding boxes.
+ *
+ *  The library also provides functions to test whether particular objects
+ *  are intersecting each other or whether one object is contained by another.
+ *  See below for specific examples.
+ *
+ *  In general, you can use the 'intersect' function on any two spatial objects
+ *  to test whether they intersect with each other or not. And you can use
+ *  the 'isInVolume' to tell whether one volumetric object (such as a sphere or
+ *  box) contains some other spatial object.
+ *
+ *  <b>How do I test if a point is contained by a sphere?</b>
+ *
+ *  Use the isInVolume function, which returns a boolean value. Note that if
+ *  the point is on the outer boundary of the sphere, it is still considered
+ *  to be contained.
+ * 
+ *  @code
+ *
+ *  gmtl::Point3f myPoint;
+ *  gmtl::Spheref mySphere;
+ *
+ *  if ( gmtl::isInVolume( mySphere, myPoint ) )
+ *  {
+ *     cout << "Point is inside the sphere" << endl;
+ *  }
+ *
+ *  @endcode
+ *  
+ *
+ *  <b>How do I test if a point is on the surface of a sphere?</b>
+ *
+ *  Use the isOnVolume function, which returns a boolean value.
+ *  
+ *  @code
+ *
+ *  gmtl::Point3f myPoint;
+ *  gmtl::Spheref mySphere;
+ *
+ *  if ( gmtl::isOnVolume( mySphere, myPoint ) )
+ *  {
+ *     cout << "Point is on the sphere" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *  You can optionally supply a tolerance argument, which will change the
+ *  function to compute whether the point is within a certain distance of the
+ *  sphere's surface.
+ *
+ *  @code
+ *
+ *  float tolerance = 0.001;
+ *  if ( gmtl::isOnVolume( mySphere, myPoint, tolerance ))
+ *  {
+ *    cout << "Point is on the sphere" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if one sphere is contained by another?</b>
+ *
+ *  Use the isInVolume function, which returns a boolean value.
+ *  
+ *  @code
+ *
+ *  gmtl::Spheref sphereA, sphereB;
+ *  if ( gmtl::isInVolume( sphereA, sphereB ) )
+ *  {
+ *     cout << "Sphere is within the other sphere" << endl;
+ *  }
+ *
+ *  @endcode
+ * 
+ *
+ *  <b>How do I test if two spheres intersect while moving?</b>
+ *
+ *  We can use the intersect function to compute this. We need a vector for
+ *  each sphere representing the sphere's movement over the timestep. You also
+ *  pass by reference 2 floating point numbers that will be modified by the 
+ *  function. The first of these numbers will be the normalized time of contact.
+ *  The second is the normalized time of disconnection. The second number will
+ *  only be set when the spheres pass through each other, in which case it
+ *  will be set to the time when they stop intersecting.
+ *
+ *  @code
+ *
+ *  gmtl::Spheref sphereA, sphereB;
+ *  gmtl::Vec3f pathA, pathB;
+ *  float contactTime, disconnectTime;
+ *
+ *  if ( gmtl::intersect( sphereA, sphereB, pathA, pathB, contactTime, disconnectTime ) )
+ *  {
+ *     cout << "Spheres intersect at some time" << endl;
+ *  }
+ *
+ *  @endcode
+ *  
+ *
+ *  <b>How do I change a sphere so that it contains a given point?</b>
+ *
+ *  Use the extendVolume function. This will keep the sphere's centerpoint
+ *  in the same location, but extend its radius just enough to contain the
+ *  given point. If the point is already inside the sphere, no change occurs.
+ *
+ *  @code
+ *
+ *  gmtl::Spheref mySphere;
+ *  gmtl::Point3f myPoint;
+ * 
+ *  gmtl::extendVolume( mySphere, myPoint );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I change a sphere so that it contains a set of points?</b>
+ *
+ *  There is a version of the extendVolume function that takes a STL vector
+ *  containing an arbitrary number of points and will increase a sphere's 
+ *  radius to be just large enough to contain all of these points. If the sphere
+ *  already contains all of the points, then the sphere will be unchanged.
+ * 
+ *  @code
+ *
+ *  gmtl::Spheref mySphere;
+ *  std::vector<gmtl::Point3f> myPoints;
+ *
+ *  gmtl::extendVolume( mySphere, myPoints );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I change a sphere so that it contains another sphere?</b>
+ *
+ *  Use the extendVolume function. The first sphere's radius will be increased 
+ *  to be just large enough to contain the other sphere. If the first sphere
+ *  already contains the other sphere, no change occurs.
+ *
+ *  @code
+ *
+ *  gmtl::Spheref sphereA, sphereB;
+ *
+ *  gmtl::extendVolume( sphereA, sphereB );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if two AABoxes intersect?</b>
+ *
+ *  Use the intersect function, which returns a boolean value.
+ *
+ *  @code
+ *
+ *  gmtl::AABoxf boxA, boxB;
+ *
+ *  if ( gmtl::intersect( boxA, boxB ) )
+ *  {
+ *     cout << "Boxes intersect" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if an AABox is contained by another?</b>
+ *
+ *  Use the isInVolume function, which returns a boolean value.
+ *
+ *  @code
+ *
+ *  gmtl::AABoxf boxA, boxB;
+ *
+ *  if ( gmtl::isInVolume( boxA, boxB ) )
+ *  {
+ *     cout << "Box A contains box B" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if a point is inside an AABox?</b>
+ *
+ *  Use the isInVolume function, which returns a boolean value. Note that if
+ *  the point is on the box's surface, it is still considered to be contained.
+ *  
+ *  @code
+ *
+ *  gmtl::AABoxf myBox;
+ *  gmtl::Point3f myPoint;
+ *  
+ *  if ( gmtl::isInVolume( myBox, myPoint ) )
+ *  {
+ *     cout << "The point is inside the box" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if two AABoxes intersect while moving?</b>
+ *
+ *  We can use the intersect function to compute this. We need a vector for
+ *  each AABox representing the box's movement over the timestep. You also
+ *  pass by reference 2 floating point numbers that will be modified by the 
+ *  function. The first of these numbers will be the normalized time of contact.
+ *  The second is the normalized time of disconnection. The second number will
+ *  only be set when the boxes pass through each other, in which case it
+ *  will be set to the time when they stop intersecting.
+ *
+ *  @code
+ *
+ *  gmtl::AABoxf boxA, boxB;
+ *  gmtl::Vec3f pathA, pathB;
+ *  float contactTime, disconnectTime;
+ *
+ *  if ( gmtl::intersect( boxA, boxB, pathA, pathB, contactTime, disconnectTime ) )
+ *  {
+ *     cout << "AABoxes intersect at some time" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I change an AABox so that it contains a given point?</b>
+ *
+ *  Use the extendVolume function. This will increase the size of one or more 
+ *  of the box's bounding faces. If the point is already inside the box, then
+ *  no change occurs.
+ *
+ *  @code
+ *
+ *  gmtl::AABox myBox;
+ *  gmtl::Point3f myPoint;
+ *
+ *  gmtl::extendVolume( myBox, myPoint );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I change an AABox so that it contains another AABox?</b>
+ *
+ *  Use the extendVolume function. This will increase the size of one or more 
+ *  of the first box's bounding faces. If the other box is already inside 
+ *  the first box, then no change occurs.
+ *
+ *  @code
+ *
+ *  gmtl::AABoxf boxA, boxB;
+ *  
+ *  gmtl::extendVolume( boxA, boxB );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I change an AABox so that it contains a given sphere?</b>
+ *
+ *  Use the extendVolume function. This will increase the size of one or more 
+ *  of the box's bounding faces. If the sphere is already inside the box, then 
+ *  no change occurs.
+ * 
+ *  @code
+ *
+ *  gmtl::AABoxf myBox;
+ *  gmtl::Spheref mySphere;
+ *
+ *  gmtl::extendVolume( myBox, mySphere );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if a sphere intersects with an AABox?</b>
+ *
+ *  Use the intersect function, which returns a boolean value.
+ *  
+ *  @code
+ *
+ *  gmtl::AABoxf myBox;
+ *  gmtl::Spheref mySphere;
+ * 
+ *  if ( gmtl::intersect( myBox, mySphere ) 0
+ *  {
+ *     cout << "Box and sphere intersect\n" << endl;
+ *  }
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I test if a ray intersects with a plane?</b>
+ *
+ *  Use the intersect function, which returns a boolean value. You also must
+ *  pass by reference a floating point value, which will be modified to be 
+ *  an indicator of the point in space where the ray intersects the plane. You
+ *  can then compute the exact point of intersection.
+ *
+ *  @code
+ *
+ *  gmtl::Planef myPlane;
+ *  gmtl::Rayf myRay;
+ *  float isect;
+ *  
+ *  if ( gmtl::intersect( myPlane, myRay, isect ) )
+ *  {
+ *     cout << "The ray intersects the plane" << endl;
+ *  }
+ *
+ *  gmtl::Point3f intersectPoint = myRay.origin + mRay.dir * isect; 
+ *
+ *  @endcode
+ *
+ *
+ *  @subsection General General Math
+ *  <b>How do I use GMTL's C math abstraction?</b>
+ *
+ *  In your application, you simply include the gmtl/Math.h header file. Then
+ *  you can use any of the functions by appending the gmtl::Math:: namespace
+ *  prefix onto the function name.
+ *
+ *  <b>What operations does GMTL's C math abstraction have?</b>
+ *
+ *  GMTL provides function calls for everything that the standard C math
+ *  library has. But they are templated functions, so you don't have to worry
+ *  about what data types you are providing for arguments.
+ *
+ *  
+ *  <b>What about PI?</b>
+ *
+ *  There is a floating point value provided for the number Pi. You can 
+ *  reference it using 'gmtl::Math::PI'.
+ *
+ *  There are also constants provided for Pi divided by 2 and Pi divided by 4, 
+ *  both of which are commonly used in graphical applications. These additional
+ *  values can be referenced by 'gmtl::Math::PI_OVER_2' and
+ *  'gmtl::Math::PI_OVER_4'. 
+ *
+ *
+ *  <b>How do I convert from degrees to radians?</b>
+ *
+ *  Use the deg2Rad function.
+ *
+ *  @code
+ *
+ *  float degrees = 90;
+ *  float radians = gmtl::Math::deg2Rad( degrees );
+ *
+ *  @endcode
+ *
+ *
+ *  <b>How do I convert from radians to degrees?</b>
+ *
+ *  Use the rad2Deg function.
+ *
+ *  @code
+ *
+ *  float radians = 1.57;
+ *  float degrees = gmtl::Math::rad2Deg( radians );
+ *
+ *  @endcode
+ *
+ *  @subsection CompileProblems Common compile problems
+ *
+ *  <b>Errors with Vec/Point expression conversions</b>
+ *
+ *   <tt>Example error: error: no matching function for call 
+ *   to `lengthSquared(gmtl::VecBase<float, 3, 
+ *  gmtl::meta::VecBinaryExpr<gmtl::VecBase<float, 3, 
+ *  gmtl::meta::DefaultVecTag>, gmtl::VecBase<float, 3, 
+ *  gmtl::meta::DefaultVecTag>, gmtl::meta::VecPlusBinary> >)' </tt>
+ *
+ *  GMTL makes extensive use of expression templates.  These templates come into
+ *  play when evaluating statement such as:
+ *
+ *  @code
+ *
+ *  gmtl::Vec3f vec1, vec2, vec3;
+ *  vec1 = vec2 + (vec3 * 6.0);
+ *
+ *  @endcode
+ *  
+ *  When evaluating the expression on the second line, GMTL creates an expression
+ *  template tree to fully evaluate this expression when = is called.  The details
+ *  of this process are normally hidden from the user, but can come to the forefront
+ *  when a method expects a Vec or Point argument and is passed an expression.  For example:
+ *
+ *
+ *  @code
+ *
+ *  void myMethod(gmtl::Vec3f vec) 
+ *  { ... }
+ *
+ *  gmtl::Vec3f vec1, vec2;
+ *  
+ *  myMethod(vec1);           // Works correctly
+ *  myMethod(vec1 + vec2);    // Fails to compile
+ * 
+ *  @endcode
+ *
+ *  The reason the second line fails to compile is that the type for "vec1 + vec2" is not
+ *  a Vec3f.  It is an expression template that describes how to sum two Vec3f's.
+ *  (You may expect an autoconversion to happen, but it does not because of template argument
+ *  deduction rules).
+ *
+ *  There are two solutions to this, either explicitly construct a temporary
+ *  object to pass to the method (which is what an auto conversion would do anyway) or
+ *  write the method to handle expression templates.  This second option is not difficult,
+ *  but does require a further understanding of GMTL then is documented here.
+ *
+ *  Here is how the first option could be used:
+ *
+ *  @code
+ *  
+ *   myMethod(gmtl::Vec3f(vec1 + vec2));     // Creates a temporary to pass in
+ * 
+ *  @endcode
+ *
+ */ 

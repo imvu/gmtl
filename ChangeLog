@@ -1,0 +1,280 @@
+DATE       AUTHOR       CHANGE
+---------- ------------ -------------------------------------------------------
+2011-04-23 patrickh     SCons 2.0 is now the minimum required version.
+                        Submitted by Doug McCorkle.
+2011-04-23 patrickh     GMTL installations can now be found using the CMake
+                        find_package command.
+                        Submitted by Johannes Zarl.
+2011-03-27 patrickh     Added an overload of gmtl::findClosestPt() for use with
+                        gmtl::Tri<T> and gmtl::Point<T, 3>.
+                        Submitted by Sebastian Messerschmidt
+2011-03-27 patrickh     Added an overload of gmtl::intersectDoubleSided() for
+                        Tri/LineSeg intersection that ignores the triangle
+                        winding.
+                        Submitted by Sebastian Messerschmidt
+2011-03-27 patrickh     Added a new Sphere/Sphere intersection function.
+                        Submitted by Sebastian Messerschmidt
+2010-11-21 patrickh     gmtl.pc is once again generated for pkg-config usage.
+
+[0.6.1 released - 5.20.2010]===================================================
+2010-05-20 patrickh     Added gmtl::ParametericCurve, gmtl::LinearCurve,
+                        gmtl::QuadraticCurve, and gmtl::CubicCurve.
+                        Submitted by Gao Yang
+
+[0.6.0 released - 3.10.2009]===================================================
+2009-03-11 patrickh     Allow Mac OS X users to set the compiler using the $CXX
+                        environment variable.
+2009-02-12 patrickh     Added gmtl::intersectDoubleSided() for ray/triangle
+                        intersection tests.
+                        Submitted by Sebasttian Messerschmidt.
+
+[0.5.4 released - 6.27.2007]===================================================
+2007-06-27 patrickh     Package gmtl-config separately so that its presence
+                        does not prevent parallel installation of multiple
+                        GMTL versions.
+
+[0.5.3 released - 6.26.2007]===================================================
+2007-06-26 patrickh     Fixed a bug in gmtl-config.
+                        NEW VERSION: 0.5.3
+
+[0.5.2 released - 6.25.2007]===================================================
+2007-06-25 patrickh     Fixed a bug in the include path written to gmtl.fpc.
+                        NEW VERSION: 0.5.2
+
+[0.5.1 released - 6.25.2007]===================================================
+2007-06-25 patrickh     Added gmtl::convertTo<...>() in the new header file
+                        gmtl/Misc/MatrixConvert.h. This file relies on Boost.
+2007-06-13 patrickh     Switched from pkg-config to Flagpoll.
+2007-03-02 patrickh     Added gmtl::Frustum. Submitted by Benjamin Schulz.
+2006-11-07 patrickh     Do not install GMTL headers into a versioned directory
+                        on Windows.
+                        NEW VERSION: 0.5.1
+2006-06-08 patrickh     Added overloads of gmtl::intersect() for gmtl::AABox<T>
+                        that test for intersection with gmtl::LineSeg<T> and
+                        gmtl::Ray<T>.
+2006-06-08 dshipton     Version directories by default.
+                        NEW VERSION: 0.5.0
+2006-06-02 dshipton     Allow for pkg-config use to obtain cxxflags.
+                        NEW VERSION: 0.4.11
+
+[0.4.10 released - 4.13.2005]==================================================
+2005-12-01 patrickh     Fixed unpickling of gmtl.Plane objetcs.
+2005-12-01 patrickh     Fixed GCC 3.2 compile errors in PyGMTL.
+2005-07-13 patrickh     Provided access to the overloaded operator= in PyGMTL
+                        through the addition of a set() method overload.
+
+[0.4.9 released - 7.5.2005]====================================================
+2005-06-23 allenb       Fixed spelling error in Math::aTan2
+                        NEW VERSION: 0.4.9
+2005-06-23 allenb       Fixed bug in Matrix to Euler decomposition.
+2005-06-05 patrickh     Completed work on fixing many bugs in and adding many
+                        enhancements to PyGMTL.  Among other things, PyGMTL
+                        now has a test suite that is nearly as comprehensive
+                        as the C++ code base.
+                        NEW VERSION: 0.4.8
+2005-06-04 patrickh     Renamed class properties in PyGMTL classes to use the
+                        Python convention instead of the C++ member name (for
+                        example, "origin" instead of "mOrigin").  The modified
+                        classes are gmtl.AABox*, gmtl.Coord*, gmtl.Plane*,
+                        gmtl.Quat*, gmtl.Ray*, and gmtl.Sphere*.
+2005-06-03 patrickh     Introduced gmtl.Math in PyGMTL to contain the free C++
+                        functions in the gmtl::Math namespace.
+2005-06-01 patrickh     Fixed PyGMTL interface inconsistencies that resulted in
+                        some functions being unavailable on Windows.  Now, the
+                        entire PyGMTL interface is available on all platforms.
+2005-05-12 allenb       Added missing output operator for gmtl::Coord<>
+                        NEW VERSION: 0.4.7
+2004-12-08 allenb       Added new isInVolumeExclusive method for AABox.
+                        NEW VERSION: 0.4.6
+2004-11-25 allenb       Disable vector creation counting.  Only use this
+                        when testing meta programming.  To much overhead.
+                        NEW VERSION: 0.4.5
+2004-11-10 allenb       Added static assert capabilities from John.
+                        Fixed compile warnings from Dan.
+2004-10-30 patrickh     Allow GMTL to be compiled with Visual C++ 7.0 again.
+                        NEW VERSION: 0.4.3
+2004-10-27 patrickh     PyGMTL data types can now be pickled.
+                        NEW VERSION: 0.4.2
+2004-09-22 allenb       Added build dependency for all settings used to create
+                        gmtl-config script.
+2004-09-22 allenb       Added new Gauss-Jordan implace matrix invert.
+                        Fixed bug in matrix invert that was hard coded to 4x4
+                        NEW VERSION: 0.4.1
+2004-09-16 allenb       Merged vector expression templates onto head.
+                        NEW VERSION: 0.4.0
+2004-09-03 allenb       Added output overload for vector expressions.
+2004-09-02 allenb       Added expression templates for vectors.
+2004-08-30 allenb       Added meta programming for loop unrolling of VecBase
+                        assignment.
+                        Added meta programs for VecOps: lenSqr, equal, dot
+2004-08-19 allenb       Added fast inverse square root.
+2004-08-03 allenb       Refactored seg/tri intersection test to remove two
+                        un-needed divisions.
+2004-07-21 allenb       Refactored code for seg/line intersect with plane
+                        to better handle border cases.
+                        Added overloaded calls for Math::abs that call the
+                        system method for float, double, long, and int.
+
+[0.3.5 released - 7.12.2004]===================================================
+2004-07-12 patrickh     Filled in critical missing functions in PyGMTL.
+
+[0.3.3 released - 4.24.2004]===================================================
+2004-02-13 allenb       Updated license with an addendum to explicitly allow
+                        static linking of template code.
+2003-09-23 nonchocoboy  added Vec accessors for matrix rows and columns.
+2003-09-07 subatomic    added new intersectVolume for sphere/linetype
+                        this is separate from intersect, which only 
+                        intersects with the surface of the sphere.
+2003-05-15 subatomic    added lineseg/plane version of intersect. 
+                        fixed ray/plane version of intersect
+2003-05-13 subatomic    added reflect() for point about a plane
+2003-05-09 subatomic    added Matrix xform, *, and *=  for lineseg and ray
+2003-04-25 subatomic    changed makeInverse(mat) to makeInverse for consistency
+                        NEW VERSION 0.3.1
+2003-04-18 patrickh     Renamed the vector version of gmtl::cross() that
+                        returns a newly created vector to gmtl::makeCross and
+                        moved it to Generate.h.
+                        NEW VERSION: 0.3.0
+2003-04-10 subatomic    Matrix state tracking.  Extensive testing on this.
+                           Anyone writing their own matrix methods MUST also
+                           implement matrix state tracking in every method!!|
+                        Added const version of the [][] operator for Matrix
+                        Implemented invertAffine, invertOrtho,
+                           invertTrans for Matrix
+2003-04-01 subatomic    April Fools.
+                        added setPerspective, setFrustum
+2003-03-31 patrickh     Removed unneeded second argument from the function
+                        gmtl::makeInverse<>().  Changed the first argument of
+                        same to take a matrix by reference instead of by value.
+                        NEW VERSION: 0.2.2
+2003-03-16 subatomic    added operator/=( Quat, Quat )
+                        added operator/( Quat, Quat )
+                        fixed div( Quat, Quat )
+                        fixed quaternion multiplication ordering bug (again?)
+2003-03-16 subatomic    added intersect( Sphere, Point )
+                        added intersect( Sphere, LineSeg )
+                        added intersect( Sphere, Ray )
+                        added distanceSquared( LineSeg, Point )
+2003-03-15 nonchocoboy  NEW VERSION: 0.2.1
+2003-03-15 nonchocoboy  Replaced gmtl::version variable with a
+                        gmtl::getVersion() inlined method to avoid mulitply
+                        defined linker errors.
+2003-03-13 jahare       Fixed quaternion multiplication ordering bug.
+2003-03-10 jahare       Added Point *= Matrix, Point *= Quat, and Vec *= Quat
+                        operators.
+2003-03-03 patrickh     NEW VERSION: 0.2.0
+2003-02-24 allenb       Changed Matrix::op[] to allow element access using
+                        row, column ordering.  The access element directly
+                        use Matrix::mData.
+2003-02-21 nonchocoboy  Added gmtl.h convenience header.
+2003-02-21 nonchocoboy  gmtl::Math::sign will now take any type as an argument.
+2003-02-21 allenb       Fixed bug where direction cosines were being computed
+                        incorrectly. The method was actually computing the
+                        inverse of the correct value.
+2003-02-06 nonchocoboy  Replaced build system with an SCons-based build system.
+2003-01-10 subatomic    Added new Ray.h
+                        added Ray/Plane Ray/Tri intersect functions
+                        added LineSeg/Plane LineSeg/Tri intersect functions
+2002-12-22 nonchocoboy  NEW VERSION: 0.1.13
+2002-12-22 nonchocoboy  Added random number generator seed function.
+2002-12-22 nonchocoboy  Added PointNi and VecNi convenience typedefs.
+2002-11-26 subatomic    Added VecBase reflect(...) function.
+2002-11-26 nonchocoboy  Added ability to make a AABox from a Sphere.
+2002-11-26 nonchocoboy  Added AABox-Sphere intersection test.
+2002-11-26 nonchocoboy  Added Sphere-Sphere sweep test.
+2002-11-25 nonchocoboy  Added a quadratic formula solver to the Math lib.
+2002-11-02 nonchocoboy  Compile fix for Containment.h - missing <vector> include
+2002-11-01 nonchocoboy  Added sweep test for AABox.
+                        NEW VERSION: 0.1.12
+2002-10-28 nonchocoboy  set(AxisAngle, Quat) now guarantees that the AxisAngle
+                        has a normalized axis.
+                        NEW VERSION: 0.1.11
+2002-10-17 nonchocoboy  Compiler fix for LineSeg::getLength().
+                        NEW VERSION: 0.1.10
+2002-10-11 nonchocoboy  Added output function for AABox.
+2002-09-20 nonchocoboy  NEW VERSION: 0.1.9
+2002-09-15 subatomic    added Math::clamp
+2002-09-11 allenb       CoordQuat fixed so that it can be instantiated.
+2002-08-06 subatomic    added intersection test between point3 and AAbox
+                        NEW VERSION: 0.1.8
+2002-07-28 nonchocoboy  Added basic intersection test for AABoxes.
+                        NEW VERSION: 0.1.7
+2002-07-11 allenb       Added static assert.  Added muli-arg constructor for
+                        Coord.  Created Util directory.  Added new coord types.
+                        NEW VERSION: 0.1.6
+2002-07-04 allenb       Bump up version since it all seems to work well now.
+                        NEW VERSION: 0.1.0
+2002-06-23 subatomic    For safety, don't allow Quat(T,T,T,T) default 
+                        constructor.  Added Quat(), and changed Quat(T,T,T,T)
+                        which to not use defaults.
+2002-06-13 subatomic    For safety, don't allow VecBase(DATA_TYPE) constructor.
+                        Also don't allow mismatched constructors such as
+                        Vec3( a, b ), or Vec2( a, b, c ), these will assert now.
+2002-06-12 subatomic    EulerAngle is templatized on RotationOrder now.
+                        This means that EulerXYZ and EulerZYX are discrete types
+                        which will allow the benefit of type safety and compile 
+                        time optimization.
+2002-06-10 subatomic    Generators all use Euler and Axis now.
+                        Changed to set() and make() naming on functions
+                        that were actually set (like setRot(quat,axisangle)
+                        Templatized many of the Generate funcs.  Now you can
+                        set(anytype, anyothertype) and make<anytype>(anyother).
+                        Coord is now templatized on POS_TYPE, ROT_TYPE.
+                        Default Coord typedefs are with Vec/Euler, Vec/Axis now.
+                        NEW VERSION 0.0.5
+2002-06-10 subatomic    Authored EulerAngle, AxisAngle, and Ops, tests
+2002-06-06 subatomic    changed all get*****() functions to set****()
+                        NEW VERSION: 0.0.4
+2002-06-06 subatomic    changed all convert() functions to set()
+                        NEW VERSION: 0.0.3
+2002-06-04 nonchocoboy  Authored AABox class.
+2002-06-03 nonchocoboy  Version information is now centralized in Version.h.
+                        NEW VERSION: 0.0.2
+2002-06-03 nonchocoboy  Authored Version.h
+2002-05-21 nonchocoboy  Removed Types.h. Apps will now need to define their own
+                        types if they wish to use anything other than the
+                        built-in primitive types.
+2002-05-20 subatomic    Removed gmtlConfig.h.
+                        Added support to Math.h to compile out the float trig
+                        functions.  Define NO_XXXF (where XXX is SIN, COS, ASIN
+                        etc...) to work around compilers that dont support
+                        these trig functions.
+2002-05-17 subatomic    Doxygen: grouped everything into "modules", logical 
+                        groupings that make the reference guide much easier
+                        to use.
+2002-05-10 nonchocoboy  Added makeInverse for matrices.
+2002-05-10 subatomic    Added typedefs for Planef and Planed
+2002-05-10 allenb       Added gmtl::ignore_unused_variable_warning to get rid
+                        of unused variable warnings for Type2Type<> usage.
+2002-05-09 allenb       Configure and make now make link in instlinks instead
+                        of copying all the headers over.
+2002-05-09 allenb       Added OpenSG conversion functions.
+2002-03-20 subatomic    Authored Coord and all ops, gens, converts, compares.
+2002-03-20 nonchocoboy  Added overloaded operator<< functions.
+2002-03-15 allenb       Added makeRot<mat>(rad,axis) function
+                        Added makeTrans<mat>(trans) function.
+                        Added makeRot<mat>(val,val,val,method) function.
+                        Added setTrans(matrix) function.
+2002-03-14 allenb       Added identity(matrix) function.
+2002-03-14 allenb       Added gmtlASSERT macro to make gmtl more standalone
+2002-02-24 subatomic    Authored Quat and all ops, gens, converts, compares.
+2002-02-24 nonchocoboy  Authored LineSeg class and comparitors.
+2002-02-20 nonchocoboy  Added Plane math functions.
+2002-02-19 subatomic    Authored Matrix gen funcs
+2002-02-18 nonchocoboy  Added Plane comparison functions.
+2002-02-18 nonchocoboy  Authored Plane class.
+2002-02-18 nonchocoboy  Authored Tri class, comparison and ops
+2002-02-15 subatomic    Authored Matrix class, comparison and math ops
+2002-02-15 nonchocoboy  Authored Sphere class and comparisons.
+2002-02-11 subatomic    Authored Math abstraction for sin, cos, etc...
+2002-02-11 allenb       Added Vec and Point ops.
+2002-02-11 allenb       Vector comparisons added.
+2002-02-10 allenb       Authored Vec and Point classes.
+2002-02-10 allenb       Authored VecBase class.
+2002-02-09 allenb       Remove old GFX traces.
+2002-02-09 allenb       Created gmtlConfig.h file and removed gfxConfig.h
+2002-01-30 allenb       Moved all code to header files to prepare the way for
+                        future refactoring.
+2002-01-30 allenb       Removed static const member variables from classes.
+2002-01-25 allenb       Initial version
+
