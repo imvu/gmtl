@@ -715,6 +715,30 @@ namespace gmtl
       return setFrustum( result, -right, top, right, -top, nr, fr );
    }
 
+  /**
+    * Make a translation datatype from another translation datatype.
+    * Typically this is from Matrix to Vec or Vec to Matrix.
+    * This function reads only translation information from the src datatype.
+    *
+    * @param arg  the matrix to extract the translation from
+    *
+    * @pre if making an n x n matrix, then for
+    *    - <b>vector is homogeneous:</b> SIZE of vector needs to equal number of Matrix ROWS - 1
+    *    - <b>vector has scale component:</b> SIZE of vector needs to equal number of Matrix ROWS
+    * <br>if making an n x n+1 matrix, then for
+    *    - <b>vector is homogeneous:</b> SIZE of vector needs to equal number of Matrix ROWS
+    *    - <b>vector has scale component:</b> SIZE of vector needs to equal number of Matrix ROWS + 1
+    * @post if preconditions are not met, then function is undefined (will not compile)
+    */
+   template<typename TRANS_TYPE, typename SRC_TYPE >
+   inline TRANS_TYPE makeTrans( const SRC_TYPE& arg,
+                             Type2Type< TRANS_TYPE > t = Type2Type< TRANS_TYPE >())
+   {
+      gmtl::ignore_unused_variable_warning(t);
+      TRANS_TYPE temporary;
+      return setTrans( temporary, arg );
+   }
+
    /** Configure a matrix from view parameters.
     * 
     * Functionally equivalent to gluLookAt(), this function configures
@@ -1368,30 +1392,6 @@ namespace gmtl
       gmtl::ignore_unused_variable_warning(t);
       ROTATION_TYPE temporary;
       return setDirCos( temporary, xDestAxis, yDestAxis, zDestAxis, xSrcAxis, ySrcAxis, zSrcAxis );
-   }
-
-   /**
-    * Make a translation datatype from another translation datatype.
-    * Typically this is from Matrix to Vec or Vec to Matrix.
-    * This function reads only translation information from the src datatype.
-    *
-    * @param arg  the matrix to extract the translation from
-    *
-    * @pre if making an n x n matrix, then for
-    *    - <b>vector is homogeneous:</b> SIZE of vector needs to equal number of Matrix ROWS - 1
-    *    - <b>vector has scale component:</b> SIZE of vector needs to equal number of Matrix ROWS
-    * <br>if making an n x n+1 matrix, then for
-    *    - <b>vector is homogeneous:</b> SIZE of vector needs to equal number of Matrix ROWS
-    *    - <b>vector has scale component:</b> SIZE of vector needs to equal number of Matrix ROWS + 1
-    * @post if preconditions are not met, then function is undefined (will not compile)
-    */
-   template<typename TRANS_TYPE, typename SRC_TYPE >
-   inline TRANS_TYPE makeTrans( const SRC_TYPE& arg,
-                             Type2Type< TRANS_TYPE > t = Type2Type< TRANS_TYPE >())
-   {
-      gmtl::ignore_unused_variable_warning(t);
-      TRANS_TYPE temporary;
-      return setTrans( temporary, arg );
    }
 
    /** Create a rotation datatype that will xform first vector to the second.
