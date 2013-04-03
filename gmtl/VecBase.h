@@ -139,6 +139,13 @@ public:
 #endif
    }
 
+   template<typename U>
+   explicit VecBase(const VecBase<U, SIZE>& rVec)
+   {
+      for(unsigned i=0;i<SIZE;++i)
+         mData[i] = rVec.mData[i];
+   }
+
 #ifndef GMTL_NO_METAPROG
    template<typename REP2>
    VecBase(const VecBase<DATA_TYPE, SIZE, REP2>& rVec)

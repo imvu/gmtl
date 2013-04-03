@@ -74,6 +74,12 @@ public:
       : BaseType( rVec )
    {
    }
+
+   template<typename U>
+   Vec( const VecBase<U, SIZE>& rVec )
+      : BaseType( rVec )
+   {
+   }
 #else
    template<typename REP2>
    Vec( const VecBase<DATA_TYPE, SIZE, REP2>& rVec )
