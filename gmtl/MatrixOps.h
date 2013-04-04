@@ -451,7 +451,6 @@ namespace gmtl
 
          if(gmtl::Math::isEqual(DATA_TYPE(0),pivot_value,pivot_eps))
          {
-            std::cerr << "*** pivot = " << pivot_value << " in mat_inv. ***\n";
             result.setError();
             return result;
          }
@@ -587,7 +586,6 @@ namespace gmtl
 
          if ( gmtl::Math::abs( pivot) <= 1e-20)
          {
-            std::cerr << "*** pivot = " << pivot << " in mat_inv. ***\n";
             result.setError();
             return result;
          }
