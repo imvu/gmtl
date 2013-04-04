@@ -76,7 +76,7 @@ public:
    }
 
    template<typename U>
-   Vec( const VecBase<U, SIZE>& rVec )
+   explicit Vec( const VecBase<U, SIZE>& rVec )
       : BaseType( rVec )
    {
    }
