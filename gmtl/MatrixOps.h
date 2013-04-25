@@ -671,7 +671,7 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS>& invert( Matrix<DATA_TYPE, ROWS, COLS>& result, const Matrix<DATA_TYPE, ROWS, COLS>& src )
    {
       if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY )
-         return result = src;
+         return identity(result);
       else if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::TRANS)
          return invertTrans( result, src );
       else if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL)
