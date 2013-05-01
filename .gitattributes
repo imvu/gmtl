@@ -8,5 +8,5 @@
 *.so    binary
 *.pak   binary
 
-*.vcproj eol=crlf
-*.sln eol=crlf
+*.vcproj binary
+*.sln binary
