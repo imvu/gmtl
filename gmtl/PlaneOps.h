@@ -100,8 +100,7 @@ DATA_TYPE findNearestPt( const Plane<DATA_TYPE>& plane,
    // GGI:  p297
    // GGII: p223
    gmtlASSERT( isNormalized(plane.mNorm) );   // Assert: Normalized
-   DATA_TYPE dist_to_plane(0);
-   dist_to_plane = plane.mOffset + dot( plane.mNorm, static_cast< Vec<DATA_TYPE, 3> >(pt) );
+   DATA_TYPE dist_to_plane = gmtl::distance(plane, pt);
    result = pt - (plane.mNorm * dist_to_plane);
    return dist_to_plane;
 }

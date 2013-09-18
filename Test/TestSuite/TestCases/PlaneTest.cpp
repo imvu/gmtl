@@ -12,6 +12,8 @@
 
 namespace gmtlTest
 {
+   CPPUNIT_TEST_SUITE_REGISTRATION(PlaneTest);
+
    void PlaneTest::setUp()
    {
       origin.set( 0,0,0 );
@@ -372,6 +374,13 @@ namespace gmtlTest
       test_point = gmtl::Point<float, 3>(-17.05f,0.334f,0.0f);
       CPPUNIT_ASSERT(gmtl::distance(xy_plane, test_point) == gmtl::findNearestPt(xy_plane, test_point, answer));
       CPPUNIT_ASSERT(answer == test_point);
+
+      // Nearest point to a plane not through the origin
+      gmtl::Planef offset_plane(gmtl::Vec3f(0, 1, 0), gmtl::Point3f(0, 3, 0));
+      test_point = gmtl::Point3f(2, 10, 2);
+      correct_result = gmtl::Point3f(2, 3, 2);
+      CPPUNIT_ASSERT(gmtl::distance(offset_plane, test_point) == gmtl::findNearestPt(offset_plane, test_point, answer));
+      CPPUNIT_ASSERT(answer == correct_result);
 
       // Test findNearestPt performance
       const long iters(400000);
