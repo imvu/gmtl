@@ -7,7 +7,7 @@
 #define GMTL_ASSERT_H
 
 // -- VERY simple assertion stuff -- //
-#ifdef _DEBUG
+#if !defined(NDEBUG)
 #   include <assert.h>
 #   define gmtlASSERT(val) assert((val))
 #else
