@@ -283,7 +283,7 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS>& invertTrans( Matrix<DATA_TYPE, ROWS, COLS>& result,
                                                        const Matrix<DATA_TYPE, ROWS, COLS>& src )
    {
-      gmtlASSERT( ROWS == COLS || COLS == ROWS+1 && "invertTrans supports NxN or Nx(N-1) matrices only" );
+      gmtlASSERT( (ROWS == COLS || COLS == ROWS+1) && "invertTrans supports NxN or Nx(N-1) matrices only" );
 
       if (&result != &src)
          result = src; // could optimise this a little more (skip the trans copy), favor simplicity for now...
