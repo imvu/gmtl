@@ -410,6 +410,11 @@ namespace gmtl
       return result;
    }
 
+    template<typename DATA_TYPE>
+    Quat<DATA_TYPE> inverse(Quat<DATA_TYPE> result) {
+        return invert(result);
+    }
+
    /** complex exponentiation.
     *  @pre safe to pass self as argument
     *  @post sets self to the exponentiation of quat

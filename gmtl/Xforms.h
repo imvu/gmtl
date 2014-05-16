@@ -82,21 +82,6 @@ namespace gmtl
       return xform( temporary, rot, vector );
    }
 
-
-   /** transform a vector by a rotation quaternion.
-    * @pre give a vector, and a rotation quaternion (by definition, a rotation quaternion is normalized).
-    * @param rot        The quaternion
-    * @param vector     The original vector to transform
-    * @post v' = q P(v) q*  (where result is v', rot is q, and vector is v.  q* is conj(q), and P(v) is pure quaternion made from v)
-    */   
-   template <typename DATA_TYPE>
-   inline VecBase<DATA_TYPE, 3> operator*=(VecBase<DATA_TYPE, 3>& vector, const Quat<DATA_TYPE>& rot)
-   {
-      VecBase<DATA_TYPE, 3> temporary = vector;
-      return xform( vector, rot, temporary);
-   }
-
-
    /** @} */
 
    /** @ingroup Transforms
