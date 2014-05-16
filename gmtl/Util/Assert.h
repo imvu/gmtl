@@ -7,7 +7,11 @@
 #define GMTL_ASSERT_H
 
 // -- VERY simple assertion stuff -- //
+<<<<<<< HEAD
 #ifdef _DEBUG
+=======
+#if 0 && !defined(NDEBUG) // XXXer: disabled for now
+>>>>>>> bc1c103... disable assert
 #   include <assert.h>
 #   define gmtlASSERT(val) assert((val))
 #else
