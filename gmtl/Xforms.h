@@ -42,7 +42,16 @@ namespace gmtl
                                        const VecBase<DATA_TYPE, 3>& vector)
    {
       // check preconditions...
-      gmtlASSERT(Math::isEqual(length(rot), static_cast<DATA_TYPE>(1.0), static_cast<DATA_TYPE>(0.0001)) && "must pass a rotation quaternion to xform(result,quat,vec) - by definition, a rotation quaternion is normalized).  if you need non-rotation quaternion support, let us know.");
+#ifndef NDEBUG
+      static DATA_TYPE threshold = static_cast<DATA_TYPE>(0.0001);
+      DATA_TYPE rotLen = length(rot);
+      if (gmtl::Math::abs(rotLen - static_cast<DATA_TYPE>(1.0)) > threshold) {
+          printf("gmtl/Xforms.h::xform : quaternion is not normalized. length=%10.8f, threshold=%10.8f\n", rotLen, threshold);
+      }
+      //   TBD: remove printf and re-enable gmtlAssert
+      //gmtlASSERT(Math::isEqual(length(rot), static_cast<DATA_TYPE>(1.0), threshold) &&
+      //    "must pass a rotation quaternion to xform(result,quat,vec) - by definition, a rotation quaternion is normalized).  if you need non-rotation quaternion support, let us know.");
+#endif
 
       // easiest to write and understand (slowest too)
       //return result_vec = makeVec( rot * makePure( vector ) * makeConj( rot ) );

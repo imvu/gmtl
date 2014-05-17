@@ -183,8 +183,16 @@ namespace gmtl
    template <typename DATA_TYPE>
    inline Quat<DATA_TYPE>& set( Quat<DATA_TYPE>& result, const AxisAngle<DATA_TYPE>& axisAngle )
    {
-      gmtlASSERT( (Math::isEqual( lengthSquared( axisAngle.getAxis() ), (DATA_TYPE)1.0, (DATA_TYPE)0.0001 )) &&
-                   "you must pass in a normalized vector to setRot( quat, rad, vec )" );
+#ifndef NDEBUG
+      DATA_TYPE threshold = (DATA_TYPE)0.0001;
+      float lsq = lengthSquared(axisAngle.getAxis());
+      if (gmtl::Math::abs(lsq - static_cast<DATA_TYPE>(1.0)) > threshold) {
+          printf("gmtl/Generate.h::set : axisAngle vector is not normalized. length=%10.8f, threshold=%10.8f\n", lsq, threshold);
+      }
+      //gmtlASSERT((Math::isEqual(lengthSquared(axisAngle.getAxis()), (DATA_TYPE)1.0, threshold)) &&
+      //    "you must pass in a normalized vector to setRot( quat, rad, vec )");
+#endif
+
 
       DATA_TYPE half_angle = axisAngle.getAngle() * static_cast<DATA_TYPE>(0.5);
       DATA_TYPE sin_half_angle = Math::sin( half_angle );
