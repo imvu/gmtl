@@ -71,5 +71,17 @@ namespace gmtl
 #define GMTL_NO_METAPROG
 #endif
 
+#if defined(_MSC_VER)
+   // MSVC
+   // I guess the MSVC equivalent to "always_inline" is __forceinline, but we
+   // haven't needed it yet.
+   #define GMTL_ALWAYS_INLINE
+   #define GMTL_RESTRICT __restrict
+#else
+   // others (clang and g++)
+   #define GMTL_ALWAYS_INLINE __attribute__((always_inline))
+   #define GMTL_RESTRICT __restrict__
+#endif
+
 
 #endif

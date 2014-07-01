@@ -82,6 +82,55 @@ namespace gmtl
       return result;
    }
 
+   namespace internal {
+      // The following UnsafeMultHelper classes use partial specialization to
+      // define a recursive template metaprogram that computes the dot product
+      // of a row from the left matrix with a column from the right matrix,
+      // used to compute a single entry of the result of matrix multiplication.
+
+      template <unsigned int COUNTER, typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
+      class UnsafeMultHelper {
+      public:
+         GMTL_ALWAYS_INLINE inline DATA_TYPE operator()(
+            const DATA_TYPE* GMTL_RESTRICT lhs,
+            const DATA_TYPE* GMTL_RESTRICT rhs,
+            unsigned int i,
+            unsigned int j
+         ) {
+            return UnsafeMultHelper<COUNTER-1, DATA_TYPE, ROWS, INTERNAL, COLS>()(lhs, rhs, i, j) + lhs[COUNTER * ROWS + i] * rhs[j * INTERNAL + COUNTER];
+         }
+      };
+
+      template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
+      class UnsafeMultHelper<0, DATA_TYPE, ROWS, INTERNAL, COLS> {
+      public:
+         GMTL_ALWAYS_INLINE inline DATA_TYPE operator()(
+            const DATA_TYPE* GMTL_RESTRICT lhs,
+            const DATA_TYPE* GMTL_RESTRICT rhs,
+            unsigned int i,
+            unsigned int j
+         ) {
+            return lhs[0 * ROWS + i] * rhs[j * INTERNAL + 0];
+         }
+      };
+
+      template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
+      GMTL_ALWAYS_INLINE inline void unsafeMult(
+         DATA_TYPE* GMTL_RESTRICT result,
+         const DATA_TYPE* GMTL_RESTRICT lhs,
+         const DATA_TYPE* GMTL_RESTRICT rhs
+      ) {
+         for (unsigned int j = 0; j < COLS; ++j) {
+            for (unsigned int i = 0; i < ROWS; ++i) {
+               // We unroll the entry summing "loop" with templates.  The simplest
+               // thing would be to sum with a for loop, but for some reason, the
+               // template approach allows clang to lift more invariant values to
+               // the column loop.
+               result[j * ROWS + i] = UnsafeMultHelper<INTERNAL - 1, DATA_TYPE, ROWS, INTERNAL, COLS>()(lhs, rhs, i, j);
+            }
+         }
+      }
+   }
 
    /** matrix multiply.
     *  @PRE: With regard to size (ROWS/COLS): if lhs is m x p, and rhs is p x n, then result is m x n (mult func undefined otherwise)
@@ -93,20 +142,18 @@ namespace gmtl
                  const Matrix<DATA_TYPE, ROWS, INTERNAL>& lhs,
                  const Matrix<DATA_TYPE, INTERNAL, COLS>& rhs )
    {
-      Matrix<DATA_TYPE, ROWS, COLS> ret_mat; // prevent aliasing
-      zero( ret_mat );
+      // We can avoid a memcpy if we check that the result is not aliased with
+      // the operands.
+      if (&result != &lhs && &result != &rhs) {
+         internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(result.getData(), lhs.getData(), rhs.getData());
+         result.mState = combineMatrixStates(lhs.mState, rhs.mState);
+         return result;
+      }
 
-      // p. 150 Numerical Analysis (second ed.)
-      // if A is m x p, and B is p x n, then AB is m x n
-      // (AB)ij  =  [k = 1 to p] (a)ik (b)kj     (where:  1 <= i <= m, 1 <= j <= n)
-      for (unsigned int i = 0; i < ROWS; ++i)           // 1 <= i <= m
-      for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
-      for (unsigned int k = 0; k < INTERNAL; ++k)       // [k = 1 to p]
-         ret_mat( i, j ) += lhs( i, k ) * rhs( k, j );
-
-      // track state
-      ret_mat.mState = combineMatrixStates( lhs.mState, rhs.mState );
-      return result = ret_mat;
+      Matrix<DATA_TYPE, ROWS, COLS> temp;
+      internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(temp.getData(), lhs.getData(), rhs.getData());
+      temp.mState = combineMatrixStates(lhs.mState, rhs.mState);
+      return result = temp;
    }
 
    /** matrix * matrix.

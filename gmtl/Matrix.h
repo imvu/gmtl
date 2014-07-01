@@ -467,6 +467,12 @@ public:
       return mData;
    }
 
+   // Unsafe data accessor. See set(), operator[]() for direct access caveats.
+   DATA_TYPE* getData()
+   {
+      return mData;
+   }
+
    bool isError()
    {
       return mState & XFORM_ERROR;
