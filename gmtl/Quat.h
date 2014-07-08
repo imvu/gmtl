@@ -149,15 +149,15 @@ public:
    Vec<DATA_TYPE, 4> mData;
 };
 
-const Quat<float> QUAT_MULT_IDENTITYF( 0.0f, 0.0f, 0.0f, 1.0f );
-const Quat<float> QUAT_ADD_IDENTITYF( 0.0f, 0.0f, 0.0f, 0.0f );
-const Quat<float> QUAT_IDENTITYF( QUAT_MULT_IDENTITYF );
-const Quat<double> QUAT_MULT_IDENTITYD( 0.0, 0.0, 0.0, 1.0 );
-const Quat<double> QUAT_ADD_IDENTITYD( 0.0, 0.0, 0.0, 0.0 );
-const Quat<double> QUAT_IDENTITYD( QUAT_MULT_IDENTITYD );
-
 typedef Quat<float> Quatf;
 typedef Quat<double> Quatd;
+
+extern const Quatf QUAT_MULT_IDENTITYF;
+extern const Quatf QUAT_ADD_IDENTITYF;
+extern const Quatf QUAT_IDENTITYF;
+extern const Quatd QUAT_MULT_IDENTITYD;
+extern const Quatd QUAT_ADD_IDENTITYD;
+extern const Quatd QUAT_IDENTITYD;
 
 } // end of namespace gmtl
 

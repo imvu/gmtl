@@ -515,34 +515,34 @@ typedef Matrix<float, 4, 4> Matrix44f;
 typedef Matrix<double, 4, 4> Matrix44d;
 
 /** 32bit floating point 2x2 identity matrix */
-const Matrix22f MAT_IDENTITY22F = Matrix22f();
+extern const Matrix22f MAT_IDENTITY22F;
 
 /** 64bit floating point 2x2 identity matrix */
-const Matrix22d MAT_IDENTITY22D = Matrix22d();
+extern const Matrix22d MAT_IDENTITY22D;
 
 /** 32bit floating point 2x2 identity matrix */
-const Matrix23f MAT_IDENTITY23F = Matrix23f();
+extern const Matrix23f MAT_IDENTITY23F;
 
 /** 64bit floating point 2x2 identity matrix */
-const Matrix23d MAT_IDENTITY23D = Matrix23d();
+extern const Matrix23d MAT_IDENTITY23D;
 
 /** 32bit floating point 3x3 identity matrix */
-const Matrix33f MAT_IDENTITY33F = Matrix33f();
+extern const Matrix33f MAT_IDENTITY33F;
 
 /** 64bit floating point 3x3 identity matrix */
-const Matrix33d MAT_IDENTITY33D = Matrix33d();
+extern const Matrix33d MAT_IDENTITY33D;
 
 /** 32bit floating point 3x4 identity matrix */
-const Matrix34f MAT_IDENTITY34F = Matrix34f();
+extern const Matrix34f MAT_IDENTITY34F;
 
 /** 64bit floating point 3x4 identity matrix */
-const Matrix34d MAT_IDENTITY34D = Matrix34d();
+extern const Matrix34d MAT_IDENTITY34D;
 
 /** 32bit floating point 4x4 identity matrix */
-const Matrix44f MAT_IDENTITY44F = Matrix44f();
+extern const Matrix44f MAT_IDENTITY44F;
 
 /** 64bit floating point 4x4 identity matrix */
-const Matrix44d MAT_IDENTITY44D = Matrix44d();
+extern const Matrix44d MAT_IDENTITY44D;
 
 /** utility function for use by matrix operations.
  *  given two matrices, when combined with set(..) or xform(..) types of operations,
