@@ -656,8 +656,6 @@ namespace gmtl
       result.mData[14] = -( T( 2.0 ) * fr * nr ) / ( fr - nr );
       result.mData[15] = T( 0.0 );
 
-      result.mState = Matrix<T, 4, 4>::FULL; // track state
-
       return result;
    }
 
@@ -783,7 +781,6 @@ namespace gmtl
         orient(3,3) = T(1.);
 
         result = orient * makeTrans< Matrix<T, 4,4> >( -eye );
-        result.mState = Matrix<T, 4,4>::AFFINE;
         return( result );
     }
 
@@ -838,12 +835,6 @@ namespace gmtl
          for (unsigned x = 0; x < COLS - 1; ++x)
             result( x, COLS - 1 ) = trans[x];
       }
-      // track state, only override identity
-      switch (result.mState)
-      {
-      case Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL: result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE; break;
-      case Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY:   result.mState = Matrix<DATA_TYPE, ROWS, COLS>::TRANS; break;
-      }
       return result;
    }
 
@@ -857,9 +848,6 @@ namespace gmtl
       {
          result( x, x ) = scale[x];
       }
-      // track state: affine matrix with non-uniform scale now.
-      result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE;
-      result.mState |= Matrix<DATA_TYPE, ROWS, COLS>::NON_UNISCALE;
       return result;
    }
 
@@ -872,9 +860,6 @@ namespace gmtl
       {
          result( x, x ) = scale;
       }
-      // track state: affine matrix with non-uniform scale now.
-      result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE;
-      result.mState |= Matrix<DATA_TYPE, ROWS, COLS>::NON_UNISCALE;
       return result;
    }
 
@@ -918,12 +903,6 @@ namespace gmtl
       result( 1, 0 ) = (t*x*y)+(s*z); result( 1, 1 ) = (t*y*y)+c;     result( 1, 2 ) = (t*y*z)-(s*x);
       result( 2, 0 ) = (t*x*z)-(s*y); result( 2, 1 ) = (t*y*z)+(s*x); result( 2, 2 ) = (t*z*z)+c;
 
-      // track state
-      switch (result.mState)
-      {
-      case Matrix<DATA_TYPE, ROWS, COLS>::TRANS:    result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE; break;
-      case Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY: result.mState = Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL; break;
-      }
       return result;
    }
 
@@ -973,12 +952,6 @@ namespace gmtl
          break;
       }
 
-      // track state
-      switch (result.mState)
-      {
-      case Matrix<DATA_TYPE, ROWS, COLS>::TRANS:    result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE; break;
-      case Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY: result.mState = Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL; break;
-      }
       return result;
    }
 
@@ -1136,13 +1109,6 @@ namespace gmtl
       result( 1, 0 ) = Xb; result( 1, 1 ) = Yb; result( 1, 2 ) = Zb;
       result( 2, 0 ) = Xc; result( 2, 1 ) = Yc; result( 2, 2 ) = Zc;
 
-      // track state
-      switch (result.mState)
-      {
-      case Matrix<DATA_TYPE, ROWS, COLS>::TRANS:    result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE; break;
-      case Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY: result.mState = Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL; break;
-      }
-
       return result;
    }
 
@@ -1171,12 +1137,6 @@ namespace gmtl
       result( 1, 2 ) = zAxis[1];
       result( 2, 2 ) = zAxis[2];
 
-      // track state
-      switch (result.mState)
-      {
-      case Matrix<DATA_TYPE, ROWS, COLS>::TRANS:    result.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE; break;
-      case Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY: result.mState = Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL; break;
-      }
       return result;
    }
 
@@ -1252,12 +1212,6 @@ namespace gmtl
       mat( 1, 2 ) = yz - wx;
       mat( 2, 2 ) = DATA_TYPE(1.0) - (xx + yy);
 
-      // track state
-      switch (mat.mState)
-      {
-      case Matrix<DATA_TYPE, ROWS, COLS>::TRANS:    mat.mState = Matrix<DATA_TYPE, ROWS, COLS>::AFFINE; break;
-      case Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY: mat.mState = Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL; break;
-      }
       return mat;
    }
 
@@ -1307,9 +1261,6 @@ namespace gmtl
 
       if (ROWS == 4 && COLS == 4)
          mat( 3, 3 ) = DATA_TYPE(1.0);
-
-      // track state
-      mat.mState = Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY;
 
       return setRot( mat, q );
    }

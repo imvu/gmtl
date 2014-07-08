@@ -15,7 +15,7 @@ namespace gmtl
 {
 
 /**
- * State tracked NxM dimensional Matrix (ordered in memory by Column)
+ * NxM dimensional Matrix (ordered in memory by Column)
  *
  * <b>Memory mapping:</b>
  *
@@ -83,22 +83,6 @@ namespace gmtl
  *  </pre>
  * </ul>
  *
- * <b>State Tracking:</b>
- *
- * The idea of a state-tracked matrix is that if we track the information
- * as it is stored into the matrix, then other operations could make more optimal
- * descisions based on the known state.  A good example is in matrix invertion,
- * a reletively costly operation for matrices.  However, if we know the matrix state
- * is (i.e.) ORTHOGONAL, then inversion becomes a simple transpose operation.
- * There are also optimizations with multiplication, as well as other.
- *
- * One side effect of this state tracking is that EVERY MATRIC FUNCTION NEEDS TO
- * TRACK STATE.  This means that anyone writing custom methods, or extentions to
- * gmtl, will need to pay close attention to matrix state.
- *
- * To facilitate state tracking in extensions, we've provided the function
- * gmtl::combineMatrixStates() to help in determining state based on two
- * combined matrices.
  * @see Matrix44f
  * @see Matrix44d
  * @ingroup Types
@@ -107,15 +91,6 @@ template <typename DATA_TYPE, unsigned ROWS, unsigned COLS>
 class Matrix
 {
 public:
-   // This is a hack to work around a bug with GCC 3.3 on Mac OS X where
-   // boost::is_polymorphic returns a false positive.  The details can be
-   // found in the Boost.Python FAQ:
-   //    http://www.boost.org/libs/python/doc/v2/faq.html#macosx
-#if defined(__MACH__) && defined(__APPLE_CC__) && defined(__GNUC__) && \
-    __GNUC__ == 3 && __GNUC_MINOR__ == 3
-   bool dummy_;
-#endif
-
    /** use this to declare single value types of the same type as this matrix.
     */
    typedef DATA_TYPE DataType;
@@ -177,42 +152,9 @@ public:
       unsigned                      mRow;    /** The row being accessed */
    };
 
-   /** describes the xforms that this matrix has been through. */
-   enum XformState
-   {
-      // identity matrix.
-      IDENTITY = 1,
-
-      // only translation, can simply negate that column
-      TRANS = 2,
-
-      // able to tranpose to get the inverse.  only rotation component is set
-      ORTHOGONAL = 4,
-
-      // orthogonal, and normalized axes.
-      //ORTHONORMAL = 8,
-
-      // leaves the homogeneous coordinate unchanged - that is, in which the last column is (0,0,0,s).
-      // can include rotation, uniform scale, and translation, but no shearing or nonuniform scaling
-      // This can optionally be combined with the NON_UNISCALE state to indicate there is also non-uniform scale
-      AFFINE = 16,
-
-      // AFFINE matrix with non-uniform scale, a matrix cannot
-      // have this state without also having AFFINE (must be or'd together).
-      NON_UNISCALE = 32,
-
-      // fully set matrix containing more information than the above, or state is unknown,
-      // or unclassifiable in terms of the above.
-      FULL = 64,
-
-      // error bit
-      XFORM_ERROR = 128
-   };
-
    /** Default Constructor (Identity constructor) */
    Matrix()
    {
-      /** @todo mp */
       for (unsigned int r = 0; r < ROWS; ++r)
       {
          for (unsigned int c = 0; c < COLS; ++c)
@@ -221,21 +163,16 @@ public:
          }
       }
 
-      /** @todo mp */
       for (unsigned int x = 0; x < Math::Min(COLS, ROWS); ++x)
       {
          this->operator()(x, x) = static_cast<DATA_TYPE>(1.0);
       }
-
-      /** @todo Set initial state to IDENTITY and test other stuff */
-      mState = IDENTITY;
    }
 
    /** copy constructor */
    Matrix( const Matrix<DATA_TYPE, ROWS, COLS>& matrix )
    {
       this->set( matrix.getData() );
-      mState = matrix.mState;
    }
 
    /** element wise setter for 2x2.
@@ -250,7 +187,6 @@ public:
       mData[1] = v10;
       mData[2] = v01;
       mData[3] = v11;
-      mState = FULL;
    }
 
    /** element wise setter for 2x3.
@@ -266,7 +202,6 @@ public:
       mData[3] = v11;
       mData[4] = v02;
       mData[5] = v12;
-      mState = FULL;
    }
 
    /** element wise setter for 3x3.
@@ -288,7 +223,6 @@ public:
       mData[6] = v02;
       mData[7] = v12;
       mData[8] = v22;
-      mState = FULL;
    }
 
    /** element wise setter for 3x4.
@@ -313,7 +247,6 @@ public:
       mData[9]  = v03;
       mData[10] = v13;
       mData[11] = v23;
-      mState = FULL;
    }
 
    /** element wise setter for 4x4.
@@ -345,7 +278,6 @@ public:
       mData[7]  = v31;
       mData[11] = v32;
       mData[15] = v33;
-      mState = FULL;
    }
 
    /** comma operator
@@ -376,7 +308,6 @@ public:
       /** @todo mp */
       for (unsigned int x = 0; x < ROWS * COLS; ++x)
          mData[x] = data[x];
-      mState = FULL;
    }
 
    /** set the matrix to the transpose of the given data.
@@ -407,16 +338,9 @@ public:
       for (unsigned int r = 0; r < ROWS; ++r)
       for (unsigned int c = 0; c < COLS; ++c)
          this->operator()( r, c ) = data[(r * COLS) + c];
-      mState = FULL;
    }
 
    /** access [row, col] in the matrix
-    *  WARNING: If you set data in the matrix (using this interface),
-    *  you are required to set mState
-    *  appropriately, failure to do so will result in incorrect
-    *  calculations by other functions in GMTL.  If you are unsure
-    *  about how to set mState, set it to FULL and you will be sure
-    *  to get the correct result at the cost of some performance.
     */
    DATA_TYPE& operator()( const unsigned row, const unsigned column )
    {
@@ -432,12 +356,6 @@ public:
    }
 
    /** bracket operator
-    *  WARNING: If you set data in the matrix (using this interface),
-    *  you are required to set mState
-    *  appropriately, failure to do so will result in incorrect
-    *  calculations by other functions in GMTL.  If you are unsure
-    *  about how to set mState, set it to FULL and you will be sure
-    *  to get the correct result at the cost of some performance.
     */
    RowAccessor operator[]( const unsigned row )
    {
@@ -473,34 +391,11 @@ public:
       return mData;
    }
 
-   bool isError()
-   {
-      return mState & XFORM_ERROR;
-   }
-   void setError()
-   {
-      mState |= XFORM_ERROR;
-   }
-
-   void setState(const int state)
-   {
-      mState = state;
-   }
-
 public:
    /** Column major.  In other words {Column1, Column2, Column3, Column4} in memory
     * access element mData[column][row]
-    *  WARNING: If you set data in the matrix (using this interface),
-    *  you are required to set mState appropriately,
-    *  failure to do so will result in incorrect
-    *  calculations by other functions in GMTL.  If you are unsure
-    *  about how to set mState, set it to FULL and you will be sure
-    *  to get the correct result at the cost of some performance.
     */
    DATA_TYPE mData[COLS*ROWS];
-
-   /** describes what xforms are in this matrix */
-   int mState;
 };
 
 typedef Matrix<float, 2, 2> Matrix22f;
@@ -543,70 +438,6 @@ extern const Matrix44f MAT_IDENTITY44F;
 
 /** 64bit floating point 4x4 identity matrix */
 extern const Matrix44d MAT_IDENTITY44D;
-
-/** utility function for use by matrix operations.
- *  given two matrices, when combined with set(..) or xform(..) types of operations,
- *  compute what matrixstate will the resulting matrix have?
- */
-inline int combineMatrixStates( int state1, int state2 )
-{
-   switch (state1)
-   {
-   case Matrix44f::IDENTITY:
-      switch (state2)
-      {
-      case Matrix44f::XFORM_ERROR: return state2;
-      case Matrix44f::NON_UNISCALE: return Matrix44f::XFORM_ERROR;
-      default: return state2;
-      }
-   case Matrix44f::TRANS:
-      switch (state2)
-      {
-      case Matrix44f::IDENTITY: return state1;
-      case Matrix44f::ORTHOGONAL: return Matrix44f::AFFINE;
-      case Matrix44f::NON_UNISCALE: return Matrix44f::XFORM_ERROR;
-      default: return state2;
-      }
-   case Matrix44f::ORTHOGONAL:
-      switch (state2)
-      {
-      case Matrix44f::IDENTITY: return state1;
-      case Matrix44f::TRANS: return Matrix44f::AFFINE;
-      case Matrix44f::NON_UNISCALE: return Matrix44f::XFORM_ERROR;
-      default: return state2;
-      }
-   case Matrix44f::AFFINE:
-      switch (state2)
-      {
-      case Matrix44f::IDENTITY:
-      case Matrix44f::TRANS:
-      case Matrix44f::ORTHOGONAL:  return state1;
-      case Matrix44f::NON_UNISCALE: return Matrix44f::XFORM_ERROR;
-      case Matrix44f::AFFINE | Matrix44f::NON_UNISCALE:
-      default: return state2;
-      }
-   case Matrix44f::AFFINE | Matrix44f::NON_UNISCALE:
-      switch (state2)
-      {
-      case Matrix44f::IDENTITY:
-      case Matrix44f::TRANS:
-      case Matrix44f::ORTHOGONAL:
-      case Matrix44f::AFFINE:  return state1;
-      case Matrix44f::NON_UNISCALE: return Matrix44f::XFORM_ERROR;
-      default: return state2;
-      }
-   case Matrix44f::FULL:
-      switch (state2)
-      {
-      case Matrix44f::XFORM_ERROR: return state2;
-      case Matrix44f::NON_UNISCALE: return Matrix44f::XFORM_ERROR;
-      default: return state1;
-      }
-      break;
-   default:
-      return Matrix44f::XFORM_ERROR;
-   }
-}
 
 } // end namespace gmtl
 

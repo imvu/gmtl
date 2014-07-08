@@ -31,25 +31,17 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS>&
    identity(Matrix<DATA_TYPE, ROWS, COLS>& result)
    {
-      if(result.mState != Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY)   // if not already ident
+      for (unsigned int r = 0; r < ROWS; ++r)
       {
-         // TODO: mp
-         for (unsigned int r = 0; r < ROWS; ++r)
+         for (unsigned int c = 0; c < COLS; ++c)
          {
-            for (unsigned int c = 0; c < COLS; ++c)
-            {
-               result(r, c) = static_cast<DATA_TYPE>(0.0);
-            }
+            result(r, c) = static_cast<DATA_TYPE>(0.0);
          }
+      }
 
-         // TODO: mp
-         for (unsigned int x = 0; x < Math::Min(COLS, ROWS); ++x)
-         {
-            result(x, x) = static_cast<DATA_TYPE>(1.0);
-         }
-
-         result.mState = Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY;
-//         result.mState = Matrix<DATA_TYPE, ROWS, COLS>::FULL;
+      for (unsigned int x = 0; x < Math::Min(COLS, ROWS); ++x)
+      {
+         result(x, x) = static_cast<DATA_TYPE>(1.0);
       }
 
       return result;
@@ -64,21 +56,10 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS>&
    zero(Matrix<DATA_TYPE, ROWS, COLS>& result)
    {
-      if (result.mState == Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY)
+      for (unsigned int x = 0; x < ROWS * COLS; ++x)
       {
-         for (unsigned int x = 0; x < Math::Min(ROWS, COLS); ++x)
-         {
-            result(x, x) = static_cast<DATA_TYPE>(0);
-         }
+         result.mData[x] = static_cast<DATA_TYPE>(0);
       }
-      else
-      {
-         for (unsigned int x = 0; x < ROWS * COLS; ++x)
-         {
-            result.mData[x] = static_cast<DATA_TYPE>(0);
-         }
-      }
-      result.mState = Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL;
       return result;
    }
 
@@ -146,13 +127,11 @@ namespace gmtl
       // the operands.
       if (&result != &lhs && &result != &rhs) {
          internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(result.getData(), lhs.getData(), rhs.getData());
-         result.mState = combineMatrixStates(lhs.mState, rhs.mState);
          return result;
       }
 
       Matrix<DATA_TYPE, ROWS, COLS> temp;
       internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(temp.getData(), lhs.getData(), rhs.getData());
-      temp.mState = combineMatrixStates(lhs.mState, rhs.mState);
       return result = temp;
    }
 
@@ -186,8 +165,6 @@ namespace gmtl
       for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
          result( i, j ) = lhs( i, j ) - rhs( i, j );
 
-      // track state
-      result.mState = combineMatrixStates( lhs.mState, rhs.mState );
       return result;
    }
 
@@ -208,8 +185,6 @@ namespace gmtl
       for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
          result( i, j ) = lhs( i, j ) + rhs( i, j );
 
-      // track state
-      result.mState = combineMatrixStates( lhs.mState, rhs.mState );
       return result;
    }
 
@@ -256,7 +231,6 @@ namespace gmtl
    {
       for (unsigned i = 0; i < ROWS * COLS; ++i)
          result.mData[i] = mat.mData[i] * scalar;
-      result.mState = mat.mState;
       return result;
    }
 
@@ -315,7 +289,6 @@ namespace gmtl
             result( i, j ) = temp( j, i );
          }
       }
-      result.mState = temp.mState;
       return result;
    }
 
@@ -366,7 +339,6 @@ namespace gmtl
             result( i, j ) = temp( j, i );
          }
       }
-      result.mState = temp.mState;
       return result;
    }
 
@@ -392,28 +364,6 @@ namespace gmtl
       for (int y = 0; y < 3; ++y)
       {
          result[x][y] = src[y][x];
-      }
-
-      // do non-uniform scale inversion
-      if (src.mState & Matrix<DATA_TYPE, ROWS, COLS>::NON_UNISCALE)
-      {
-         DATA_TYPE l0 = gmtl::lengthSquared( gmtl::Vec<DATA_TYPE, 3>( result[0][0], result[0][1], result[0][2] ) );
-         DATA_TYPE l1 = gmtl::lengthSquared( gmtl::Vec<DATA_TYPE, 3>( result[1][0], result[1][1], result[1][2] ) );
-         DATA_TYPE l2 = gmtl::lengthSquared( gmtl::Vec<DATA_TYPE, 3>( result[2][0], result[2][1], result[2][2] ) );
-         if (gmtl::Math::abs( l0 ) > eps) l0 = 1.0f / l0;
-         if (gmtl::Math::abs( l1 ) > eps) l1 = 1.0f / l1;
-         if (gmtl::Math::abs( l2 ) > eps) l2 = 1.0f / l2;
-         // apply the inverse scale to the 3x3
-         // for each axis: normalize it (1/length), and then mult by inverse scale (1/length)
-         result[0][0] *= l0;
-         result[0][1] *= l0;
-         result[0][2] *= l0;
-         result[1][0] *= l1;
-         result[1][1] *= l1;
-         result[1][2] *= l1;
-         result[2][0] *= l2;
-         result[2][1] *= l2;
-         result[2][2] *= l2;
       }
 
       // handle matrices with translation
@@ -448,10 +398,6 @@ namespace gmtl
             result[2][3] = -( result[2][0] * tx + result[2][1] * ty + result[2][2] * tz );
          }
       }
-
-
-
-      result.mState = src.mState;
 
       return result;
    }
@@ -633,7 +579,6 @@ namespace gmtl
 
          if ( gmtl::Math::abs( pivot) <= 1e-20)
          {
-            result.setError();
             return result;
          }
 
@@ -690,7 +635,6 @@ namespace gmtl
       }
 
       // It worked
-      result.mState = src.mState;
       return result;
    }
 
@@ -717,17 +661,7 @@ namespace gmtl
    template <typename DATA_TYPE, unsigned ROWS, unsigned COLS>
    inline Matrix<DATA_TYPE, ROWS, COLS>& invert( Matrix<DATA_TYPE, ROWS, COLS>& result, const Matrix<DATA_TYPE, ROWS, COLS>& src )
    {
-      if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::IDENTITY )
-         return identity(result);
-      else if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::TRANS)
-         return invertTrans( result, src );
-      else if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::ORTHOGONAL)
-         return invertOrthogonal( result, src );
-      else if (src.mState == Matrix<DATA_TYPE, ROWS, COLS>::AFFINE ||
-               src.mState == (Matrix<DATA_TYPE, ROWS, COLS>::AFFINE | Matrix<DATA_TYPE, ROWS, COLS>::NON_UNISCALE))
-         return invertAffine( result, src );
-      else
-         return invertFull_orig( result, src );
+       return invertFull_orig( result, src );
    }
 
    /** smart matrix inversion (in place)
