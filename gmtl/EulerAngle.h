@@ -112,19 +112,19 @@ private:
    DATA_TYPE mData[Size];
 };
 
-const EulerAngle<float, XYZ> EULERANGLE_IDENTITY_XYZF( 0.0f, 0.0f, 0.0f );
-const EulerAngle<double, XYZ> EULERANGLE_IDENTITY_XYZD( 0.0, 0.0, 0.0 );
-const EulerAngle<float, ZYX> EULERANGLE_IDENTITY_ZYXF( 0.0f, 0.0f, 0.0f );
-const EulerAngle<double, ZYX> EULERANGLE_IDENTITY_ZYXD( 0.0, 0.0, 0.0 );
-const EulerAngle<float, ZXY> EULERANGLE_IDENTITY_ZXYF( 0.0f, 0.0f, 0.0f );
-const EulerAngle<double, ZXY> EULERANGLE_IDENTITY_ZXYD( 0.0, 0.0, 0.0 );
-
 typedef EulerAngle<float, XYZ> EulerAngleXYZf;
 typedef EulerAngle<double, XYZ> EulerAngleXYZd;
 typedef EulerAngle<float, ZYX> EulerAngleZYXf;
 typedef EulerAngle<double, ZYX> EulerAngleZYXd;
 typedef EulerAngle<float, ZXY> EulerAngleZXYf;
 typedef EulerAngle<double, ZXY> EulerAngleZXYd;
+
+extern const EulerAngle<float, XYZ> EULERANGLE_IDENTITY_XYZF;
+extern const EulerAngle<double, XYZ> EULERANGLE_IDENTITY_XYZD;
+extern const EulerAngle<float, ZYX> EULERANGLE_IDENTITY_ZYXF;
+extern const EulerAngle<double, ZYX> EULERANGLE_IDENTITY_ZYXD;
+extern const EulerAngle<float, ZXY> EULERANGLE_IDENTITY_ZXYF;
+extern const EulerAngle<double, ZXY> EULERANGLE_IDENTITY_ZXYD;
 
 } // end of namespace gmtl
 

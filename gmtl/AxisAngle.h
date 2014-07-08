@@ -116,11 +116,11 @@ public:
    }
 };
 
-const AxisAngle<float> AXISANGLE_IDENTITYF( 0.0f, 1.0f, 0.0f, 0.0f );
-const AxisAngle<double> AXISANGLE_IDENTITYD( 0.0, 1.0, 0.0, 0.0 );
-
 typedef AxisAngle<float> AxisAnglef;
 typedef AxisAngle<double> AxisAngled;
+
+extern const AxisAnglef AXISANGLE_IDENTITYF;
+extern const AxisAngled AXISANGLE_IDENTITYD;
 
 } // end of namespace gmtl
 
