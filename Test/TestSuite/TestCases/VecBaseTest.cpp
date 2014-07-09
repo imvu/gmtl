@@ -6,7 +6,6 @@
 #include "VecBaseTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/VecBase.h>
 
@@ -32,7 +31,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -46,8 +44,6 @@ namespace gmtlTest
          use_value = use_value + test_vec2[0] + test_vec3[0] + test_vec4[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("VecBaseTest/VecCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -79,7 +75,6 @@ namespace gmtlTest
       test_vec2[0] = 4.0f;
       float use_value(0);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -91,8 +86,6 @@ namespace gmtlTest
          use_value += test_vec4_copy[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("VecBaseTest/CopyConstructOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       if(use_value < 0.0f)
       {
@@ -130,7 +123,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -143,8 +135,6 @@ namespace gmtlTest
          use_value = use_value + test_vec4[3] + test_vec3[2] + test_vec2[1] + test_vec1[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("VecBaseTest/ConstructorsOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void VecBaseTest::testSet()
@@ -182,7 +172,6 @@ namespace gmtlTest
       const float iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( float iter=0;iter<iters; ++iter)
       {
@@ -194,8 +183,6 @@ namespace gmtlTest
          use_value = use_value + test_vec4[3] + test_vec3[2] + test_vec2[1] + test_vec1[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("VecBaseTest/SetOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -238,7 +225,6 @@ namespace gmtlTest
       const float iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( float iter=0;iter<iters; ++iter)
       {
@@ -251,8 +237,6 @@ namespace gmtlTest
          use_value = use_value + test_vec4[3] + test_vec3[2] + test_vec2[1] + test_vec1[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("VecBaseTest/SetPtrOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -288,7 +272,6 @@ namespace gmtlTest
       const unsigned iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for(unsigned iter=0;iter<iters; ++iter)
       {
@@ -296,8 +279,6 @@ namespace gmtlTest
          use_value = use_value + data[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("VecBaseTest/GetDataOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0 );
    }

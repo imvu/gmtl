@@ -6,7 +6,6 @@
 #include "MatrixOpsTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Math.h>
 #include <gmtl/Matrix.h>
@@ -39,7 +38,6 @@ namespace gmtlTest
       float bogus_value(0.0f);
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          test_mat.set( 0, (float)iter+1, (float)iter+2, (float)iter+3,
@@ -49,8 +47,6 @@ namespace gmtlTest
          gmtl::identity( test_mat );
          bogus_value += test_mat(1,1); // Should add 1 everytime
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/identity(mat44f)", iters, 0.095f, 0.125f);   // warn at 9.5%, error at 12.5%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -123,59 +119,44 @@ namespace gmtlTest
       const long iters(100000);
 
       // 2D translation
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec2f( a, 2 ) );
          a += mat33.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/setTrans(mat33f,vec2f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec3f( 1, a, 1.0f ) ); // homogeneous
          a += mat33.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/setTrans(mat33f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
       // 3D translation
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat34, gmtl::Vec3f( a, 32, 121 ) );
          a += mat34.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/setTrans(mat34f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec3f( 30, a, 121 ) );
          a += mat44.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/setTrans(mat44f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec4f( 30, 32, a, 1.0f ) ); // homogeneous
          a += mat44.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/setTrans(mat44f,vec4f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -189,15 +170,12 @@ namespace gmtlTest
                     12, 13, 14, 15 );
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::transpose( test_mat1 );
          test_mat1.mData[2] += test_mat1.mData[3];
          test_mat1.mData[3] -= test_mat1.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/transpose(mat44f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -213,15 +191,12 @@ namespace gmtlTest
                     8,  9,  10 );
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::transpose( test_mat2 );
          test_mat2.mData[2] += test_mat2.mData[3];
          test_mat2.mData[3] -= test_mat2.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/transpose(mat33d)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -238,13 +213,10 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::mult( res_mat, res_mat, test_mat1 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/mult(res,mat44f,mat44f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -262,14 +234,11 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          res_mat = test_mat1 * res_mat;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/operator*(mat44f,mat44f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -287,14 +256,11 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(5000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          res_mat = test_mat1 * res_mat * test_mat2;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/mat44f*mat44f*mat44f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -312,14 +278,11 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(5000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          res_mat = test_mat1 * res_mat * test_mat2;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/mat44d*mat44d*mat44d", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -336,14 +299,11 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          res_mat = test_mat1 * res_mat * test_mat2;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/mat33f*mat33f*mat33f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -360,14 +320,11 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          res_mat = test_mat1 * res_mat * test_mat2;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/mat33d*mat33d*mat33d", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -386,15 +343,12 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::add( res_mat, res_mat, test_mat2 );
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/add(res,mat44f,mat44f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -412,15 +366,12 @@ namespace gmtlTest
       res_mat = test_mat2 = test_mat1;
 
       const long iters(50000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::sub( res_mat, test_mat1, res_mat );
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixOpsTest/sub(res,mat44f,mat44f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -1032,7 +983,6 @@ namespace gmtlTest
                for(unsigned c=0;c<SIZE;++c)
                { mat(r,c) = gmtl::Math::rangeRandom(0.1,1.0); }
             }
-            mat.setState(gmtl::Matrix<DATA_TYPE,SIZE,SIZE>::FULL);
 
             gmtl::invert(inv_mat, mat);
             mult_mat = mat * inv_mat;

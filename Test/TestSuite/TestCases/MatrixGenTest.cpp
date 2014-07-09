@@ -6,7 +6,6 @@
 #include "MatrixGenTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Matrix.h>
 #include <gmtl/MatrixOps.h>
@@ -1055,59 +1054,44 @@ namespace gmtlTest
       const long iters(25000);
 
       // 2D translation
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec2f( a, 2 ) );
          a += mat33.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setTrans(mat33f,vec2f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec3f( 1, a, 1.0f ) ); // homogeneous
          a += mat33.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setTrans(mat33f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
       // 3D translation
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat34, gmtl::Vec3f( a, 32, 121 ) );
          a += mat34.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setTrans(mat34f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec3f( 30, a, 121 ) );
          a += mat44.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setTrans(mat44f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
 
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec4f( 30, 32, a, 1.0f ) ); // homogeneous
          a += mat44.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setTrans(mat44f,vec4f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
    }
    /*
@@ -1119,7 +1103,6 @@ namespace gmtlTest
       gmtl::Matrix44f mat44;
       gmtl::Matrix43f mat43;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::makeTrans( mat22, Vec2f( 1, 2 ) );
@@ -1128,8 +1111,6 @@ namespace gmtlTest
          gmtl::makeTrans( mat43, Vec3f( 30, 32, 121 ) );
          gmtl::makeTrans( mat44, Vec3f( 30, 32, 121 ) );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeScale", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
    */
 
@@ -1141,84 +1122,60 @@ namespace gmtlTest
       gmtl::Matrix44f mat44;
       gmtl::Matrix<float, 4, 3> mat43;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat33, gmtl::Vec2f( a, 2 ) );
          a += mat33.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat33f,vec2f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat34, gmtl::Vec3f( 30, 32, a ) );
          a += mat34.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat34f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat43, gmtl::Vec3f( 30, 32, a ) );
          a += mat43.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat43f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat43.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat44, gmtl::Vec3f( 30, 32, a ) );
          a += mat44.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat44f,vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat33, a );
          a += mat33.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat33f,f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat34, a );
          a += mat34.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat34f,f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat43, a );
          a += mat43.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat43f,f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat43.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat44, a );
          a += mat44.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setScale(mat44f,f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1231,7 +1188,6 @@ namespace gmtlTest
       gmtl::Matrix44f mat44;
       gmtl::Matrix43f mat43;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::makeScale( mat22, Vec2f( 1, 2 ) );
@@ -1244,8 +1200,6 @@ namespace gmtlTest
          gmtl::makeScale( mat43, 4.0f );
          gmtl::makeScale( mat44, 5.0f );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeScale", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
    */
 
@@ -1254,14 +1208,11 @@ namespace gmtlTest
       gmtl::Matrix33f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::AxisAnglef( gmtl::Math::deg2Rad( a ), 1.0f, 0.0f, 0.0f ) );
          a += mat.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRot33f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
@@ -1271,14 +1222,11 @@ namespace gmtlTest
       gmtl::Matrix34f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::AxisAnglef( gmtl::Math::deg2Rad( a ), 1.0f, 0.0f, 0.0f ) );
          a += mat.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRot34f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1287,14 +1235,11 @@ namespace gmtlTest
       gmtl::Matrix44f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::AxisAnglef( gmtl::Math::deg2Rad( a ), 1.0f, 0.0f, 0.0f ) );
          a += mat.mData[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRot44f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1304,33 +1249,24 @@ namespace gmtlTest
       gmtl::bok<gmtl::Matrix33f>( (float)1.0f );
       gmtl::Matrix<float, 3, 3> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix33f>( 90.0f, 1.0f, 0.0f, 0.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeRot33Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeRot34Static()
    {
       gmtl::Matrix<float, 3, 4> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix34f>( 90.0f, 1.0f, 0.0f, 0.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeRot34Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeRot44Static()
    {
       gmtl::Matrix<float, 4, 4> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix44f>( 90.0f, 1.0f, 0.0f, 0.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeRot44Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
    */
 
@@ -1349,34 +1285,25 @@ namespace gmtlTest
       gmtl::Matrix33f mat;
       float a = 0;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZXYf( a, 45.0f, 35.0f ) );
          a -= mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat33f,ZXY)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZYXf( a, 45.0f, 35.0f ) );
          a += mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat33f,ZYX)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleXYZf( a, 45.0f, 35.0f ) );
          a -= mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat33f,XYZ)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1385,34 +1312,25 @@ namespace gmtlTest
       gmtl::Matrix34f mat;
       float a = 0;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZXYf( a, 45.0f, 35.0f ) );
          a -= mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat34f,ZXY)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZYXf( a, 45.0f, 35.0f ) );
          a += mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat34f,ZYX)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleXYZf( a, 45.0f, 35.0f ) );
          a -= mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat34f,XYZ)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1421,34 +1339,25 @@ namespace gmtlTest
       gmtl::Matrix44f mat;
       float a = 0;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZXYf( a, 45.0f, 35.0f ) );
          a -= mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat44f,ZXY)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZYXf( a, 45.0f, 35.0f ) );
          a += mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat44f,ZYX)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleXYZf( a, 45.0f, 35.0f ) );
          a -= mat.mData[4];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setRotEuler(mat44f,XYZ)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
    /*
@@ -1456,33 +1365,24 @@ namespace gmtlTest
    {
       gmtl::Matrix<float, 3, 3> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix33f>( 90.0f, 45.0f, 35.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeRotEuler33Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeRotEuler34Static()
    {
       gmtl::Matrix<float, 3, 4> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix34f>( 90.0f, 45.0f, 35.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeRotEuler34Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeRotEuler44Static()
    {
       gmtl::Matrix44f mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix44f>( 90.0f, 45.0f, 35.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeRotEuler44Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
    */
 
@@ -1491,14 +1391,11 @@ namespace gmtlTest
       gmtl::Matrix33f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setDirCos( mat, gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( a,1,0 ), gmtl::Vec3f( 0,0,1 ) );
          a += mat.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setDirCos33f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1507,14 +1404,11 @@ namespace gmtlTest
       gmtl::Matrix34f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setDirCos( mat, gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( a,1,0 ), gmtl::Vec3f( 0,0,1 ) );
          a += mat.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setDirCos34f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
    }
 
@@ -1523,14 +1417,11 @@ namespace gmtlTest
       gmtl::Matrix44f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setDirCos( mat, gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( a,1,0 ), gmtl::Vec3f( 0,0,1 ) );
          a += mat.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setDirCos44f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
    }
    /*
@@ -1538,33 +1429,24 @@ namespace gmtlTest
    {
       gmtl::Matrix<float, 3, 3> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix33f>( 90.0f, 45.0f, 35.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeDirCos33Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeDirCos34Static()
    {
       gmtl::Matrix<float, 3, 4> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix34f>( 90.0f, 45.0f, 35.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeDirCos34Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeDirCos44Static()
    {
       gmtl::Matrix44f mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeRot<gmtl::Matrix44f>( 90.0f, 45.0f, 35.0f );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeDirCos44Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
    */
 
@@ -1573,14 +1455,11 @@ namespace gmtlTest
       gmtl::Matrix33f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setAxes( mat, gmtl::Vec3f( 1,a,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
          a += mat.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setAxes33f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
    }
 
@@ -1589,14 +1468,11 @@ namespace gmtlTest
       gmtl::Matrix34f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setAxes( mat, gmtl::Vec3f( 1,a,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
          a += mat.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setAxes34f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
    }
 
@@ -1605,14 +1481,11 @@ namespace gmtlTest
       gmtl::Matrix44f mat;
       float a = 0.0f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setAxes( mat, gmtl::Vec3f( 1,a,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
          a += mat.mData[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/setAxes44f", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
    }
    /*
@@ -1620,33 +1493,24 @@ namespace gmtlTest
    {
       gmtl::Matrix<float, 3, 3> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeAxes<gmtl::Matrix33f>( gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeAxes33Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeAxes34Static()
    {
       gmtl::Matrix<float, 3, 4> mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeAxes<gmtl::Matrix34f>( gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeAxes34Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void MatrixGenMetricTest::testTimingMakeAxes44Static()
    {
       gmtl::Matrix44f mat;
       const long iters(100000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
          mat = gmtl::makeAxes<gmtl::Matrix44f>( gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixGenTest/MakeAxes44Static", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
    */
 

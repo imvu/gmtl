@@ -20,7 +20,6 @@ sources = Split("""
    MatrixCompareTest
    MatrixGenTest
    MatrixOpsTest
-   MatrixStateTrackingTest
    OutputTest
    PlaneTest
    PointTest

@@ -5,7 +5,6 @@
 
 #include "SphereTest.h"
 #include "../Suites.h"
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Sphere.h>
 #include <gmtl/SphereOps.h>
@@ -34,7 +33,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -42,8 +40,6 @@ namespace gmtlTest
          use_value = use_value + test_sph2.mRadius + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/SphereCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -73,7 +69,6 @@ namespace gmtlTest
       test_sph2.mCenter[0] = 2.0f;
       float use_value(0);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -81,8 +76,6 @@ namespace gmtlTest
          use_value += test_sph2_copy.mCenter[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/CopyConstructOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testConstructors()
@@ -100,7 +93,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -109,8 +101,6 @@ namespace gmtlTest
          use_value = use_value + test_sph2.mCenter[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/ConstructorsOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    // -- Test accessors --//
@@ -130,7 +120,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -138,8 +127,6 @@ namespace gmtlTest
          use_value = use_value + center[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/GetCenterOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testGetRadius()
@@ -158,7 +145,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -166,8 +152,6 @@ namespace gmtlTest
          use_value = use_value + radius;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/GetRadiusOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -189,7 +173,6 @@ namespace gmtlTest
       // Test getCenter overhead
       const long iters(400000);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -197,8 +180,6 @@ namespace gmtlTest
          test_sph.setCenter( center );
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/SetCenterOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testSetRadius()
@@ -215,7 +196,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -223,8 +203,6 @@ namespace gmtlTest
          use_value = use_value + test_sph.mRadius;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/SetRadiusOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    // -- Test comparison -- //
@@ -259,7 +237,6 @@ namespace gmtlTest
       unsigned false_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
       test_sph1.mCenter.set( 0.0f, 0.0f, 0.0f );
       test_sph1.mRadius = 2000.0f;
       test_sph2 = test_sph1;
@@ -273,11 +250,8 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/EqualityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // -- Inequality
-      CPPUNIT_METRIC_START_TIMING();
       test_sph1.mCenter.set( 0.0f, 0.0f, 0.0f );
       test_sph1.mRadius = 2000.0f;
       test_sph2 = test_sph1;
@@ -291,8 +265,6 @@ namespace gmtlTest
             false_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/InequalityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
    }
 
@@ -336,7 +308,6 @@ namespace gmtlTest
       unsigned true_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
       test_sph1.mCenter.set(0.0f, 0.0f, 0.0f);
       test_sph1.mRadius = 2000.0f;
       test_sph2 = test_sph1;
@@ -354,8 +325,6 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/isEqualOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    //---------------------------------------------------------------------------
@@ -380,7 +349,6 @@ namespace gmtlTest
       unsigned true_count(0);
       pt.set( 0.0f, 0.0f, 0.0f );
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0;iter<iters; ++iter)
       {
          pt[0] += 0.05f;
@@ -388,8 +356,6 @@ namespace gmtlTest
             true_count++;
          }
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/isInVolumePointOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testIsInVolumeSphere()
@@ -411,7 +377,6 @@ namespace gmtlTest
       unsigned true_count(0);
       sph.mCenter.set( 0.0f, 0.0f, 0.0f );
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0;iter<iters; ++iter)
       {
          sph.mCenter[0] += 0.05f;
@@ -419,8 +384,6 @@ namespace gmtlTest
             true_count++;
          }
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/isInVolumeSphereOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testIsOnVolume()
@@ -463,7 +426,6 @@ namespace gmtlTest
       float eps(0.0f);
       pt.set( 0.0f, 0.0f, 0.0f );
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0; iter<iters; ++iter )
       {
          eps += 0.01f;
@@ -473,8 +435,6 @@ namespace gmtlTest
          if ( gmtl::isOnVolume( test_sph, pt ) )
             ++true_count;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/isOnVolumeOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testExtendVolumePoint()
@@ -508,7 +468,6 @@ namespace gmtlTest
       test_sph1.mRadius = 0.0f;
       pt1.set( 0.0f, 0.0f, 0.0f );
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0; iter<iters; ++iter )
       {
          pt1[0] += 2.0f;
@@ -516,8 +475,6 @@ namespace gmtlTest
          pt1[2] += 2.5f;
          gmtl::extendVolume( test_sph1, pt1 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/extendVolumePointOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testExtendVolumeSphere()
@@ -555,7 +512,6 @@ namespace gmtlTest
       sph.mCenter.set( 0.0f, 0.0f, 0.0f );
       sph.mRadius = 0.0f;
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0; iter<iters; ++iter )
       {
          sph.mCenter[0] += 2.0f;
@@ -564,8 +520,6 @@ namespace gmtlTest
          sph.mRadius += 0.5f;
          gmtl::extendVolume( test_sph1, sph );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/extendVolumeSphereOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void SphereTest::testMakeVolumePoint()
@@ -601,14 +555,11 @@ namespace gmtlTest
          pts.push_back( pt );
       }
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0; iter<iters; ++iter )
       {
          pts[(int)iter % pts.size()][2] += 12.0f;
          gmtl::makeVolume( test_sph, pts );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/makeVolumePointOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 /*
    void SphereTest::testMakeVolumeSphere()
@@ -640,14 +591,11 @@ namespace gmtlTest
          spheres.push_back( gmtl::Sphere<float>(pt, rad) );
       }
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( float iter=0; iter<iters; ++iter )
       {
          spheres[(int)iter % spheres.size()].mCenter[2] += 32.0f;
          gmtl::makeVolume( test_sph, spheres );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("SphereTest/makeVolumeSphereOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 */
    // give the offset of the sphere and ray

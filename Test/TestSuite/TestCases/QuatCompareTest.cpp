@@ -6,7 +6,6 @@
 #include "QuatCompareTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Quat.h>
 #include <gmtl/QuatOps.h>
@@ -154,7 +153,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (src_quat11 == test_quat11)
@@ -171,8 +169,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatCompareTest/operator==", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );
@@ -209,7 +205,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (src_quat11 != test_quat11)
@@ -226,8 +221,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatCompareTest/operator!=", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );
@@ -264,7 +257,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (gmtl::isEqual( src_quat11,  test_quat11, 0.0f ))
@@ -281,8 +273,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatCompareTest/isEqual(...)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );
@@ -295,14 +285,11 @@ namespace gmtlTest
 
       unsigned true_count(0);
       const long iters(200000);
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (gmtl::isEquiv( quat1, quat2, 0.0001f ) )
             ++true_count;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatCompareTest/isEquiv(quat,quat,tol)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );

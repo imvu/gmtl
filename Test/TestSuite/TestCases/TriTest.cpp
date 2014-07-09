@@ -5,7 +5,6 @@
 
 #include "TriTest.h"
 #include "../Suites.h"
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Tri.h>
 #include <gmtl/Vec.h>
@@ -29,7 +28,6 @@ namespace gmtlTest
    {
       // test overhead of creation
       const long iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for ( long iter=0; iter<iters; ++iter )
       {
@@ -37,8 +35,6 @@ namespace gmtlTest
          test_tri2[0][0] = 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/TriCreationOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    void TriTest::testCopyConstruct()
@@ -63,14 +59,11 @@ namespace gmtlTest
       test_tri2[0][0] = 2.0f;
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          gmtl::Tri<float> test_tri2_copy( test_tri2 );
          use_value += test_tri2_copy[0][0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/CopyConstructOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    void TriTest::testConstructors()
@@ -94,7 +87,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          gmtl::Tri<float> test_tri2(
@@ -104,8 +96,6 @@ namespace gmtlTest
          );
          use_value = use_value + test_tri2[0][0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/ConstructorsOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    //---------------------------------------------------------------------------
@@ -133,14 +123,11 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          pt0 = test_tri[0];
          use_value = use_value + pt0[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/operator[]Overhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    void TriTest::testEdges()
@@ -170,14 +157,11 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the compiler (hopefully does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          e0 = test_tri.edge( iter % 3 );
          use_value = use_value + e0[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/edgeOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    //---------------------------------------------------------------------------
@@ -222,7 +206,6 @@ namespace gmtlTest
       const long iters(400000);
       long true_values(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          if ( test_tri1 == test_tri2 )
@@ -234,8 +217,6 @@ namespace gmtlTest
          if ( test_tri1 != test_tri3 )
             ++true_values;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/EqualOpsOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    void TriTest::testIsEqual()
@@ -279,7 +260,6 @@ namespace gmtlTest
       const long iters(400000);
       long true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          test_tri1[0][1] += 0.1f;
@@ -291,8 +271,6 @@ namespace gmtlTest
          if(gmtl::isEqual(test_tri1, test_tri2, 100000.0f) )
             true_count++;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/IsEqualOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    void TriTest::testCenter()
@@ -320,15 +298,12 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          test_tri[1][1] += 2.0f;
          center = gmtl::center(test_tri);
          use_value = use_value + center[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/CenterOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 
    void TriTest::testNormal()
@@ -356,14 +331,11 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);
 
-      CPPUNIT_METRIC_START_TIMING();
       for ( long iter=0; iter<iters; ++iter )
       {
          test_tri[1][1] += 2.0f;
          normal = gmtl::normal(test_tri);
          use_value = use_value + normal[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("TriTest/NormalOverhead", iters, 0.075f, 0.1f); // warn at 7.5%, error at 10%
    }
 }

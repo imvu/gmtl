@@ -6,7 +6,6 @@
 #include "EulerAngleClassTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/EulerAngle.h>
 
@@ -72,15 +71,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of def constructor
          gmtl::EulerAngleXYZf q;
          use_value += q[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/DefaultConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -90,15 +86,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of element constructor
          gmtl::EulerAngleXYZf q2( 10.0f, 11.0f, 12.0f );
          use_value += q2[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/ElementConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -109,15 +102,12 @@ namespace gmtlTest
       float use_value(1);
       gmtl::EulerAngleXYZf q( 67.0f, 68.0f, 69.0f );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of copy constructor
          gmtl::EulerAngleXYZf q3( q );
          use_value += q3[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/CopyConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -126,7 +116,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::EulerAngleXYZf q;
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -134,8 +123,6 @@ namespace gmtlTest
          q.set( 1, 2, 3 );
          use_value += q[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/set()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value >= 0.0f );
    }
@@ -144,7 +131,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::EulerAngleXYZf q;
       float x = 102.0f, y = 103.0f, z = 101.0f;
       for (long iter = 0; iter < iters; ++iter)
@@ -155,8 +141,6 @@ namespace gmtlTest
          q[2] = z;
          use_value = use_value + x + y + z;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/operator[]()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -165,7 +149,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::EulerAngleXYZf q( 1, 2, 3 );
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -173,8 +156,6 @@ namespace gmtlTest
          const float* d = q.getData();
          use_value += d[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/getData()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -183,15 +164,12 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       gmtl::EulerAngleXYZf q4, q2( 0.0f, 2.0f, 1.0f );
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of operator=() function
          q4 = q2;
          q2[0] += q4[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleTest/operator=()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( q4[0] != 3498.0f );
    }

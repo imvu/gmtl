@@ -6,7 +6,6 @@
 #include "EulerAngleCompareTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/EulerAngle.h>
 #include <gmtl/EulerAngleOps.h>
@@ -124,7 +123,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          if (src_quat11 == test_quat11)
@@ -141,8 +139,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleCompareTest/operator==", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );
@@ -179,7 +175,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (src_quat11 != test_quat11)
@@ -196,8 +191,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleCompareTest/operator!=", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );
@@ -234,7 +227,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (gmtl::isEqual( src_quat11,  test_quat11, 0.0f ))
@@ -251,8 +243,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("EulerAngleCompareTest/isEqual(...)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out true_count
       CPPUNIT_ASSERT( true_count > 0 );

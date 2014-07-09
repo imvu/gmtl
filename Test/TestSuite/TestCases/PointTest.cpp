@@ -5,7 +5,6 @@
 
 #include "PointTest.h"
 #include "../Suites.h"
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Point.h>
 #include <gmtl/Vec.h>
@@ -30,7 +29,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -44,8 +42,6 @@ namespace gmtlTest
          use_value += test_point2[0] + test_point3[0] + test_point4[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/pointCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -77,7 +73,6 @@ namespace gmtlTest
       test_point2[0] = 4.0f;
       float use_value(0);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -89,8 +84,6 @@ namespace gmtlTest
          use_value += test_point4_copy[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/CopyConstructOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
 
@@ -122,7 +115,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -135,8 +127,6 @@ namespace gmtlTest
          use_value = use_value + test_point4[3] + test_point3[2] + test_point2[1] + test_point1[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/ConstructorsOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testSet()
@@ -175,7 +165,6 @@ namespace gmtlTest
       const float iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( float iter=0;iter<iters; ++iter)
       {
@@ -187,8 +176,6 @@ namespace gmtlTest
          use_value = use_value + test_point4[3] + test_point3[2] + test_point2[1] + test_point1[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/SetOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -232,7 +219,6 @@ namespace gmtlTest
       const float iters(400000);
       float use_value(0.0f);     // A temp just here to use the objs so the copiler (hopefully) does not opt them out
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( float iter=0;iter<iters; ++iter)
       {
@@ -245,8 +231,6 @@ namespace gmtlTest
          use_value = use_value + test_point4[3] + test_point3[2] + test_point2[1] + test_point1[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/SetPtrOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -316,7 +300,6 @@ namespace gmtlTest
       unsigned false_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
       test_point1.set(0.0f, 0.0f, 0.0f, 2000.0f);
       test_point2.set(0.0f, 0.0f, 0.0f, 1000.0f);
 
@@ -328,11 +311,8 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/EqualityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // -- Inequality
-      CPPUNIT_METRIC_START_TIMING();
       test_point1.set(0.0f, 0.0f, 0.0f, 2000.0f);
       test_point2.set(0.0f, 0.0f, 0.0f, 1000.0f);
 
@@ -344,8 +324,6 @@ namespace gmtlTest
             false_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/InequalityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
    }
 
@@ -384,7 +362,6 @@ namespace gmtlTest
       unsigned true_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
       test_point1.set(0.0f, 0.0f, 0.0f, 2000.0f);
       test_point2.set(0.0f, 0.0f, 0.0f, 1000.0f);
 
@@ -400,8 +377,6 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/isEqualOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
    }
 
@@ -426,7 +401,6 @@ namespace gmtlTest
 
       // -- test op+= performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Point<float,3> test_point3(5.0, 7.0, 9.0);
 
       for( float iter=0;iter<iters; ++iter)
@@ -437,8 +411,6 @@ namespace gmtlTest
 
       test_point2 = test_point1;
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpPlusEqOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpPlus()
@@ -461,7 +433,6 @@ namespace gmtlTest
 
       // -- test op+ performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
       test_point3.set(5.0, 7.0, 9.0);
 
       for( float iter=0;iter<iters; ++iter)
@@ -472,8 +443,6 @@ namespace gmtlTest
 
       test_point2 = test_point1;
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpPlusOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpMinusEq()
@@ -494,7 +463,6 @@ namespace gmtlTest
 
       // -- test op-= performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Point<float,3> test_point3(5.0, 7.0, 9.0);
 
       for( float iter=0;iter<iters; ++iter)
@@ -505,8 +473,6 @@ namespace gmtlTest
 
       test_point2 = test_point1;
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpMinusEqOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpMinus()
@@ -529,7 +495,6 @@ namespace gmtlTest
 
       // -- test op- performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
       test_point3.set(5.0, 7.0, 9.0);
 
       for( float iter=0;iter<iters; ++iter)
@@ -540,8 +505,6 @@ namespace gmtlTest
 
       test_point2 = test_point1;
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpMinusOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpMultScalarEq()
@@ -560,15 +523,12 @@ namespace gmtlTest
 
       // -- test op-= performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( float iter=0;iter<iters; ++iter)
       {
          test_point1 *= 1.05f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpMultScalarEqOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpMultScalar()
@@ -589,7 +549,6 @@ namespace gmtlTest
 
       // -- test op- performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
       test_point3.set(5.0, 7.0, 9.0);
 
       for( float iter=0;iter<iters; ++iter)
@@ -598,8 +557,6 @@ namespace gmtlTest
          test_point3 = test_point1;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpMultScalarOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpDivScalarEq()
@@ -618,15 +575,12 @@ namespace gmtlTest
 
       // -- test op-= performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( float iter=0;iter<iters; ++iter)
       {
          test_point1 /= 0.95f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpDivScalarEqOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PointTest::testOpDivScalar()
@@ -647,7 +601,6 @@ namespace gmtlTest
 
       // -- test op- performance
       const float iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
       test_point3.set(5.0, 7.0, 9.0);
 
       for( float iter=0;iter<iters; ++iter)
@@ -656,7 +609,5 @@ namespace gmtlTest
          test_point3 = test_point1;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PointTest/OpDivScalarOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 }

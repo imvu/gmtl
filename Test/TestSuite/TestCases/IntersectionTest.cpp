@@ -6,7 +6,6 @@
 #include "IntersectionTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Intersection.h>
 
@@ -45,7 +44,6 @@ namespace gmtlTest
       gmtl::AABoxf box2(gmtl::Point3f(0,0,0), gmtl::Point3f(2,2,2));
       const long iters(400000);
       unsigned true_count(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
@@ -56,8 +54,6 @@ namespace gmtlTest
          box2.mMax[0] += 0.01;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("IntersectionTest/IntersectAABoxAABox", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(true_count > 0.0f);
    }
@@ -905,7 +901,6 @@ namespace gmtlTest
       gmtl::Point3f point(gmtl::Point3f(-0.5f,-0.5,-1.01f));
       const long iters(400000);
       unsigned true_count(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
@@ -916,8 +911,6 @@ namespace gmtlTest
          point[0] += 0.01;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("IntersectionTest/IntersectAABoxPoint", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(true_count == 0);
    }
@@ -971,7 +964,6 @@ namespace gmtlTest
 
       const long iters(400000);
       unsigned true_count(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
@@ -982,8 +974,6 @@ namespace gmtlTest
          path1[0] += 0.1f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("IntersectionTest/IntersectAABoxSweep", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(true_count > 0);
    }
@@ -1012,7 +1002,6 @@ namespace gmtlTest
 
       const long iters(400000);
       unsigned true_count(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
@@ -1023,8 +1012,6 @@ namespace gmtlTest
          path1[0] += 0.1f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("IntersectionTest/IntersectSphereSweep", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(true_count > 0);
    }

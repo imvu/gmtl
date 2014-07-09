@@ -6,7 +6,6 @@
 #include "XformTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Generate.h>
 #include <gmtl/Xforms.h>
@@ -30,23 +29,17 @@ namespace gmtlTest
          gmtl::Vec<T, 3> v2;
          v2[0] = (T)1;
          const long iters(25000);
-         CPPUNIT_METRIC_START_TIMING();
          for (long iter = 0; iter < iters; ++iter)
          {
             v2 = q1 * v2;
          }
-         CPPUNIT_METRIC_STOP_TIMING();
-         CPPUNIT_ASSERT_METRIC_TIMING_LE( n.c_str(), iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
          n = "XformTest/xform(vec,quat4,vec3)";
          n += name;
-         CPPUNIT_METRIC_START_TIMING();
          for (long iter = 0; iter < iters; ++iter)
          {
             gmtl::xform( v2, q1, v2 );
          }
-         CPPUNIT_METRIC_STOP_TIMING();
-         CPPUNIT_ASSERT_METRIC_TIMING_LE( n.c_str(), iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
          CPPUNIT_ASSERT( v2[0] != 13.045 );
       }
    };
@@ -78,13 +71,10 @@ namespace gmtlTest
          gmtl::Matrix<T, ROWS, COLS> q1;
          VEC_TYPE<T, VEC_SIZE> v2;
          const long iters(25000);
-         CPPUNIT_METRIC_START_TIMING();
          for (long iter = 0; iter < iters; ++iter)
          {
             v2 = q1 * v2;
          }
-         CPPUNIT_METRIC_STOP_TIMING();
-         CPPUNIT_ASSERT_METRIC_TIMING_LE( n.c_str(), iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
          n = "XformTest/xform(";
          n += vectype;
@@ -97,13 +87,10 @@ namespace gmtlTest
          sprintf( buf, "%d", vecsize ); n += buf;
          n += ")";
          n += typeid( T ).name();
-         CPPUNIT_METRIC_START_TIMING();
          for (long iter = 0; iter < iters; ++iter)
          {
             gmtl::xform( v2, q1, v2 );
          }
-         CPPUNIT_METRIC_STOP_TIMING();
-         CPPUNIT_ASSERT_METRIC_TIMING_LE( n.c_str(), iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
          CPPUNIT_ASSERT( v2[0] != 1.0 );
       }

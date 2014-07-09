@@ -6,7 +6,6 @@
 #include "CoordClassTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Coord.h>
 #include <gmtl/CoordOps.h>
@@ -160,15 +159,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of def constructor
          gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q;
          use_value += q.mPos[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("CoordTest/DefaultConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -180,15 +176,12 @@ namespace gmtlTest
 
       gmtl::Vec3f p( 1, 2, 3 );
       gmtl::EulerAngle<float, gmtl::XYZ> r( 4, 5, 6 );
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of element constructor
          gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q2( p, r );
          use_value += q2.mPos[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("CoordTest/ElementConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -199,15 +192,12 @@ namespace gmtlTest
       float use_value(1);
       gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q;
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of copy constructor
          gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q3( q );
          use_value += q3.mPos[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("CoordTest/CopyConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -217,7 +207,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q;
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -227,8 +216,6 @@ namespace gmtlTest
          q.rot()[0] -= use_value;
          q.pos()[0] -= use_value;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("CoordTest/get()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 8324908723.0f );
    }
@@ -237,15 +224,12 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q4, q2;
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of operator=() function
          q4 = q2;
          q2.pos()[2] += q4.pos()[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("CoordTest/operator=()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( q4.pos()[0] != 3498.0f );
    }
 }

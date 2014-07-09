@@ -6,7 +6,6 @@
 #include "MathTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Math.h>
 #include <iostream>
@@ -74,7 +73,6 @@ namespace gmtlTest
       T use_val(0);
       T val = T(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          val += T(0.5);
@@ -82,9 +80,7 @@ namespace gmtlTest
          use_val += gmtl::Math::zeroClamp( val, T(0.2) );
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
       std::string typeName = std::string("MathTest/ZeroClamp[") + std::string(typeid(T).name()) + std::string("]");
-      CPPUNIT_ASSERT_METRIC_TIMING_LE(typeName, iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize out use_val
       CPPUNIT_ASSERT( use_val > 0 );
@@ -152,16 +148,13 @@ namespace gmtlTest
          float use_val(0);
          float val(0.001f);
 
-        CPPUNIT_METRIC_START_TIMING();
         for (long iter = 0; iter < iters; ++iter)
         {
            val += 0.05f;
            use_val += (1.0f/gmtl::Math::sqrt(val));
         }
 
-        CPPUNIT_METRIC_STOP_TIMING();
         std::string typeName = std::string("MathTest/stdInvSqrt");
-        CPPUNIT_ASSERT_METRIC_TIMING_LE(typeName, iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
         // make sure the compiler doesn't optimize out use_val
         CPPUNIT_ASSERT( use_val > 0 );
@@ -172,16 +165,13 @@ namespace gmtlTest
          float use_val(0);
          float val(0.001f);
 
-        CPPUNIT_METRIC_START_TIMING();
         for (long iter = 0; iter < iters; ++iter)
         {
            val += 0.05f;
            use_val += gmtl::Math::fastInvSqrt(val);
         }
 
-        CPPUNIT_METRIC_STOP_TIMING();
         std::string typeName = std::string("MathTest/fastInvSqrt");
-        CPPUNIT_ASSERT_METRIC_TIMING_LE(typeName, iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
         // make sure the compiler doesn't optimize out use_val
         CPPUNIT_ASSERT( use_val > 0 );
@@ -192,16 +182,13 @@ namespace gmtlTest
          float use_val(0);
          float val(0.001f);
 
-        CPPUNIT_METRIC_START_TIMING();
         for (long iter = 0; iter < iters; ++iter)
         {
            val += 0.05f;
            use_val += gmtl::Math::fastInvSqrt2(val);
         }
 
-        CPPUNIT_METRIC_STOP_TIMING();
         std::string typeName = std::string("MathTest/fastInvSqrt2");
-        CPPUNIT_ASSERT_METRIC_TIMING_LE(typeName, iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
         // make sure the compiler doesn't optimize out use_val
         CPPUNIT_ASSERT( use_val > 0 );
@@ -212,16 +199,13 @@ namespace gmtlTest
          float use_val(0);
          float val(0.001f);
 
-        CPPUNIT_METRIC_START_TIMING();
         for (long iter = 0; iter < iters; ++iter)
         {
            val += 0.05f;
            use_val += gmtl::Math::fastInvSqrt3(val);
         }
 
-        CPPUNIT_METRIC_STOP_TIMING();
         std::string typeName = std::string("MathTest/fastInvSqrt3");
-        CPPUNIT_ASSERT_METRIC_TIMING_LE(typeName, iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
         // make sure the compiler doesn't optimize out use_val
         CPPUNIT_ASSERT( use_val > 0 );

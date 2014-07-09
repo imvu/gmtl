@@ -6,7 +6,6 @@
 #include "AABoxTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/AABox.h>
 #include <gmtl/VecOps.h>
@@ -31,7 +30,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -39,8 +37,6 @@ namespace gmtlTest
          use_value = use_value + box.mMin[0] + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/AABoxCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -68,7 +64,6 @@ namespace gmtlTest
       box2.mMin[0] = 2.0f;
       float use_value(0);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -76,8 +71,6 @@ namespace gmtlTest
          use_value += box2_copy.mMin[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/CopyConstructOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -96,7 +89,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -105,8 +97,6 @@ namespace gmtlTest
          use_value = use_value + box2.mMin[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/ConstructorsOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -128,7 +118,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -136,8 +125,6 @@ namespace gmtlTest
          use_value = use_value - amin[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/GetMinOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -158,7 +145,6 @@ namespace gmtlTest
       const long iters(400000);
       float use_value(0.0f);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -166,8 +152,6 @@ namespace gmtlTest
          use_value = use_value + amax[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/GetMaxOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -188,7 +172,6 @@ namespace gmtlTest
       const long iters(400000);
       long use_value(0);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -199,8 +182,6 @@ namespace gmtlTest
          }
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/IsEmptyOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -222,7 +203,6 @@ namespace gmtlTest
       // Test setMin overhead
       const long iters(400000);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -230,8 +210,6 @@ namespace gmtlTest
          box.setMin( amin );
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/SetMinOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void AABoxTest::testSetMax()
@@ -250,7 +228,6 @@ namespace gmtlTest
       // Test setMax overhead
       const long iters(400000);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -258,8 +235,6 @@ namespace gmtlTest
          box.setMax( amax );
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/SetMaxOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void AABoxTest::testSetEmpty()
@@ -277,7 +252,6 @@ namespace gmtlTest
       const long iters(400000);
       long use_value(0);
 
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -288,8 +262,6 @@ namespace gmtlTest
          }
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxTest/SetEmptyOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }

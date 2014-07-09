@@ -15,7 +15,6 @@
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/TestResult.h>
-#include <cppunit/extensions/MetricRegistry.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 
@@ -30,24 +29,10 @@ int main(int argc, char** argv)
    // Commandline parameter is the test path to use
    std::string test_path = (argc > 1) ? std::string(argv[1]) : "noninteractive";
 
-   // -------- CONFIGURE METRIC REGISTRY ------- //
-   CppUnit::MetricRegistry* metric_reg = CppUnit::MetricRegistry::instance();
-   std::string metric_prefix;    // Prefix for all metric labels (mode/hostname)
 
    std::string host_name = getHostname();
-   metric_prefix = host_name + "/";
-#ifdef _DEBUG
-   metric_prefix += "Debug/";
-#endif
-#ifdef _OPT
-   metric_prefix += "Opt/";
-#endif
 
-   std::cout << " host: " << host_name << " prefix: "  << metric_prefix << std::endl;
-
-   metric_reg->setPrefix(metric_prefix);
-   metric_reg->setFilename("gmtl_metrics.txt");
-   metric_reg->setMetric("Main/MetricTest", 1221.75f);
+   std::cout << " host: " << host_name << std::endl;
 
    // Print out what version of GMTL we're testing.
    std::cout<<std::endl;

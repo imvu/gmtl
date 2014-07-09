@@ -6,7 +6,6 @@
 #include "VecGenTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Vec.h>
 #include <gmtl/VecOps.h>
@@ -162,13 +161,10 @@ namespace gmtlTest
    {
       gmtl::Vec<double, 4> vec4d;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          vec4d = gmtl::makeNormal( vec4d );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "VecGenTest/makeNormal(vec4d)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -179,13 +175,10 @@ namespace gmtlTest
    {
       gmtl::Vec<float, 4> vec4f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          vec4f = gmtl::makeNormal( vec4f );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "VecGenTest/makeNormal(vec4f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -195,13 +188,10 @@ namespace gmtlTest
    {
       gmtl::Vec<double, 3> vec3d;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          vec3d = gmtl::makeNormal( vec3d );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "VecGenTest/makeNormal(vec3d)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
@@ -212,13 +202,10 @@ namespace gmtlTest
    {
       gmtl::Vec<float, 3> vec3f;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          vec3f = gmtl::makeNormal( vec3f );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "VecGenTest/makeNormal(vec3f)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
@@ -231,24 +218,18 @@ namespace gmtlTest
       gmtl::Quat<double> q1;
       gmtl::Vec<double, 3> v1;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for (long iter = 0; iter < iters; ++iter)
       {
          v1 = gmtl::makeVec( q1 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "VecGenTest/makeVec(quatd)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       gmtl::Quat<float> q2;
       gmtl::Vec<float, 3> v2;
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          v2 = gmtl::makeVec( q2 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "VecGenTest/makeVec(quatf)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...

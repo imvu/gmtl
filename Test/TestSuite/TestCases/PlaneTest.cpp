@@ -6,7 +6,6 @@
 #include "PlaneTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/PlaneOps.h>
 
@@ -41,7 +40,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -49,8 +47,6 @@ namespace gmtlTest
          use_value += test_plane2.mOffset + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/DefaultCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -77,7 +73,6 @@ namespace gmtlTest
 
       // Test overhead of creation
       const long iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -85,8 +80,6 @@ namespace gmtlTest
          test_plane.mOffset = 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/ThreePtCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PlaneTest::testNormPtCreation()
@@ -110,7 +103,6 @@ namespace gmtlTest
 
       // Test overhead of creation
       const long iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -118,8 +110,6 @@ namespace gmtlTest
          test_plane2.mOffset = 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/NormPtCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PlaneTest::testNormOffsetCreation()
@@ -130,7 +120,6 @@ namespace gmtlTest
 
       // Test overhead of creation
       const long iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -138,8 +127,6 @@ namespace gmtlTest
          test_plane2.mOffset = 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/NormOffsetCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PlaneTest::testCopyConstruct()
@@ -150,7 +137,6 @@ namespace gmtlTest
 
       // Test overhead of creation
       const long iters(400000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -158,8 +144,6 @@ namespace gmtlTest
          test_plane2.mOffset = 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/CopyConstructOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    // --------------------------
@@ -192,7 +176,6 @@ namespace gmtlTest
       // -- Equality
       test_plane2 = test_plane1;
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0; iter<iters; ++iter )
       {
          test_plane1.mOffset += 1.0f;
@@ -201,15 +184,12 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/EqualityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // -- Inequality
       test_plane1.mNorm = x1_v;
       test_plane1.mOffset = 0.0f;
       test_plane2 = test_plane1;
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0; iter<iters; ++iter )
       {
          test_plane1.mOffset += 1.0f;
@@ -218,8 +198,6 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/InequalityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PlaneTest::testIsEqual()
@@ -252,7 +230,6 @@ namespace gmtlTest
       unsigned true_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
       test_plane2 = test_plane1;
 
       for( long iter=0;iter<iters; ++iter)
@@ -267,8 +244,6 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/isEqualOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    // --------------------------
@@ -296,7 +271,6 @@ namespace gmtlTest
       float use_value(0.0f);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -304,8 +278,6 @@ namespace gmtlTest
          use_value = use_value + gmtl::distance(test_plane, y1_pt);
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/DistanceOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PlaneTest::testWhichSide()
@@ -332,7 +304,6 @@ namespace gmtlTest
       unsigned true_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -340,8 +311,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/WhichSideOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void PlaneTest::testFindReflect()
@@ -387,7 +356,6 @@ namespace gmtlTest
       float use_value(0.0f);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -395,7 +363,5 @@ namespace gmtlTest
          use_value = use_value + dist + answer[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/FindNearestPtOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 }

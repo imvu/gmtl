@@ -6,7 +6,6 @@
 #include "CoordGenTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Generate.h>
 #include <gmtl/MatrixOps.h>
@@ -150,15 +149,12 @@ namespace gmtlTest
       gmtl::Matrix44f mat;
       gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q1;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for (long iter = 0; iter < iters; ++iter)
       {
          q1 = gmtl::make<gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > >( mat );
          mat[3][1] += q1.getPos()[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "CoordGenTest/makeCoord<Matrix33f>(mat,XYZ)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
 
       CPPUNIT_ASSERT( q1.pos()[1] != 10000.0f );
@@ -170,15 +166,12 @@ namespace gmtlTest
       gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q1;
 
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for (long iter = 0; iter < iters; ++iter)
       {
          mat = gmtl::make<gmtl::Matrix44f>( q1 );
          q1.pos()[2] += mat[3][3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "CoordGenTest/make<Matrix44f>(q1,XYZ)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       CPPUNIT_ASSERT( q1.pos()[1] != 10000.0f );
    }
 
@@ -188,15 +181,12 @@ namespace gmtlTest
       gmtl::Matrix44f mat;
       gmtl::Coord<gmtl::Vec<float,3>, gmtl::EulerAngle<float, gmtl::XYZ> > q1;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::set( q1, mat );
          mat[3][3] += q1.getPos()[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE( "CoordGenTest/set(coord,mat)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( q1.pos()[1] != 10000.0f );
    }

@@ -7,7 +7,6 @@
 
 #include "ParametriCurveTest.h"
 #include "../Suites.h"
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/ParametriCurve.h>
 

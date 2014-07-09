@@ -6,7 +6,6 @@
 #include "AxisAngleClassTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 #include <gmtl/AxisAngle.h>
 
 namespace gmtlTest
@@ -79,15 +78,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of def constructor
          gmtl::AxisAnglef q;
          use_value += q.mData[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/DefaultConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -97,15 +93,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of element constructor
          gmtl::AxisAnglef q2( 10.0f, 11.0f, 12.0f, 901 );
          use_value += q2.mData[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/ElementConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -116,15 +109,12 @@ namespace gmtlTest
       float use_value(1);
       gmtl::AxisAnglef q( 67.0f, 68.0f, 69.0f, 901 );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of copy constructor
          gmtl::AxisAnglef q3( q );
          use_value += q3.mData[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/CopyConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -133,7 +123,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::AxisAnglef q;
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -141,8 +130,6 @@ namespace gmtlTest
          q.set( 1, 2, 3, 901 );
          use_value += q[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/set()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value >= 0.0f );
    }
@@ -151,7 +138,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::AxisAnglef q;
       float x = 102.0f, y = 103.0f, z = 101.0f;
       float w = 901;
@@ -164,8 +150,6 @@ namespace gmtlTest
          q[3] = w;
          use_value = use_value + x + y + z + w;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/operator[]()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -174,7 +158,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::AxisAnglef q( 1, 2, 3, 901 );
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -182,8 +165,6 @@ namespace gmtlTest
          const float* d = q.getData();
          use_value += d[1];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/getData()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -192,15 +173,12 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       gmtl::AxisAnglef q4, q2( 0.0f, 2.0f, 1.0f, 901 );
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of operator=() function
          q4 = q2;
          q2[0] += q4[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AxisAngleTest/operator=()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( q4[0] != 3498.0f );
    }

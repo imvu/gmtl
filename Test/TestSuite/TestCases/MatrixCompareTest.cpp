@@ -6,7 +6,6 @@
 #include "MatrixCompareTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Matrix.h>
 #include <gmtl/MatrixOps.h>
@@ -149,7 +148,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (src_mat11 == test_mat11)
@@ -166,8 +164,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixCompareTest/OpEqualityTest", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // make sure compiler uses true_count
       CPPUNIT_ASSERT( true_count > 0 );
    }
@@ -203,7 +199,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (src_mat11 != test_mat11)
@@ -220,8 +215,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixCompareTest/OpNotEqualityTest", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // make sure compiler uses true_count
       CPPUNIT_ASSERT( true_count > 0 );
    }
@@ -257,7 +250,6 @@ namespace gmtlTest
 
       unsigned true_count(0);
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0;iter<iters; ++iter)
       {
          if (gmtl::isEqual( src_mat11,  test_mat11, 0.0f ))
@@ -273,8 +265,6 @@ namespace gmtlTest
          if (gmtl::isEqual( src_mat101, test_mat101, double(111.1) ))
             ++true_count;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("MatrixCompareTest/IsEqualTest", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // make sure compiler uses true_count
       CPPUNIT_ASSERT( true_count > 0 );
    }

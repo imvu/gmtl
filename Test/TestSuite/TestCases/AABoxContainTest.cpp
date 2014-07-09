@@ -6,7 +6,6 @@
 #include "AABoxContainTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Containment.h>
 
@@ -44,16 +43,12 @@ namespace gmtlTest
       gmtl::Point3f origin;
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
          gmtl::isInVolume(box, origin);
          use_value = use_value + box.mMin[0] + 2.0f;
       }
-
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxContainTest/IsInVolumePt", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(use_value > 0.0f);
    }
@@ -87,16 +82,12 @@ namespace gmtlTest
 
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
          gmtl::isInVolume(box, box2);
          use_value = use_value + box.mMin[0] + 2.0f;
       }
-
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxContainTest/IsInVolumeAABox", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(use_value > 0.0f);
    }
@@ -138,16 +129,12 @@ namespace gmtlTest
 
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
          gmtl::extendVolume(box, origin);
          use_value = use_value + box.mMin[0] + 2.0f;
       }
-
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxContainTest/ExtendVolumePt", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(use_value > 0.0f);
    }
@@ -204,16 +191,12 @@ namespace gmtlTest
 
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for(long iter=0;iter<iters; ++iter)
       {
          gmtl::extendVolume(box, box2);
          use_value = use_value + box.mMin[0] + 2.0f;
       }
-
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("AABoxContainTest/ExtendVolumeAABox", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT(use_value > 0.0f);
    }

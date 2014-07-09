@@ -6,7 +6,6 @@
 #include "QuatClassTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Quat.h>
 
@@ -105,15 +104,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of def constructor
          gmtl::Quat<float> q;
          use_value += q.mData[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/DefaultConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -123,15 +119,12 @@ namespace gmtlTest
       const long iters( 400000 );
       float use_value(1);
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of element constructor
          gmtl::Quat<float> q2( 10, 11, 12, 13 );
          use_value += q2.mData[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/ElementConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -142,15 +135,12 @@ namespace gmtlTest
       float use_value(1);
       gmtl::Quat<float> q( 67, 68, 69, 60 );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of copy constructor
          gmtl::Quat<float> q3( q );
          use_value += q3.mData[0];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/CopyConstructor", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value != 0 );
    }
@@ -160,7 +150,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Quat<float> q;
       float x = 102, y = 103, z = 101, w = 100;
       for (long iter = 0; iter < iters; ++iter)
@@ -169,8 +158,6 @@ namespace gmtlTest
          q.get( x, y, z, w );
          use_value = use_value + x + y + z + w;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/get()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -179,7 +166,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Quat<float> q;
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -187,8 +173,6 @@ namespace gmtlTest
          q.set( 1, 2, 3, 4 );
          use_value += q[gmtl::Xelt];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/set()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value >= 0.0f );
    }
@@ -197,7 +181,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Quat<float> q;
       float x = 102, y = 103, z = 101, w = 100;
       for (long iter = 0; iter < iters; ++iter)
@@ -209,8 +192,6 @@ namespace gmtlTest
          q[gmtl::Welt] = w;
          use_value = use_value + x + y + z + w;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/operator[]()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -219,7 +200,6 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
       gmtl::Quat<float> q;
       for (long iter = 0; iter < iters; ++iter)
       {
@@ -227,8 +207,6 @@ namespace gmtlTest
          const float* d = q.getData();
          use_value += d[3];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/getData()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( use_value > 0.0f );
    }
@@ -237,15 +215,12 @@ namespace gmtlTest
    {
       const long iters( 400000 );
       gmtl::Quat<float> q4, q2( 0, 2, 1, 3 );
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          // performance of operator=() function
          q4 = q2;
          q2[0] += q4[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatTest/operator=()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       CPPUNIT_ASSERT( q4[0] != 3498.0f );
    }

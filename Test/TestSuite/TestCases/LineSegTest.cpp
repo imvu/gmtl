@@ -6,7 +6,6 @@
 #include "LineSegTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/LineSegOps.h>
 #include <gmtl/Intersection.h>
@@ -63,7 +62,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -71,8 +69,6 @@ namespace gmtlTest
          use_value += test_lineseg.mDir[0] + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/DefaultCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -100,7 +96,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -108,8 +103,6 @@ namespace gmtlTest
          use_value += test_lineseg2.mDir[0] + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/PtVecCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -132,7 +125,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -140,8 +132,6 @@ namespace gmtlTest
          use_value += test_lineseg2.mDir[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/PtPtCreationOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value != 0 );
@@ -159,7 +149,6 @@ namespace gmtlTest
       // Test overhead of creation
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -167,8 +156,6 @@ namespace gmtlTest
          use_value += test_lineseg2.mDir[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/CopyConstructOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -190,7 +177,6 @@ namespace gmtlTest
       // Test overhead
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -198,8 +184,6 @@ namespace gmtlTest
          use_value += pt[0] + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/GetOriginOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -219,7 +203,6 @@ namespace gmtlTest
       // Test overhead
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -227,8 +210,6 @@ namespace gmtlTest
          use_value += test_lineseg.mOrigin[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/SetOriginOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -250,7 +231,6 @@ namespace gmtlTest
       // Test overhead
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -258,8 +238,6 @@ namespace gmtlTest
          use_value += vec[0] + 1.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/GetDirOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -279,7 +257,6 @@ namespace gmtlTest
       // Test overhead
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -287,8 +264,6 @@ namespace gmtlTest
          use_value += test_lineseg.mDir[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/SetDirOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( use_value > 0 );
@@ -305,15 +280,12 @@ namespace gmtlTest
       gmtl::LineSeg<float> lineseg;
       const long iters(400000);
       float use_value(0);
-      CPPUNIT_METRIC_START_TIMING();
 
       for (long iter=0; iter<iters; ++iter)
       {
          use_value += lineseg.getLength();
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/TimingGetLength", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT(use_value == 0);
@@ -355,7 +327,6 @@ namespace gmtlTest
       // -- Equality
       test_lineseg2 = test_lineseg1;
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0; iter<iters; ++iter )
       {
          if ( test_lineseg1 == test_lineseg2 )
@@ -364,15 +335,12 @@ namespace gmtlTest
          test_lineseg2.mOrigin[0] += 2.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/EqualityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // -- Inequality
       test_lineseg1.mOrigin = x1_pt;
       test_lineseg1.mDir = x1_v;
       test_lineseg2 = test_lineseg1;
 
-      CPPUNIT_METRIC_START_TIMING();
       for( long iter=0; iter<iters; ++iter )
       {
          if ( test_lineseg1 == test_lineseg2 )
@@ -381,8 +349,6 @@ namespace gmtlTest
          test_lineseg2.mOrigin[0] += 2.0f;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/InequalityCompareOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // make sure the compiler doesn't optimize this test out
       CPPUNIT_ASSERT( true_count > 0 );
@@ -424,7 +390,6 @@ namespace gmtlTest
       unsigned true_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
       test_lineseg2 = test_lineseg1;
 
       for( long iter=0;iter<iters; ++iter)
@@ -439,8 +404,6 @@ namespace gmtlTest
             true_count++;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/isEqualOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
 
@@ -639,7 +602,6 @@ namespace gmtlTest
       float use_value(0.0f);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0;iter<iters; ++iter)
       {
@@ -647,8 +609,6 @@ namespace gmtlTest
          use_value = use_value + gmtl::distance(test_plane, y1_pt);
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/DistanceOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 
    void LineSegTest::testWhichSide()
@@ -675,7 +635,6 @@ namespace gmtlTest
       bool true_count(0);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
 
       for( long iter=0; iter<iters; ++iter)
       {
@@ -683,8 +642,6 @@ namespace gmtlTest
             ++true_count;
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("PlaneTest/WhichSideOverhead", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
    }
 */
    void LineSegTest::testFindNearestPt()
@@ -719,7 +676,6 @@ namespace gmtlTest
       float use_value(0.0f);
 
       // -- Equality
-      CPPUNIT_METRIC_START_TIMING();
 
       for ( long iter = 0; iter < iters; ++iter )
       {
@@ -727,9 +683,5 @@ namespace gmtlTest
          use_value = use_value + answer[0];
       }
 
-      CPPUNIT_METRIC_STOP_TIMING();
-      // warn at 7.5%, error at 10%
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("LineSegTest/FindNearestPtOverhead",
-                                      iters, 0.075f, 0.1f);
    }
 }

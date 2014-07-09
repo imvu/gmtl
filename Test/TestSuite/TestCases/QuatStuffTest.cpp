@@ -6,7 +6,6 @@
 #include "QuatStuffTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Quat.h>
 #include <gmtl/QuatOps.h>

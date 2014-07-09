@@ -6,6 +6,10 @@ Import('GetPlatform ApplyCppUnitOptions')
 
 sources = Split("""
    runner.cpp
+   ../../gmtl/Matrix.cpp
+   ../../gmtl/Quat.cpp
+   ../../gmtl/AxisAngle.cpp
+   ../../gmtl/EulerAngle.cpp
 """)
 
 # Add in the sources from the subdirectories

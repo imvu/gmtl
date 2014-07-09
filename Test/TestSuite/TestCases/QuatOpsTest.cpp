@@ -6,7 +6,6 @@
 #include "QuatOpsTest.h"
 #include "../Suites.h"
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/MetricRegistry.h>
 
 #include <gmtl/Quat.h>
 #include <gmtl/QuatOps.h>
@@ -22,14 +21,11 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q4;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::negate( q4 );
          q4[1] += q4[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/negate(quat)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -38,14 +34,11 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q4;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          q4 = -q4;
          q4[1] += q4[2];
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/operator-(quat)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -54,13 +47,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q2, q4;
       const long iters(25000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::mult( q4, q2, q4 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/mult(q1,q2)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -68,13 +58,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q2, q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          q4 = q2 * q4;
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/operator*()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -83,13 +70,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q3, q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::div( q4, q4, q3 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/invert()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -98,23 +82,17 @@ namespace gmtlTest
    {
       gmtl::Quat<float> from, result;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::lerp( result, ((float)iter) / ((float)iters), from, result );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/lerp()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( result[2] != 1234.5f );
 
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::slerp( result, ((float)iter) / ((float)iters), from, result );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/slerp()", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( result[2] != 1234.5f );
    }
@@ -123,13 +101,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q3, q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::mult( q4, q3, q4[2] );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/mult(q,scalar)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -138,13 +113,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q3, q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::add( q4, q4, q3 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/add(r,q1,q2)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -153,13 +125,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q3, q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::sub( q4, q4, q3 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/sub(r,q1,q2)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -168,13 +137,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q1, q2;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          q1[2] += gmtl::dot( q1, q2 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/dot(q1,q2)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q1[2] != 1234.5f );
@@ -184,13 +150,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q1;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          q1[2] += gmtl::lengthSquared( q1 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/lengthSquared(q)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q1[2] != 1234.5f );
@@ -200,13 +163,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q1;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          q1[2] += gmtl::length( q1 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/length(q)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
 
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q1[2] != 1234.5f );
@@ -216,13 +176,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::normalize( q4 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/normalize(q)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -231,13 +188,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::conj( q4 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/conj(q)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }
@@ -246,13 +200,10 @@ namespace gmtlTest
    {
       gmtl::Quat<float> q4;
       const long iters(10000);
-      CPPUNIT_METRIC_START_TIMING();
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::invert( q4 );
       }
-      CPPUNIT_METRIC_STOP_TIMING();
-      CPPUNIT_ASSERT_METRIC_TIMING_LE("QuatOpsTest/invert(q)", iters, 0.075f, 0.1f);  // warn at 7.5%, error at 10%
       // Make sure the compiler doesn't optimize out
       CPPUNIT_ASSERT( q4[2] != 1234.5f );
    }

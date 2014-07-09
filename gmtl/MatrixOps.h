@@ -125,7 +125,9 @@ namespace gmtl
    {
       // We can avoid a memcpy if we check that the result is not aliased with
       // the operands.
-      if (&result != &lhs && &result != &rhs) {
+      // 
+      typedef void* VoidP; // pessimal in the case the types don't match
+      if (VoidP(&result) != VoidP(&lhs) && VoidP(&result) != VoidP(&rhs)) {
          internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(result.getData(), lhs.getData(), rhs.getData());
          return result;
       }
@@ -444,7 +446,6 @@ namespace gmtl
 
          if(gmtl::Math::isEqual(DATA_TYPE(0),pivot_value,pivot_eps))
          {
-            result.setError();
             return result;
          }
 
