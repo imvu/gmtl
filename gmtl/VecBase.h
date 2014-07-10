@@ -114,30 +114,14 @@ public:
     * This is for performance because this constructor is called by derived class constructors
     * Even when they just want to set the data directly
     */
-   VecBase()
-   {
-#ifdef GMTL_COUNT_CONSTRUCT_CALLS
-      gmtl::helpers::VecCtrCounterInstance()->inc();
-#endif
-   }
+   VecBase() = default;
 
    /**
     * Makes an exact copy of the given VecBase object.
     *
     * @param rVec    the VecBase object to copy
     */
-   VecBase(const VecBase<DATA_TYPE, SIZE>& rVec)
-   {
-#ifdef GMTL_COUNT_CONSTRUCT_CALLS
-      gmtl::helpers::VecCtrCounterInstance()->inc();
-#endif
-#ifdef GMTL_NO_METAPROG
-      for(unsigned i=0;i<SIZE;++i)
-         mData[i] = rVec.mData[i];
-#else
-      gmtl::meta::AssignVecUnrolled<SIZE-1, VecBase<DATA_TYPE,SIZE> >::func(*this, rVec);
-#endif
-   }
+   VecBase(const VecBase<DATA_TYPE, SIZE>& rVec) = default;
 
    template<typename U>
    explicit VecBase(const VecBase<U, SIZE>& rVec)
@@ -150,9 +134,6 @@ public:
    template<typename REP2>
    VecBase(const VecBase<DATA_TYPE, SIZE, REP2>& rVec)
    {
-#ifdef GMTL_COUNT_CONSTRUCT_CALLS
-      gmtl::helpers::VecCtrCounterInstance()->inc();
-#endif
       for(unsigned i=0;i<SIZE;++i)
       {  mData[i] = rVec[i]; }
    }
@@ -164,26 +145,16 @@ public:
     */
    VecBase(const DATA_TYPE& val0,const DATA_TYPE& val1)
    {
-#ifdef GMTL_COUNT_CONSTRUCT_CALLS
-      gmtl::helpers::VecCtrCounterInstance()->inc();
-#endif
       GMTL_STATIC_ASSERT( SIZE == 2, Invalid_constructor_of_size_2_used);
       mData[0] = val0; mData[1] = val1;
    }
    VecBase(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2)
    {
-#ifdef GMTL_COUNT_CONSTRUCT_CALLS
-      gmtl::helpers::VecCtrCounterInstance()->inc();
-#endif
       GMTL_STATIC_ASSERT( SIZE == 3, Invalid_constructor_of_size_3_used );
       mData[0] = val0;  mData[1] = val1;  mData[2] = val2;
    }
    VecBase(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2,const DATA_TYPE& val3)
    {
-#ifdef GMTL_COUNT_CONSTRUCT_CALLS
-      gmtl::helpers::VecCtrCounterInstance()->inc();
-#endif
-      // @todo need compile time assert
       GMTL_STATIC_ASSERT( SIZE == 4, Invalid_constructor_of_size_4_used);
       mData[0] = val0;  mData[1] = val1;  mData[2] = val2;  mData[3] = val3;
    }
@@ -197,15 +168,10 @@ public:
     */
    inline void set(const DATA_TYPE* dataPtr)
    {
-#ifdef GMTL_NO_METAPROG
       for ( unsigned int i = 0; i < SIZE; ++i )
       {
          mData[i] = dataPtr[i];
       }
-#else
-      gmtl::meta::AssignArrayUnrolled<SIZE-1, DATA_TYPE>::func(&(mData[0]),
-                                                               dataPtr);
-#endif
    }
 
    //@{
@@ -255,15 +221,8 @@ public:
 
    /** Assign from different rep. */
 #ifdef GMTL_NO_METAPROG
-   inline VecType& operator=(const VecBase<DATA_TYPE,SIZE>& rhs)
-   {
-      for(unsigned i=0;i<SIZE;++i)
-      {
-         mData[i] = rhs[i];
-      }
+   inline VecType& operator=(const VecBase<DATA_TYPE,SIZE>& rhs) = default;
 
-      return *this;
-   }
 #else
    template<typename REP2>
    inline VecType& operator=(const VecBase<DATA_TYPE,SIZE,REP2>& rhs)
@@ -273,22 +232,9 @@ public:
          mData[i] = rhs[i];
       }
 
-      //gmtl::meta::AssignVecUnrolled<SIZE-1, VecBase<DATA_TYPE,SIZE> >::func(*this, rVec);
       return *this;
    }
 #endif
-
-   /*
-    Assign from another of same type.
-   inline VecType& operator=(const VecType&  rhs)
-   {
-      for(unsigned i=0;i<SIZE;++i)
-      {
-         mData[i] = rhs[i];
-      }
-      return *this;
-   }
-*/
 
    //@{
    /**
