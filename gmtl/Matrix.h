@@ -10,6 +10,7 @@
 #include <gmtl/Math.h>
 #include <gmtl/Util/Assert.h>
 #include <gmtl/Util/StaticAssert.h>
+#include <gmtl/VecBase.h>
 
 namespace gmtl
 {
@@ -183,10 +184,8 @@ public:
              DATA_TYPE v10, DATA_TYPE v11 )
    {
       GMTL_STATIC_ASSERT( (ROWS == 2 && COLS == 2), Set_called_when_Matrix_not_of_size_2_2 );
-      mData[0] = v00;
-      mData[1] = v10;
-      mData[2] = v01;
-      mData[3] = v11;
+      columns[0].set( v00, v10 );
+      columns[1].set( v01, v11 );
    }
 
    /** element wise setter for 2x3.
@@ -196,12 +195,12 @@ public:
              DATA_TYPE v10, DATA_TYPE v11, DATA_TYPE v12  )
    {
       GMTL_STATIC_ASSERT( (ROWS == 2 && COLS == 3), Set_called_when_Matrix_not_of_size_2_3 );
-      mData[0] = v00;
-      mData[1] = v10;
-      mData[2] = v01;
-      mData[3] = v11;
-      mData[4] = v02;
-      mData[5] = v12;
+      getData()[0] = v00;
+      getData()[1] = v10;
+      getData()[2] = v01;
+      getData()[3] = v11;
+      getData()[4] = v02;
+      getData()[5] = v12;
    }
 
    /** element wise setter for 3x3.
@@ -212,17 +211,17 @@ public:
              DATA_TYPE v20, DATA_TYPE v21, DATA_TYPE v22)
    {
       GMTL_STATIC_ASSERT( (ROWS == 3 && COLS == 3), Set_called_when_Matrix_not_of_size_3_3 );
-      mData[0] = v00;
-      mData[1] = v10;
-      mData[2] = v20;
+      getData()[0] = v00;
+      getData()[1] = v10;
+      getData()[2] = v20;
 
-      mData[3] = v01;
-      mData[4] = v11;
-      mData[5] = v21;
+      getData()[3] = v01;
+      getData()[4] = v11;
+      getData()[5] = v21;
 
-      mData[6] = v02;
-      mData[7] = v12;
-      mData[8] = v22;
+      getData()[6] = v02;
+      getData()[7] = v12;
+      getData()[8] = v22;
    }
 
    /** element wise setter for 3x4.
@@ -233,20 +232,20 @@ public:
              DATA_TYPE v20, DATA_TYPE v21, DATA_TYPE v22, DATA_TYPE v23)
    {
       GMTL_STATIC_ASSERT( (ROWS == 3 && COLS == 4), Set_called_when_Matrix_not_of_size_3_4 );
-      mData[0] = v00;
-      mData[1] = v10;
-      mData[2] = v20;
-      mData[3] = v01;
-      mData[4] = v11;
-      mData[5] = v21;
-      mData[6] = v02;
-      mData[7] = v12;
-      mData[8] = v22;
+      getData()[0] = v00;
+      getData()[1] = v10;
+      getData()[2] = v20;
+      getData()[3] = v01;
+      getData()[4] = v11;
+      getData()[5] = v21;
+      getData()[6] = v02;
+      getData()[7] = v12;
+      getData()[8] = v22;
 
       // right row
-      mData[9]  = v03;
-      mData[10] = v13;
-      mData[11] = v23;
+      getData()[9]  = v03;
+      getData()[10] = v13;
+      getData()[11] = v23;
    }
 
    /** element wise setter for 4x4.
@@ -258,26 +257,26 @@ public:
              DATA_TYPE v30, DATA_TYPE v31, DATA_TYPE v32, DATA_TYPE v33 )
    {
       GMTL_STATIC_ASSERT( (ROWS == 4 && COLS == 4), Set_called_when_Matrix_not_of_size_4_4 );
-      mData[0]  = v00;
-      mData[1]  = v10;
-      mData[2]  = v20;
-      mData[4]  = v01;
-      mData[5]  = v11;
-      mData[6]  = v21;
-      mData[8]  = v02;
-      mData[9]  = v12;
-      mData[10] = v22;
+      getData()[0]  = v00;
+      getData()[1]  = v10;
+      getData()[2]  = v20;
+      getData()[4]  = v01;
+      getData()[5]  = v11;
+      getData()[6]  = v21;
+      getData()[8]  = v02;
+      getData()[9]  = v12;
+      getData()[10] = v22;
 
       // right row
-      mData[12] = v03;
-      mData[13] = v13;
-      mData[14] = v23;
+      getData()[12] = v03;
+      getData()[13] = v13;
+      getData()[14] = v23;
 
       // bottom row
-      mData[3]  = v30;
-      mData[7]  = v31;
-      mData[11] = v32;
-      mData[15] = v33;
+      getData()[3]  = v30;
+      getData()[7]  = v31;
+      getData()[11] = v32;
+      getData()[15] = v33;
    }
 
    /** comma operator
@@ -307,7 +306,7 @@ public:
    {
       /** @todo mp */
       for (unsigned int x = 0; x < ROWS * COLS; ++x)
-         mData[x] = data[x];
+         getData()[x] = data[x];
    }
 
    /** set the matrix to the transpose of the given data.
@@ -345,14 +344,14 @@ public:
    DATA_TYPE& operator()( const unsigned row, const unsigned column )
    {
       gmtlASSERT( (row < ROWS) && (column < COLS) );
-      return mData[column*ROWS + row];
+      return columns[column][row];
    }
 
    /** access [row, col] in the matrix (const version) */
    const DATA_TYPE&  operator()( const unsigned row, const unsigned column ) const
    {
       gmtlASSERT( (row < ROWS) && (column < COLS) );
-      return mData[column*ROWS + row];
+      return columns[column][row];
    }
 
    /** bracket operator
@@ -368,34 +367,22 @@ public:
       return ConstRowAccessor( this, row );
    }
 
-   /*
-   // bracket operator
-   const DATA_TYPE& operator[]( const unsigned i ) const
-   {
-      gmtlASSERT( i < (ROWS*COLS) );
-      return mData[i];
-   }
-   */
-
    /** Gets a DATA_TYPE pointer to the matrix data.
     * @return Returns a pointer to the head of the matrix data.
     */
    const DATA_TYPE* getData() const
    {
-      return mData;
+      return columns[0].mData;
    }
 
    // Unsafe data accessor. See set(), operator[]() for direct access caveats.
    DATA_TYPE* getData()
    {
-      return mData;
+      return columns[0].mData;
    }
 
 public:
-   /** Column major.  In other words {Column1, Column2, Column3, Column4} in memory
-    * access element mData[column][row]
-    */
-   DATA_TYPE mData[COLS*ROWS];
+   VecBase<DATA_TYPE, ROWS> columns[COLS];
 };
 
 typedef Matrix<float, 2, 2> Matrix22f;

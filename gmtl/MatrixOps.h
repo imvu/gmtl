@@ -58,7 +58,7 @@ namespace gmtl
    {
       for (unsigned int x = 0; x < ROWS * COLS; ++x)
       {
-         result.mData[x] = static_cast<DATA_TYPE>(0);
+         result.getData()[x] = static_cast<DATA_TYPE>(0);
       }
       return result;
    }
@@ -232,7 +232,7 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS>& mult( Matrix<DATA_TYPE, ROWS, COLS>& result, const Matrix<DATA_TYPE, ROWS, COLS>& mat, const DATA_TYPE& scalar )
    {
       for (unsigned i = 0; i < ROWS * COLS; ++i)
-         result.mData[i] = mat.mData[i] * scalar;
+         result.getData()[i] = mat.getData()[i] * scalar;
       return result;
    }
 
@@ -244,7 +244,7 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS>& mult( Matrix<DATA_TYPE, ROWS, COLS>& result, DATA_TYPE scalar )
    {
       for (unsigned i = 0; i < ROWS * COLS; ++i)
-         result.mData[i] *= scalar;
+         result.getData()[i] *= scalar;
       return result;
    }
 
@@ -528,7 +528,7 @@ namespace gmtl
       */
 
       const DATA_TYPE* a = src.getData();
-      DATA_TYPE* b = result.mData;
+      DATA_TYPE* b = result.getData();
 
       int   n(SIZE);
       int    i, j, k;
@@ -705,7 +705,7 @@ namespace gmtl
    {
       for (unsigned int i = 0; i < ROWS * COLS; ++i)
       {
-         if (lhs.mData[i] != rhs.mData[i])
+         if (lhs.getData()[i] != rhs.getData()[i])
          {
             return false;
          }
@@ -751,7 +751,7 @@ namespace gmtl
 
       for (unsigned int i = 0; i < ROWS*COLS; ++i)
       {
-         if (!Math::isEqual( lhs.mData[i], rhs.mData[i], eps ))
+         if (!Math::isEqual( lhs.getData()[i], rhs.getData()[i], eps ))
             return false;
       }
       return true;

@@ -636,25 +636,25 @@ namespace gmtl
                                                    T left, T top, T right,
                                                    T bottom, T nr, T fr )
    {
-      result.mData[0] = ( T( 2.0 ) * nr ) / ( right - left );
-      result.mData[1] = T( 0.0 );
-      result.mData[2] = T( 0.0 );
-      result.mData[3] = T( 0.0 );
+      result.getData()[0] = ( T( 2.0 ) * nr ) / ( right - left );
+      result.getData()[1] = T( 0.0 );
+      result.getData()[2] = T( 0.0 );
+      result.getData()[3] = T( 0.0 );
 
-      result.mData[4] = T( 0.0 );
-      result.mData[5] = ( T( 2.0 ) * nr ) / ( top - bottom );
-      result.mData[6] = T( 0.0 );
-      result.mData[7] = T( 0.0 );
+      result.getData()[4] = T( 0.0 );
+      result.getData()[5] = ( T( 2.0 ) * nr ) / ( top - bottom );
+      result.getData()[6] = T( 0.0 );
+      result.getData()[7] = T( 0.0 );
 
-      result.mData[8] = ( right + left ) / ( right - left );
-      result.mData[9] = ( top + bottom ) / ( top - bottom );
-      result.mData[10] = -( fr + nr ) / ( fr - nr );
-      result.mData[11] = T( -1.0 );
+      result.getData()[8] = ( right + left ) / ( right - left );
+      result.getData()[9] = ( top + bottom ) / ( top - bottom );
+      result.getData()[10] = -( fr + nr ) / ( fr - nr );
+      result.getData()[11] = T( -1.0 );
 
-      result.mData[12] = T( 0.0 );
-      result.mData[13] = T( 0.0 );
-      result.mData[14] = -( T( 2.0 ) * fr * nr ) / ( fr - nr );
-      result.mData[15] = T( 0.0 );
+      result.getData()[12] = T( 0.0 );
+      result.getData()[13] = T( 0.0 );
+      result.getData()[14] = -( T( 2.0 ) * fr * nr ) / ( fr - nr );
+      result.getData()[15] = T( 0.0 );
 
       return result;
    }
@@ -670,22 +670,22 @@ namespace gmtl
                                           T left, T top, T right,
                                           T bottom, T nr, T fr )
    {
-      result.mData[1] = result.mData[2] = result.mData[3] =
-      result.mData[4] = result.mData[6] = result.mData[7] =
-      result.mData[8] = result.mData[9] = result.mData[11] = T(0);
+      result.getData()[1] = result.getData()[2] = result.getData()[3] =
+      result.getData()[4] = result.getData()[6] = result.getData()[7] =
+      result.getData()[8] = result.getData()[9] = result.getData()[11] = T(0);
 
       T rl_inv = T(1) / (right - left);
       T tb_inv = T(1) / (top - bottom);
       T nf_inv = T(1) / (fr - nr);
 
-      result.mData[0] =  T(2) * rl_inv;
-      result.mData[5] =  T(2) * tb_inv;
-      result.mData[10] = -T(2) * nf_inv;
+      result.getData()[0] =  T(2) * rl_inv;
+      result.getData()[5] =  T(2) * tb_inv;
+      result.getData()[10] = -T(2) * nf_inv;
 
-      result.mData[12] = -(right + left) * rl_inv;
-      result.mData[13] = -(top + bottom) * tb_inv;
-      result.mData[14] = -(fr + nr) * nf_inv;
-      result.mData[15] = T(1);
+      result.getData()[12] = -(right + left) * rl_inv;
+      result.getData()[13] = -(top + bottom) * tb_inv;
+      result.getData()[14] = -(fr + nr) * nf_inv;
+      result.getData()[15] = T(1);
 
       return result;
    }
@@ -752,7 +752,7 @@ namespace gmtl
     * looking towards @c center, with the specified @c up orientation.
     * Results are undefined if (center-eye) == 0 or (center-eye) is
     * coincident with +/-up. @c result can be used to transform point
-    * data from world to OpenGL eye coordinates. @c result.mData can
+    * data from world to OpenGL eye coordinates. @c result.getData() can
     * be passed to an OpenGL GLSL shader as uniform mat4 data.
     *
     * @pre (center-eye) has non-zero length
