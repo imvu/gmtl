@@ -44,9 +44,15 @@ namespace gmtl
       // check preconditions...
 #ifndef NDEBUG
       static DATA_TYPE threshold = static_cast<DATA_TYPE>(0.0001);
+      static int s_errCount = 0;
+      static int s_maxErrChecks = 30;
       DATA_TYPE rotLen = length(rot);
       if (gmtl::Math::abs(rotLen - static_cast<DATA_TYPE>(1.0)) > threshold) {
-          printf("gmtl/Xforms.h::xform : quaternion is not normalized. length=%10.8f, threshold=%10.8f\n", rotLen, threshold);
+          if ((s_errCount %10)==0 && (s_errCount<=s_maxErrChecks)) {
+              printf("gmtl/Xforms.h::xform : quaternion is not normalized. length=%10.8f, threshold=%10.8f (errs=%2d) %s\n",
+                rotLen, threshold, s_errCount, (s_errCount>=s_maxErrChecks)? "(further reports disabled...)":"");
+          }
+          s_errCount++;
       }
       //   TBD: remove printf and re-enable gmtlAssert
       //gmtlASSERT(Math::isEqual(length(rot), static_cast<DATA_TYPE>(1.0), threshold) &&
