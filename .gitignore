@@ -1,3 +1,8 @@
 # vim, emacs backup/temporary files
 *~
 *.swp
+.sconsign.dblite
+*.o
+options.cache.linux-x86_64
+*.pyc
+gmtl-0.7.0.tar.gz
