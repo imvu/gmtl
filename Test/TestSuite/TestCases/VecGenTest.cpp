@@ -63,7 +63,7 @@ namespace gmtlTest
          gmtl::Matrix<T, ROWS, COLS> mat;
          for (unsigned int i=0; i<(ROWS*COLS); ++i)
          {
-            mat.mData[i] = T(i);
+            mat.getData()[i] = T(i);
          }
 
          // Get each row and test it
@@ -113,7 +113,7 @@ namespace gmtlTest
          gmtl::Matrix<T, ROWS, COLS> mat;
          for (unsigned i=0; i<(unsigned)(ROWS*COLS); ++i)
          {
-            mat.mData[i] = T(i);
+            mat.getData()[i] = T(i);
          }
 
          // Get each column and test it

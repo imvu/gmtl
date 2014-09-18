@@ -30,6 +30,7 @@ namespace gmtlTest
       CPPUNIT_TEST(testQuatNegate);
       CPPUNIT_TEST(testQuatInvert);
       CPPUNIT_TEST(testQuatSlerp);
+      CPPUNIT_TEST(testQuatSlerpOverVerySmallAngles);
       CPPUNIT_TEST(testQuatLerp);
 
       CPPUNIT_TEST_SUITE_END();
@@ -48,6 +49,7 @@ namespace gmtlTest
       void testQuatNegate();
       void testQuatInvert();
       void testQuatSlerp();
+      void testQuatSlerpOverVerySmallAngles();
       void testQuatLerp();
    };
 

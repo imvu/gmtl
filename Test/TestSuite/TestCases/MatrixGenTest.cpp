@@ -152,7 +152,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat33, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat33.mData[x] = a;
+            mat33.getData()[x] = a;
          expected_result33.set( 0, 1, 0,
                                 1, 0, 0,
                                 0, 0, -1  );
@@ -163,7 +163,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat44, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat44.mData[x] = a;
+            mat44.getData()[x] = a;
          expected_result44.set( 0, 1, 0, a,
                                 1, 0, 0, a,
                                 0, 0, -1, a,
@@ -218,7 +218,7 @@ namespace gmtlTest
       {
          gmtl::Matrix<float, 2, 3> mat23, expected_result23;
          for (int x = 0; x < 6; ++x)
-            mat23.mData[x] = a;
+            mat23.getData()[x] = a;
          expected_result23.set( 32, a, a,
                                 a, 33, a );
          gmtl::setScale( mat23, gmtl::Vec2f( 32, 33 ) );
@@ -233,7 +233,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat33, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat33.mData[x] = a;
+            mat33.getData()[x] = a;
          expected_result33.set( 32, a, a,
                                 a, 33, a,
                                 a, a, a );
@@ -249,7 +249,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat34, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat34.mData[x] = a;
+            mat34.getData()[x] = a;
          expected_result34.set( 32, a, a, a,
                                 a, 33, a, a,
                                 a, a, 34, a );
@@ -265,7 +265,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat44, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat44.mData[x] = a;
+            mat44.getData()[x] = a;
          expected_result44.set( 32, a, a, a,
                                 a, 33, a, a,
                                 a, a, 34, a,
@@ -285,7 +285,7 @@ namespace gmtlTest
       {
          gmtl::Matrix<float, 2, 3> mat23, expected_result23;
          for (int x = 0; x < 6; ++x)
-            mat23.mData[x] = a;
+            mat23.getData()[x] = a;
          expected_result23.set( 32, a, a,
                                 a, 32, a );
          gmtl::setScale( mat23, 32.0f );
@@ -300,7 +300,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat33, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat33.mData[x] = a;
+            mat33.getData()[x] = a;
          expected_result33.set( 32, a, a,
                                 a, 32, a,
                                 a, a, a );
@@ -316,7 +316,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat34, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat34.mData[x] = a;
+            mat34.getData()[x] = a;
          expected_result34.set( 32, a, a, a,
                                 a, 32, a, a,
                                 a, a, 32, a );
@@ -332,7 +332,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat44, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat44.mData[x] = a;
+            mat44.getData()[x] = a;
          expected_result44.set( 32, a, a, a,
                                 a, 32, a, a,
                                 a, a, 32, a,
@@ -364,7 +364,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 1, 0, 0,
                                 0, 0, -1,
                                 0, 1, 0 );
@@ -385,7 +385,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 1, 0, 0,
                                 0, 1, 0,
                                 0, 0, 1 );
@@ -407,7 +407,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( 1, 0, 0, a,
                                 0, 0, 1, a,
                                 0, -1, 0, a );
@@ -419,7 +419,7 @@ namespace gmtlTest
          // make sure that the other version works the same...
          gmtl::Matrix34f mat2;
          for (int x = 0; x < 12; ++x)
-            mat2.mData[x] = a;
+            mat2.getData()[x] = a;
          gmtl::setRot( mat2, gmtl::makeNormal( gmtl::AxisAnglef( gmtl::Math::deg2Rad( -90.0f ), 1.0f, 0.0f, 0.0f ) ) );
          CPPUNIT_ASSERT( gmtl::isEqual( mat2, mat, eps ) );
 
@@ -433,7 +433,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( 0.804738f, 0.310617f, -0.505879f, a,
                                 -0.505879f, 0.804738f, -0.310617f, a,
                                 0.310617f, 0.505879f, 0.804738f, a  );
@@ -445,7 +445,7 @@ namespace gmtlTest
          // make sure that the other version works the same...
          gmtl::Matrix34f mat2;
          for (int x = 0; x < 12; ++x)
-            mat2.mData[x] = a;
+            mat2.getData()[x] = a;
          gmtl::setRot( mat2, gmtl::makeNormal( gmtl::AxisAnglef( gmtl::Math::deg2Rad( 45.0f ), 0.7f, -0.7f, -0.7f ) ) );
          CPPUNIT_ASSERT( gmtl::isEqual( mat2, mat, eps ) );
 
@@ -460,7 +460,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result44.set( 0.804738f, -0.310617f, 0.505879f, a,
                                 0.505879f, 0.804738f, -0.310617f, a,
                                 -0.310617f, 0.505879f, 0.804738f, a,
@@ -473,7 +473,7 @@ namespace gmtlTest
          // make sure that the other version works the same...
          gmtl::Matrix44f mat2;
          for (int x = 0; x < 16; ++x)
-            mat2.mData[x] = a;
+            mat2.getData()[x] = a;
          gmtl::setRot( mat2, gmtl::makeNormal( gmtl::AxisAnglef( gmtl::Math::deg2Rad( 45.0f ), 1.7f, 1.7f, 1.7f ) ) );
          CPPUNIT_ASSERT( gmtl::isEqual( mat2, mat, eps ) );
 
@@ -621,7 +621,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0.683013f, -0.183013f, 0.707107f,
                                 0.683013f, -0.183013f, -0.707107f,
                                 0.258819f, 0.965926f, 0.0f );
@@ -634,7 +634,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 1, 0,  0,
                                 0, 0, -1,
                                 0, 1,  0  );
@@ -649,7 +649,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0, 0, 1,
                                 0, 1, 0,
                                 -1, 0, 0  );
@@ -662,7 +662,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0, -1, 0,
                                 1, 0, 0,
                                 0, 0, 1  );
@@ -676,7 +676,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( 0.683013f, 0.183013f, -0.707107f, a,
                                -0.0413633f, -0.956855f, -0.287606f, a,
                                -0.729234f, 0.225687f, -0.645974f, a   );
@@ -691,7 +691,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( 0, 0, 1, a,
                                 0, 1, 0, a,
                                 -1, 0, 0, a );
@@ -713,7 +713,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result44.set( 0.697193f, 0.0121696f, 0.71678f, a,
                                -0.275553f, -0.918494f, 0.283617f, a,
                                 0.66181f, -0.395247f, -0.637014f, a,
@@ -732,7 +732,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0.0f, -0.965926f, 0.258819f,
                                 0.707107f, 0.183013f, 0.683013f,
                                 -0.707107f, 0.183013f, 0.683013f );
@@ -753,7 +753,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0, -1, 0,
                                 1, 0, 0,
                                 0, 0, 1  );
@@ -768,7 +768,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0, 0, 1,
                                 0, 1, 0,
                                 -1, 0, 0  );
@@ -783,7 +783,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 1, 0, 0,
                                 0, 0, -1,
                                 0, 1, 0  );
@@ -794,7 +794,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( -0.645974f, -0.560068f, 0.518692f, a,
                                  0.287606f, -0.807979f, -0.514249f, a,
                                  0.707107f, -0.183013f, 0.683013f, a  );
@@ -804,7 +804,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( 0, 0, 1, a,
                                 0, 1, 0, a,
                                 -1, 0, 0, a );
@@ -815,7 +815,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result44.set( -0.637014f, 0.418103f, -0.647613f, a,
                                 -0.283617f, -0.908318f, -0.30744f, a,
                                 -0.71678f, -0.0121696f, 0.697193f, a,
@@ -829,7 +829,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( -0.183013f, -0.707107f, 0.683013f,
                                  0.965926f, 0.0f,       0.258819f,
                                 -0.183013f, 0.707107f,  0.683013f );
@@ -841,7 +841,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 0, -1, 0,
                                 1, 0, 0,
                                 0, 0, 1  );
@@ -853,7 +853,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set( 1, 0,  0,
                                 0, 0, -1,
                                 0, 1,  0  );
@@ -865,7 +865,7 @@ namespace gmtlTest
       {
          gmtl::Matrix33f mat, expected_result33;
          for (int x = 0; x < 9; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result33.set(  0, 0, 1,
                                  0, 1, 0,
                                 -1, 0, 0  );
@@ -878,7 +878,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( -0.956855f, -0.287606f, -0.0413633f, a,
                                  0.225687f, -0.645974f, -0.729234f,  a,
                                  0.183013f, -0.707107f,  0.683013f,  a  );
@@ -890,7 +890,7 @@ namespace gmtlTest
       {
          gmtl::Matrix34f mat, expected_result34;
          for (int x = 0; x < 12; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result34.set( 1, 0,  0, a,
                                 0, 0, -1, a,
                                 0, 1,  0, a );
@@ -903,7 +903,7 @@ namespace gmtlTest
       {
          gmtl::Matrix44f mat, expected_result44;
          for (int x = 0; x < 16; ++x)
-            mat.mData[x] = a;
+            mat.getData()[x] = a;
          expected_result44.set( -0.918494f, 0.283617f, -0.275553f, a,
                                 -0.395247f, -0.637014f, 0.66181f, a,
                                  0.0121696f, 0.71678f, 0.697193f, a,
@@ -1057,42 +1057,42 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec2f( a, 2 ) );
-         a += mat33.mData[3];
+         a += mat33.getData()[3];
       }
-      CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat33.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec3f( 1, a, 1.0f ) ); // homogeneous
-         a += mat33.mData[3];
+         a += mat33.getData()[3];
       }
-      CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat33.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       // 3D translation
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat34, gmtl::Vec3f( a, 32, 121 ) );
-         a += mat34.mData[3];
+         a += mat34.getData()[3];
       }
-      CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat34.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec3f( 30, a, 121 ) );
-         a += mat44.mData[3];
+         a += mat44.getData()[3];
       }
-      CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat44.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec4f( 30, 32, a, 1.0f ) ); // homogeneous
-         a += mat44.mData[3];
+         a += mat44.getData()[3];
       }
-      CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat44.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
    /*
    void MatrixGenMetricTest::testTimingMakeTransStatic()
@@ -1125,58 +1125,58 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat33, gmtl::Vec2f( a, 2 ) );
-         a += mat33.mData[3];
+         a += mat33.getData()[3];
       }
-      CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat33.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat34, gmtl::Vec3f( 30, 32, a ) );
-         a += mat34.mData[3];
+         a += mat34.getData()[3];
       }
-      CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat34.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat43, gmtl::Vec3f( 30, 32, a ) );
-         a += mat43.mData[3];
+         a += mat43.getData()[3];
       }
-      CPPUNIT_ASSERT( mat43.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat43.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat44, gmtl::Vec3f( 30, 32, a ) );
-         a += mat44.mData[3];
+         a += mat44.getData()[3];
       }
-      CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat44.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat33, a );
-         a += mat33.mData[3];
+         a += mat33.getData()[3];
       }
-      CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat33.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat34, a );
-         a += mat34.mData[3];
+         a += mat34.getData()[3];
       }
-      CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat34.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat43, a );
-         a += mat43.mData[3];
+         a += mat43.getData()[3];
       }
-      CPPUNIT_ASSERT( mat43.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat43.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setScale( mat44, a );
-         a += mat44.mData[3];
+         a += mat44.getData()[3];
       }
-      CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat44.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    /*
@@ -1211,10 +1211,10 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::AxisAnglef( gmtl::Math::deg2Rad( a ), 1.0f, 0.0f, 0.0f ) );
-         a += mat.mData[3];
+         a += mat.getData()[3];
       }
 
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    void MatrixGenMetricTest::testTimingsetRot34()
@@ -1225,9 +1225,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::AxisAnglef( gmtl::Math::deg2Rad( a ), 1.0f, 0.0f, 0.0f ) );
-         a += mat.mData[3];
+         a += mat.getData()[3];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    void MatrixGenMetricTest::testTimingsetRot44()
@@ -1238,9 +1238,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::AxisAnglef( gmtl::Math::deg2Rad( a ), 1.0f, 0.0f, 0.0f ) );
-         a += mat.mData[3];
+         a += mat.getData()[3];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    /*
@@ -1288,23 +1288,23 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZXYf( a, 45.0f, 35.0f ) );
-         a -= mat.mData[4];
+         a -= mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZYXf( a, 45.0f, 35.0f ) );
-         a += mat.mData[4];
+         a += mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleXYZf( a, 45.0f, 35.0f ) );
-         a -= mat.mData[4];
+         a -= mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    void MatrixGenMetricTest::testTimingsetRotEuler34()
@@ -1315,23 +1315,23 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZXYf( a, 45.0f, 35.0f ) );
-         a -= mat.mData[4];
+         a -= mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZYXf( a, 45.0f, 35.0f ) );
-         a += mat.mData[4];
+         a += mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleXYZf( a, 45.0f, 35.0f ) );
-         a -= mat.mData[4];
+         a -= mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    void MatrixGenMetricTest::testTimingsetRotEuler44()
@@ -1342,23 +1342,23 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZXYf( a, 45.0f, 35.0f ) );
-         a -= mat.mData[4];
+         a -= mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleZYXf( a, 45.0f, 35.0f ) );
-         a += mat.mData[4];
+         a += mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setRot( mat, gmtl::EulerAngleXYZf( a, 45.0f, 35.0f ) );
-         a -= mat.mData[4];
+         a -= mat.getData()[4];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
    /*
    void MatrixGenMetricTest::testTimingMakeRotEuler33Static()
@@ -1394,9 +1394,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setDirCos( mat, gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( a,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-         a += mat.mData[1];
+         a += mat.getData()[1];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    void MatrixGenMetricTest::testTimingsetDirCos34()
@@ -1407,9 +1407,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setDirCos( mat, gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( a,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-         a += mat.mData[1];
+         a += mat.getData()[1];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
    void MatrixGenMetricTest::testTimingsetDirCos44()
@@ -1420,9 +1420,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setDirCos( mat, gmtl::Vec3f( 1,0,0 ), gmtl::Vec3f( a,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-         a += mat.mData[1];
+         a += mat.getData()[1];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f );
    }
    /*
    void MatrixGenMetricTest::testTimingMakeDirCos33Static()
@@ -1458,9 +1458,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setAxes( mat, gmtl::Vec3f( 1,a,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-         a += mat.mData[1];
+         a += mat.getData()[1];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f );
    }
 
    void MatrixGenMetricTest::testTimingsetAxes34()
@@ -1471,9 +1471,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setAxes( mat, gmtl::Vec3f( 1,a,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-         a += mat.mData[1];
+         a += mat.getData()[1];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f );
    }
 
    void MatrixGenMetricTest::testTimingsetAxes44()
@@ -1484,9 +1484,9 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setAxes( mat, gmtl::Vec3f( 1,a,0 ), gmtl::Vec3f( 0,1,0 ), gmtl::Vec3f( 0,0,1 ) );
-         a += mat.mData[1];
+         a += mat.getData()[1];
       }
-      CPPUNIT_ASSERT( mat.mData[3] != 1234.0456f && a != 987654.321f );
+      CPPUNIT_ASSERT( mat.getData()[3] != 1234.0456f && a != 987654.321f );
    }
    /*
    void MatrixGenMetricTest::testTimingMakeAxes33Static()

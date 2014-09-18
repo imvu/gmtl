@@ -35,8 +35,8 @@ namespace gmtlTest
       gmtl::Vec<float,3>  vecb_5(0,1,2);    // Construct with values
       gmtl::Vec<float,3>  vecb_6(0,1,2);    // Construct with values
 
-      vecb_2.mData[0] = 10;                  // Access data directly
-      vecb_2.mData[1] = 12;
+      vecb_2.getData()[0] = 10;                  // Access data directly
+      vecb_2.getData()[1] = 12;
 
       CPPUNIT_ASSERT(vecb_2[1] == 12.0f);
 

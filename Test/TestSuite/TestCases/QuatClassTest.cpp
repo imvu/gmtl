@@ -108,7 +108,7 @@ namespace gmtlTest
       {
          // performance of def constructor
          gmtl::Quat<float> q;
-         use_value += q.mData[0];
+         use_value += q.getData()[0];
       }
 
       CPPUNIT_ASSERT( use_value != 0 );
@@ -123,7 +123,7 @@ namespace gmtlTest
       {
          // performance of element constructor
          gmtl::Quat<float> q2( 10, 11, 12, 13 );
-         use_value += q2.mData[0];
+         use_value += q2.getData()[0];
       }
 
       CPPUNIT_ASSERT( use_value != 0 );
@@ -139,7 +139,7 @@ namespace gmtlTest
       {
          // performance of copy constructor
          gmtl::Quat<float> q3( q );
-         use_value += q3.mData[0];
+         use_value += q3.getData()[0];
       }
 
       CPPUNIT_ASSERT( use_value != 0 );

@@ -538,26 +538,33 @@ namespace gmtl
 
       // Calculate coefficients
       DATA_TYPE sclp, sclq;
-      if ((static_cast<DATA_TYPE>(1.0) - cosom) > static_cast<DATA_TYPE>(0.0001)) // 0.0001 -> some epsillo)n
-      {
-         // Standard case (slerp)
+      if (cosom > static_cast<DATA_TYPE>(0.9999995)) { // angle < 0.057 degrees, which is pretty close to the resolution of float
+         // from and to are almost identical -- no need to interpolate
+         result = from;
+      } else if (cosom > static_cast<DATA_TYPE>(0.99)) { // angle < 8.1 degrees
+         // from and to are very close -- use lerp and normalize afterwards (maybe 50 flops, counting sqrt as 30)
+         sclp = static_cast<DATA_TYPE>(1.0) - t;
+         sclq = t;
+
+         result[Xelt] = sclp * p[Xelt] + sclq * q[Xelt];
+         result[Yelt] = sclp * p[Yelt] + sclq * q[Yelt];
+         result[Zelt] = sclp * p[Zelt] + sclq * q[Zelt];
+         result[Welt] = sclp * p[Welt] + sclq * q[Welt];
+
+         normalize(result);
+      } else {
+         // slerp for larger angles (maybe 125 flops, counting sin, cos, aCos as 30)
          DATA_TYPE omega, sinom;
          omega = Math::aCos(cosom); // extract theta from dot product's cos theta
          sinom = Math::sin(omega );
          sclp  = Math::sin((static_cast<DATA_TYPE>(1.0) - t) * omega ) / sinom;
          sclq  = Math::sin(t * omega ) / sinom;
-      }
-      else
-      {
-         // Very close, do linear interp (because it's faster)
-         sclp = static_cast<DATA_TYPE>(1.0) - t;
-         sclq = t;
-      }
 
-      result[Xelt] = sclp * p[Xelt] + sclq * q[Xelt];
-      result[Yelt] = sclp * p[Yelt] + sclq * q[Yelt];
-      result[Zelt] = sclp * p[Zelt] + sclq * q[Zelt];
-      result[Welt] = sclp * p[Welt] + sclq * q[Welt];
+         result[Xelt] = sclp * p[Xelt] + sclq * q[Xelt];
+         result[Yelt] = sclp * p[Yelt] + sclq * q[Yelt];
+         result[Zelt] = sclp * p[Zelt] + sclq * q[Zelt];
+         result[Welt] = sclp * p[Welt] + sclq * q[Welt];
+      }
       return result;
    }
 

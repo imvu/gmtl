@@ -122,42 +122,42 @@ namespace gmtlTest
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec2f( a, 2 ) );
-         a += mat33.mData[3];
+         a += mat33.getData()[3];
       }
-      CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat33.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat33, gmtl::Vec3f( 1, a, 1.0f ) ); // homogeneous
-         a += mat33.mData[3];
+         a += mat33.getData()[3];
       }
-      CPPUNIT_ASSERT( mat33.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat33.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       // 3D translation
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat34, gmtl::Vec3f( a, 32, 121 ) );
-         a += mat34.mData[3];
+         a += mat34.getData()[3];
       }
-      CPPUNIT_ASSERT( mat34.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat34.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec3f( 30, a, 121 ) );
-         a += mat44.mData[3];
+         a += mat44.getData()[3];
       }
-      CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat44.getData()[3] != 1234.0456f && a != 987654.321f  );
 
 
       for (long iter = 0; iter < iters; ++iter)
       {
          gmtl::setTrans( mat44, gmtl::Vec4f( 30, 32, a, 1.0f ) ); // homogeneous
-         a += mat44.mData[3];
+         a += mat44.getData()[3];
       }
-      CPPUNIT_ASSERT( mat44.mData[3] != 1234.0456f && a != 987654.321f  );
+      CPPUNIT_ASSERT( mat44.getData()[3] != 1234.0456f && a != 987654.321f  );
    }
 
 
@@ -173,13 +173,13 @@ namespace gmtlTest
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::transpose( test_mat1 );
-         test_mat1.mData[2] += test_mat1.mData[3];
-         test_mat1.mData[3] -= test_mat1.mData[1];
+         test_mat1.getData()[2] += test_mat1.getData()[3];
+         test_mat1.getData()[3] -= test_mat1.getData()[1];
       }
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat1.mData[0] );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat1.getData()[0] );
    }
 
 
@@ -194,13 +194,13 @@ namespace gmtlTest
       for( long iter=0;iter<iters; ++iter)
       {
          gmtl::transpose( test_mat2 );
-         test_mat2.mData[2] += test_mat2.mData[3];
-         test_mat2.mData[3] -= test_mat2.mData[1];
+         test_mat2.getData()[2] += test_mat2.getData()[3];
+         test_mat2.getData()[3] -= test_mat2.getData()[1];
       }
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat2.mData[2] != test_mat2.mData[0] );
+      CPPUNIT_ASSERT( test_mat2.getData()[2] != test_mat2.getData()[0] );
    }
 
    void MatrixOpsMetricTest::testMatrixTimeMult44_mult()
@@ -220,8 +220,8 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat2.mData[0] );
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat2.getData()[0] );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
    void MatrixOpsMetricTest::testMatrixTimeMult44_operatorStar()
@@ -242,8 +242,8 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat2.mData[0] );
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat2.getData()[0] );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
    void MatrixOpsMetricTest::testMatrixTimeMult44f_operatorStarStar()
@@ -264,8 +264,8 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat2.mData[0] );
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat2.getData()[0] );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
    void MatrixOpsMetricTest::testMatrixTimeMult44d_operatorStarStar()
@@ -286,8 +286,8 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat2.mData[0] );
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat2.getData()[0] );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
    void MatrixOpsMetricTest::testMatrixTimeMult33f_operatorStarStar()
@@ -307,8 +307,8 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat2.mData[0] );
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat2.getData()[0] );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
    void MatrixOpsMetricTest::testMatrixTimeMult33d_operatorStarStar()
@@ -328,8 +328,8 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( test_mat1.mData[2] != test_mat2.mData[0] );
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( test_mat1.getData()[2] != test_mat2.getData()[0] );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
 
@@ -352,7 +352,7 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
 
@@ -375,7 +375,7 @@ namespace gmtlTest
 
       // force intelligent compilers to do all the iterations (ie. to not optimize them out),
       // by using the variables computed...
-      CPPUNIT_ASSERT( res_mat.mData[2] != 1000.0f );
+      CPPUNIT_ASSERT( res_mat.getData()[2] != 1000.0f );
    }
 
 

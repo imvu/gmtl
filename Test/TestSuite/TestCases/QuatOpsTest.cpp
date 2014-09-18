@@ -504,6 +504,34 @@ namespace gmtlTest
       /// @todo, test interpolated values...
    }
 
+   void QuatOpsTest::testQuatSlerpOverVerySmallAngles()
+   {
+      const float eps = 0.0000001f;
+      gmtl::Quat<float> res;
+
+      gmtl::Quat<float> q1from( 0.0f, 0.0f, 0.0f, 1.0f), q1to(0.0f, 0.0f, 0.01342f, 0.99991f );
+      gmtl::Quat<float> expected_result1( 0.0f, 0.0f, .0067102f, 0.9999775f );
+      gmtl::normalize( q1from ); // make sure they are valid rotation quaternions
+      gmtl::normalize( q1to );
+      gmtl::normalize( expected_result1 );
+
+      gmtl::slerp( res, 0.5f, q1from, q1to );
+
+      printf( "result (%f, %f, %f, %f), expected (%f, %f, %f, %f)\n", res[0], res[1], res[2], res[3], expected_result1[0], expected_result1[1], expected_result1[2], expected_result1[3] );
+
+      CPPUNIT_ASSERT( gmtl::isEqual( expected_result1, res, eps));
+
+      gmtl::Quat<float> q2from( 0.0f, 0.0f, 0.0f, 1.0f), q2to(0.0f, 0.0f, 0.0f, 1.0f ), q2toToo(0.0f, 0.0f, 0.0f, 1.0f);
+      gmtl::Quat<float> expected_result2( 0.0f, 0.0f, 0.0f, 1.0f );
+      gmtl::normalize( q2from ); // make sure they are valid rotation quaternions
+      gmtl::normalize( q2to );
+      gmtl::normalize( expected_result2 );
+
+      gmtl::slerp( res, 0.5f, q2from, q2to );
+
+      CPPUNIT_ASSERT( gmtl::isEqual( expected_result2, res, eps));
+   }
+
    void QuatOpsTest::testQuatSlerp()
    {
       const float eps = 0.0001f;
