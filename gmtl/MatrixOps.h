@@ -96,7 +96,7 @@ namespace gmtl
       };
 
       template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
-      GMTL_ALWAYS_INLINE inline void unsafeMult(
+      void unsafeMult(
          DATA_TYPE* GMTL_RESTRICT result,
          const DATA_TYPE* GMTL_RESTRICT lhs,
          const DATA_TYPE* GMTL_RESTRICT rhs
@@ -146,8 +146,11 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS> operator*( const Matrix<DATA_TYPE, ROWS, INTERNAL>& lhs,
                                                    const Matrix<DATA_TYPE, INTERNAL, COLS>& rhs )
    {
+      // We know the temporary won't alias either the lhr or rhs,
+      // so call directly through.
       Matrix<DATA_TYPE, ROWS, COLS> temporary;
-      return mult( temporary, lhs, rhs );
+      internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(temporary.getData(), lhs.getData(), rhs.getData());
+      return temporary;
    }
 
    /** matrix subtraction (algebraic operation for matrix).
