@@ -109,6 +109,7 @@ public:
    public:
       typedef DATA_TYPE DataType;
 
+      GMTL_ALWAYS_INLINE
       RowAccessor(Matrix<DATA_TYPE,ROWS,COLS>* mat, const unsigned row)
          : mMat(mat), mRow(row)
       {
@@ -116,6 +117,7 @@ public:
          gmtlASSERT(NULL != mat);
       }
 
+      GMTL_ALWAYS_INLINE
       DATA_TYPE& operator[](const unsigned column)
       {
          gmtlASSERT(column < COLS);
@@ -135,6 +137,7 @@ public:
    public:
       typedef DATA_TYPE DataType;
 
+      GMTL_ALWAYS_INLINE
       ConstRowAccessor( const Matrix<DATA_TYPE,ROWS,COLS>* mat,
                         const unsigned row )
          : mMat( mat ), mRow( row )
@@ -143,6 +146,7 @@ public:
          gmtlASSERT( NULL != mat );
       }
 
+      GMTL_ALWAYS_INLINE
       const DATA_TYPE& operator[](const unsigned column) const
       {
          gmtlASSERT(column < COLS);
@@ -341,6 +345,7 @@ public:
 
    /** access [row, col] in the matrix
     */
+   GMTL_ALWAYS_INLINE
    DATA_TYPE& operator()( const unsigned row, const unsigned column )
    {
       gmtlASSERT( (row < ROWS) && (column < COLS) );
@@ -348,6 +353,7 @@ public:
    }
 
    /** access [row, col] in the matrix (const version) */
+   GMTL_ALWAYS_INLINE
    const DATA_TYPE&  operator()( const unsigned row, const unsigned column ) const
    {
       gmtlASSERT( (row < ROWS) && (column < COLS) );
@@ -356,12 +362,14 @@ public:
 
    /** bracket operator
     */
+   GMTL_ALWAYS_INLINE
    RowAccessor operator[]( const unsigned row )
    {
       return RowAccessor(this, row);
    }
 
    /** bracket operator (const version) */
+   GMTL_ALWAYS_INLINE
    ConstRowAccessor operator[]( const unsigned row ) const
    {
       return ConstRowAccessor( this, row );
