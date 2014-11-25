@@ -15,6 +15,12 @@
 namespace gmtl
 {
 
+   // Helper to let us define constructors that don't initialize.
+   enum Initialization
+   {
+      Uninitialized
+   };
+
 /**
  * NxM dimensional Matrix (ordered in memory by Column)
  *
@@ -172,6 +178,13 @@ public:
       {
          this->operator()(x, x) = static_cast<DATA_TYPE>(1.0);
       }
+   }
+
+   /** constructor that lets us have an uninitialized matrix */
+   Matrix( Initialization init )
+   {
+      gmtlASSERT(init == Uninitialized);
+      // Don't need to do anything!
    }
 
    /** copy constructor */

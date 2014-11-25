@@ -100,7 +100,7 @@ namespace gmtl
          const DATA_TYPE* GMTL_RESTRICT lhs,
          const DATA_TYPE* GMTL_RESTRICT rhs
       ) {
-         Matrix<DATA_TYPE, ROWS, COLS> result;
+         Matrix<DATA_TYPE, ROWS, COLS> result(Uninitialized);
          for (unsigned int j = 0; j < COLS; ++j) {
             for (unsigned int i = 0; i < ROWS; ++i) {
                // We unroll the entry summing "loop" with templates.  The simplest
