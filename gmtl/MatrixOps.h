@@ -96,20 +96,21 @@ namespace gmtl
       };
 
       template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
-      void unsafeMult(
-         DATA_TYPE* GMTL_RESTRICT result,
+      Matrix<DATA_TYPE, ROWS, COLS> unsafeMult(
          const DATA_TYPE* GMTL_RESTRICT lhs,
          const DATA_TYPE* GMTL_RESTRICT rhs
       ) {
+         Matrix<DATA_TYPE, ROWS, COLS> result;
          for (unsigned int j = 0; j < COLS; ++j) {
             for (unsigned int i = 0; i < ROWS; ++i) {
                // We unroll the entry summing "loop" with templates.  The simplest
                // thing would be to sum with a for loop, but for some reason, the
                // template approach allows clang to lift more invariant values to
                // the column loop.
-               result[j * ROWS + i] = UnsafeMultHelper<INTERNAL - 1, DATA_TYPE, ROWS, INTERNAL, COLS>()(lhs, rhs, i, j);
+               result.getData()[j * ROWS + i] = UnsafeMultHelper<INTERNAL - 1, DATA_TYPE, ROWS, INTERNAL, COLS>()(lhs, rhs, i, j);
             }
          }
+         return result;
       }
    }
 
@@ -119,22 +120,11 @@ namespace gmtl
     *  @post: result = lhs * rhs  (where rhs is applied first)
     */
    template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
-   inline Matrix<DATA_TYPE, ROWS, COLS>& mult( Matrix<DATA_TYPE, ROWS, COLS>& result,
+   inline Matrix<DATA_TYPE, ROWS, COLS> mult(
                  const Matrix<DATA_TYPE, ROWS, INTERNAL>& lhs,
                  const Matrix<DATA_TYPE, INTERNAL, COLS>& rhs )
    {
-      // We can avoid a memcpy if we check that the result is not aliased with
-      // the operands.
-      // 
-      typedef void* VoidP; // pessimal in the case the types don't match
-      if (VoidP(&result) != VoidP(&lhs) && VoidP(&result) != VoidP(&rhs)) {
-         internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(result.getData(), lhs.getData(), rhs.getData());
-         return result;
-      }
-
-      Matrix<DATA_TYPE, ROWS, COLS> temp;
-      internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(temp.getData(), lhs.getData(), rhs.getData());
-      return result = temp;
+      return internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(lhs.getData(), rhs.getData());
    }
 
    /** matrix * matrix.
@@ -146,11 +136,7 @@ namespace gmtl
    inline Matrix<DATA_TYPE, ROWS, COLS> operator*( const Matrix<DATA_TYPE, ROWS, INTERNAL>& lhs,
                                                    const Matrix<DATA_TYPE, INTERNAL, COLS>& rhs )
    {
-      // We know the temporary won't alias either the lhr or rhs,
-      // so call directly through.
-      Matrix<DATA_TYPE, ROWS, COLS> temporary;
-      internal::unsafeMult<DATA_TYPE, ROWS, INTERNAL, COLS>(temporary.getData(), lhs.getData(), rhs.getData());
-      return temporary;
+      return mult(lhs, rhs);
    }
 
    /** matrix subtraction (algebraic operation for matrix).
@@ -198,10 +184,10 @@ namespace gmtl
     * @POST: result' = result * operand
     */
    template <typename DATA_TYPE, unsigned SIZE>
-   inline Matrix<DATA_TYPE, SIZE, SIZE>& postMult( Matrix<DATA_TYPE, SIZE, SIZE>& result,
-                                                     const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
+   inline Matrix<DATA_TYPE, SIZE, SIZE> postMult( const Matrix<DATA_TYPE, SIZE, SIZE>& result,
+                                                   const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
    {
-      return mult( result, result, operand );
+      return mult( result, operand );
    }
 
    /** matrix preMultiply.
@@ -209,10 +195,10 @@ namespace gmtl
     * @POST: result' = operand * result
     */
    template <typename DATA_TYPE, unsigned SIZE>
-   inline Matrix<DATA_TYPE, SIZE, SIZE>& preMult( Matrix<DATA_TYPE, SIZE, SIZE>& result,
+   inline Matrix<DATA_TYPE, SIZE, SIZE> preMult( const Matrix<DATA_TYPE, SIZE, SIZE>& result,
                                                   const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
    {
-      return mult( result, operand, result );
+      return mult( operand, result );
    }
 
    /** matrix postmult (operator*=).
@@ -221,7 +207,7 @@ namespace gmtl
     * @POST: result' = result * operand  (where operand is applied first)
     */
    template <typename DATA_TYPE, unsigned SIZE>
-   inline Matrix<DATA_TYPE, SIZE, SIZE>& operator*=( Matrix<DATA_TYPE, SIZE, SIZE>& result,
+   inline Matrix<DATA_TYPE, SIZE, SIZE>& operator*=( const Matrix<DATA_TYPE, SIZE, SIZE>& result,
                                                      const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
    {
       return postMult( result, operand );
