@@ -77,10 +77,16 @@ namespace gmtl
    // haven't needed it yet.
    #define GMTL_ALWAYS_INLINE
    #define GMTL_RESTRICT __restrict
+   #if _MSC_VER >= 1700
+     #define GMTL_WARN_UNUSED_RESULT _Check_return_
+   #else
+     #define GMTL_WARN_UNUSED_RESULT
+   #endif
 #else
    // others (clang and g++)
    #define GMTL_ALWAYS_INLINE __attribute__((always_inline))
    #define GMTL_RESTRICT __restrict__
+   #define GMTL_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
 #endif
 
 

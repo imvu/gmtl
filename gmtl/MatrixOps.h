@@ -96,6 +96,7 @@ namespace gmtl
       };
 
       template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
+      GMTL_WARN_UNUSED_RESULT
       Matrix<DATA_TYPE, ROWS, COLS> unsafeMult(
          const DATA_TYPE* GMTL_RESTRICT lhs,
          const DATA_TYPE* GMTL_RESTRICT rhs
@@ -120,6 +121,7 @@ namespace gmtl
     *  @post: result = lhs * rhs  (where rhs is applied first)
     */
    template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
+   GMTL_WARN_UNUSED_RESULT
    inline Matrix<DATA_TYPE, ROWS, COLS> mult(
                  const Matrix<DATA_TYPE, ROWS, INTERNAL>& lhs,
                  const Matrix<DATA_TYPE, INTERNAL, COLS>& rhs )
@@ -133,6 +135,7 @@ namespace gmtl
     *  returns a temporary, is slower.
     */
    template <typename DATA_TYPE, unsigned ROWS, unsigned INTERNAL, unsigned COLS>
+   GMTL_WARN_UNUSED_RESULT
    inline Matrix<DATA_TYPE, ROWS, COLS> operator*( const Matrix<DATA_TYPE, ROWS, INTERNAL>& lhs,
                                                    const Matrix<DATA_TYPE, INTERNAL, COLS>& rhs )
    {
@@ -184,8 +187,9 @@ namespace gmtl
     * @POST: result' = result * operand
     */
    template <typename DATA_TYPE, unsigned SIZE>
+   GMTL_WARN_UNUSED_RESULT
    inline Matrix<DATA_TYPE, SIZE, SIZE> postMult( const Matrix<DATA_TYPE, SIZE, SIZE>& result,
-                                                   const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
+                                                  const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
    {
       return mult( result, operand );
    }
@@ -195,8 +199,9 @@ namespace gmtl
     * @POST: result' = operand * result
     */
    template <typename DATA_TYPE, unsigned SIZE>
+   GMTL_WARN_UNUSED_RESULT
    inline Matrix<DATA_TYPE, SIZE, SIZE> preMult( const Matrix<DATA_TYPE, SIZE, SIZE>& result,
-                                                  const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
+                                                 const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
    {
       return mult( operand, result );
    }
@@ -207,6 +212,7 @@ namespace gmtl
     * @POST: result' = result * operand  (where operand is applied first)
     */
    template <typename DATA_TYPE, unsigned SIZE>
+   GMTL_WARN_UNUSED_RESULT
    inline Matrix<DATA_TYPE, SIZE, SIZE>& operator*=( const Matrix<DATA_TYPE, SIZE, SIZE>& result,
                                                      const Matrix<DATA_TYPE, SIZE, SIZE>& operand )
    {
