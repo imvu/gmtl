@@ -45,8 +45,8 @@ public:
    ~ParametricCurve();
    ParametricCurve& operator=(const ParametricCurve& other);
 
-   void setWeights(DATA_TYPE weights[ORDER]);
-   void setControlPoints(Vec<DATA_TYPE, SIZE> control_points[ORDER]);
+   void setWeights(DATA_TYPE weights[]);
+   void setControlPoints(Vec<DATA_TYPE, SIZE> control_points[]);
    void setBasisMatrix(const Matrix<DATA_TYPE, ORDER, ORDER>& basis_matrix);
    Vec<DATA_TYPE, SIZE> getInterpolatedValue(DATA_TYPE value) const;
    Vec<DATA_TYPE, SIZE> getInterpolatedDerivative(DATA_TYPE value) const;
@@ -95,7 +95,7 @@ ORDER>::operator=(const ParametricCurve<DATA_TYPE, SIZE, ORDER>& other)
 
 template<typename DATA_TYPE, unsigned SIZE, unsigned ORDER>
 void ParametricCurve<DATA_TYPE, SIZE, ORDER>::
-setWeights(const DATA_TYPE weights[ORDER])
+setWeights(DATA_TYPE weights[])
 {
    for (unsigned int i = 0; i < ORDER; ++i)
    {
@@ -105,7 +105,7 @@ setWeights(const DATA_TYPE weights[ORDER])
 
 template<typename DATA_TYPE, unsigned SIZE, unsigned ORDER>
 void ParametricCurve<DATA_TYPE, SIZE, ORDER>::
-setControlPoints(const Vec<DATA_TYPE, SIZE>& control_points[ORDER])
+setControlPoints(Vec<DATA_TYPE, SIZE> control_points[])
 {
    for (unsigned int i = 0; i < ORDER; ++i)
    {
@@ -226,7 +226,7 @@ template <typename DATA_TYPE, unsigned int SIZE>
 LinearCurve<DATA_TYPE, SIZE>&
 LinearCurve<DATA_TYPE, SIZE>::operator=(const LinearCurve& other)
 {
-   ParametricCurve::operator =(other);
+   ParametricCurve<DATA_TYPE, SIZE, 2>::operator =(other);
 
    return *this;
 }
@@ -234,7 +234,7 @@ LinearCurve<DATA_TYPE, SIZE>::operator=(const LinearCurve& other)
 template <typename DATA_TYPE, unsigned int SIZE>
 void LinearCurve<DATA_TYPE, SIZE>::makeLerp()
 {
-   mBasisMatrix.set(
+   ParametricCurve<DATA_TYPE, SIZE, 2>::mBasisMatrix.set(
       -1.0, 1.0,
       1.0, 0.0
    );
@@ -278,7 +278,7 @@ template<typename DATA_TYPE, unsigned SIZE>
 QuadraticCurve<DATA_TYPE, SIZE>&
 QuadraticCurve<DATA_TYPE, SIZE>::operator=(const QuadraticCurve& other)
 {
-   ParametricCurve::operator =(other);
+   ParametricCurve<DATA_TYPE, SIZE, 3>::operator =(other);
 
    return *this;
 }
@@ -286,7 +286,7 @@ QuadraticCurve<DATA_TYPE, SIZE>::operator=(const QuadraticCurve& other)
 template<typename DATA_TYPE, unsigned SIZE>
 void QuadraticCurve<DATA_TYPE, SIZE>::makeBezier()
 {
-   mBasisMatrix.set(
+   ParametricCurve<DATA_TYPE, SIZE, 3>::mBasisMatrix.set(
       1.0, -2.0, 1.0,
       -2.0, 2.0, 0.0,
       1.0, 0.0, 0.0
@@ -334,7 +334,7 @@ template<typename DATA_TYPE, unsigned SIZE>
 CubicCurve<DATA_TYPE, SIZE>&
 CubicCurve<DATA_TYPE, SIZE>::operator=(const CubicCurve& other)
 {
-   ParametricCurve::operator =(other);
+   ParametricCurve<DATA_TYPE, SIZE, 4>::operator =(other);
 
    return *this;
 }
@@ -342,7 +342,7 @@ CubicCurve<DATA_TYPE, SIZE>::operator=(const CubicCurve& other)
 template<typename DATA_TYPE, unsigned SIZE>
 void CubicCurve<DATA_TYPE, SIZE>::makeBezier()
 {
-   mBasisMatrix.set(
+   ParametricCurve<DATA_TYPE, SIZE, 4>::mBasisMatrix.set(
       -1.0, 3.0, -3.0, 1.0,
       3.0, -6.0, 3.0, 0.0,
       -3.0, 3.0, 0.0, 0.0,
@@ -353,7 +353,7 @@ void CubicCurve<DATA_TYPE, SIZE>::makeBezier()
 template<typename DATA_TYPE, unsigned SIZE>
 void CubicCurve<DATA_TYPE, SIZE>::makeCatmullRom()
 {
-   mBasisMatrix.set(
+   ParametricCurve<DATA_TYPE, SIZE, 4>::mBasisMatrix.set(
       -0.5, 1.5, -1.5, 0.5,
       1.0, -2.5, 2.0, -0.5,
       -0.5, 0.0, 0.5, 0.0,
@@ -364,7 +364,7 @@ void CubicCurve<DATA_TYPE, SIZE>::makeCatmullRom()
 template<typename DATA_TYPE, unsigned SIZE>
 void CubicCurve<DATA_TYPE, SIZE>::makeHermite()
 {
-   mBasisMatrix.set(
+   ParametricCurve<DATA_TYPE, SIZE, 4>::mBasisMatrix.set(
       2.0, -2.0, 1.0, 1.0,
       -3.0, 3.0, -2.0, -1.0,
       0.0, 0.0, 1.0, 0.0,
@@ -375,7 +375,7 @@ void CubicCurve<DATA_TYPE, SIZE>::makeHermite()
 template<typename DATA_TYPE, unsigned SIZE>
 void CubicCurve<DATA_TYPE, SIZE>::makeBspline()
 {
-   mBasisMatrix.set(
+   ParametricCurve<DATA_TYPE, SIZE, 4>::mBasisMatrix.set(
       -1.0 / 6.0, 0.5, -0.5, 1.0 / 6.0,
       0.5, -1.0, 0.5, 0.0,
       -0.5, 0.0, 0.5, 0.0,
