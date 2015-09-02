@@ -116,6 +116,12 @@ public:
    DATA_TYPE& operator[]( const int x )
    {
       gmtlASSERT( x >= 0 && x < 4 && "out of bounds error" );
+      return mData[static_cast<unsigned int>(x)];
+   }
+
+   DATA_TYPE& operator[]( const unsigned int x )
+   {
+      gmtlASSERT( x < 4 && "out of bounds error" );
       return mData[x];
    }
 
@@ -133,6 +139,12 @@ public:
    const DATA_TYPE& operator[]( const int x ) const
    {
       gmtlASSERT( x >= 0 && x < 4 && "out of bounds error" );
+      return mData[static_cast<unsigned int>(x)];
+   }
+
+   const DATA_TYPE& operator[]( const unsigned int x ) const
+   {
+      gmtlASSERT( x < 4 && "out of bounds error" );
       return mData[x];
    }
 

@@ -357,8 +357,8 @@ namespace gmtl
 
       // The rotational part of the matrix is simply the transpose of the
       // original matrix.
-      for (int x = 0; x < 3; ++x)
-      for (int y = 0; y < 3; ++y)
+      for (unsigned x = 0; x < 3; ++x)
+      for (unsigned y = 0; y < 3; ++y)
       {
          result[x][y] = src[y][x];
       }
