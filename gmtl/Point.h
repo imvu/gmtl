@@ -129,7 +129,9 @@ typedef Point<double,3> Point3d;
 typedef Point<int, 4> Point4i;
 typedef Point<float,4> Point4f;
 typedef Point<double,4> Point4d;
-
+typedef Point<unsigned int, 2> Point2u;
+typedef Point<unsigned int, 3> Point3u;
+typedef Point<unsigned int, 4> Point4u;
 
 }
 
