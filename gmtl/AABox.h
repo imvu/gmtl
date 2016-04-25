@@ -142,6 +142,8 @@ namespace gmtl
    // --- helper types --- //
    typedef AABox<float>    AABoxf;
    typedef AABox<double>   AABoxd;
+   typedef AABox<int>      AABoxi;
+   typedef AABox<unsigned int> AABoxu;
 }
 
 #endif
