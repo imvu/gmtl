@@ -6,8 +6,8 @@
 #ifndef _GMTL_MATH_H_
 #define _GMTL_MATH_H_
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <gmtl/Defines.h>
 #include <gmtl/Util/Assert.h>
 #include <gmtl/Util/StaticAssert.h>
@@ -49,52 +49,21 @@ namespace Math
     *  @name C Math Abstraction
     *  @{
     */
-//----------------------------------------------------------------------------
-template <typename T>
-inline T abs( T iValue )
-{
-    return static_cast<T>( iValue >= static_cast<T>(0) ? iValue : -iValue );
-}
+using std::abs;
+using std::ceil;
+using std::floor;
+using std::acos;
+using std::asin;
+using std::atan;
+using std::atan2;
+using std::cos;
+using std::exp;
+using std::log;
+using std::pow;
+using std::sin;
+using std::tan;
+using std::sqrt;
 
-inline float abs(float iValue)
-{  return fabsf(iValue); }
-inline double abs(double iValue)
-{  return fabs(iValue); }
-inline int abs(int iValue)
-{  return ::abs(iValue); }
-inline long abs(long iValue)
-{  return labs(iValue); }
-
-//----------------------------------------------------------------------------
-template <typename T>
-inline T ceil( T fValue );
-inline float ceil( float fValue )
-{
-#ifdef NO_CEILF
-   return float(::ceil(fValue));
-#else
-   return float( ::ceilf( fValue ) );
-#endif
-}
-inline double ceil( double fValue )
-{
-    return double( ::ceil( fValue ) );
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T floor( T fValue ); // why do a floor of int?  shouldn't compile...
-inline float floor( float fValue )
-{
-#ifdef NO_FLOORF
-   return float(::floor(fValue));
-#else
-   return float( ::floorf( fValue ) );
-#endif
-}
-inline double floor( double fValue )
-{
-    return double( ::floor( fValue ) );
-}
 //----------------------------------------------------------------------------
 template <typename T>
 inline int sign( T iValue )
@@ -142,11 +111,7 @@ inline float aCos( float fValue )
     {
         if ( fValue < 1.0f )
         {
-#ifdef NO_ACOSF
-            return static_cast<float>(::acos(fValue));
-#else
-            return static_cast<float>(::acosf(fValue));
-#endif
+            return ::acosf(fValue);
         }
         else
             return 0.0f;
@@ -179,11 +144,7 @@ inline float aSin( float fValue )
     {
         if ( fValue < 1.0f )
         {
-#ifdef NO_ASINF
-            return static_cast<float>(::asin(fValue));
-#else
-            return static_cast<float>(::asinf(fValue));
-#endif
+            return ::asinf(fValue);
         }
         else
             return static_cast<float>(-gmtl::Math::PI_OVER_2);
@@ -209,141 +170,21 @@ inline double aSin( double fValue )
 }
 //----------------------------------------------------------------------------
 template <typename T>
-inline T aTan( T fValue );
-inline double aTan( double fValue )
+inline T aTan(T fValue)
 {
-    return ::atan( fValue );
-}
-inline float aTan( float fValue )
-{
-#ifdef NO_TANF
-   return static_cast<float>(::atan(fValue));
-#else
-   return static_cast<float>(::atanf(fValue));
-#endif
+    return std::atan(fValue);
 }
 //----------------------------------------------------------------------------
 template <typename T>
-inline T aTan2( T fY, T fX );
-inline float aTan2( float fY, float fX )
+inline T aTan2(T fY, T fX)
 {
-#ifdef NO_ATAN2F
-   return static_cast<float>(::atan2(fY, fX));
-#else
-   return static_cast<float>(::atan2f(fY, fX));
-#endif
-}
-inline double aTan2( double fY, double fX )
-{
-    return static_cast<double>(::atan2(fY, fX));
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T cos( T fValue );
-inline float cos( float fValue )
-{
-#ifdef NO_COSF
-   return static_cast<float>(::cos(fValue));
-#else
-   return static_cast<float>(::cosf(fValue));
-#endif
-}
-inline double cos( double fValue )
-{
-    return static_cast<double>(::cos(fValue));
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T exp( T fValue );
-inline float exp( float fValue )
-{
-#ifdef NO_EXPF
-   return static_cast<float>(::exp(fValue));
-#else
-   return static_cast<float>(::expf(fValue));
-#endif
-}
-inline double exp( double fValue )
-{
-    return static_cast<double>(::exp(fValue));
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T log( T fValue );
-inline double log( double fValue )
-{
-    return static_cast<double>(::log(fValue));
-}
-inline float log( float fValue )
-{
-#ifdef NO_LOGF
-   return static_cast<float>(::log(fValue));
-#else
-   return static_cast<float>(::logf(fValue));
-#endif
-}
-//----------------------------------------------------------------------------
-inline double pow( double fBase, double fExponent)
-{
-    return static_cast<double>(::pow(fBase, fExponent));
-}
-inline float pow( float fBase, float fExponent)
-{
-#ifdef NO_POWF
-   return static_cast<float>(::pow(fBase, fExponent));
-#else
-   return static_cast<float>(::powf(fBase, fExponent));
-#endif
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T sin( T fValue );
-inline double sin( double fValue )
-{
-    return static_cast<double>(::sin(fValue));
-}
-inline float sin( float fValue )
-{
-#ifdef NO_SINF
-   return static_cast<float>(::sin(fValue));
-#else
-   return static_cast<float>(::sinf(fValue));
-#endif
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T tan( T fValue );
-inline double tan( double fValue )
-{
-    return static_cast<double>(::tan(fValue));
-}
-inline float tan( float fValue )
-{
-#ifdef NO_TANF
-   return static_cast<float>(::tan(fValue));
-#else
-   return static_cast<float>(::tanf(fValue));
-#endif
+    return std::atan2(fY, fX);
 }
 //----------------------------------------------------------------------------
 template <typename T>
 inline T sqr( T fValue )
 {
     return static_cast<T>(fValue * fValue);
-}
-//----------------------------------------------------------------------------
-template <typename T>
-inline T sqrt( T fValue )
-{
-#ifdef NO_SQRTF
-   return static_cast<T>(::sqrt((static_cast<float>(fValue))));
-#else
-   return static_cast<T>(::sqrtf((static_cast<float>(fValue))));
-#endif
-}
-inline double sqrt( double fValue )
-{
-    return static_cast<double>(::sqrt(fValue));
 }
 
 /** Fast inverse square root.

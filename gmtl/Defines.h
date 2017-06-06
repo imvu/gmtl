@@ -49,24 +49,6 @@ namespace gmtl
 
 }
 
-// Platform-specific settings.
-#if defined(__sun) || defined(__APPLE__) || defined(__hpux) ||  \
-    defined(_XOPEN_SOURCE)
-#define NO_ACOSF 1
-#define NO_ASINF 1
-#define NO_TANF 1
-#define NO_ATAN2F 1
-#define NO_COSF 1
-#define NO_SINF 1
-#define NO_TANF 1
-#define NO_SQRTF 1
-#define NO_LOGF 1
-#define NO_EXPF 1
-#define NO_POWF 1
-#define NO_CEILF 1
-#define NO_FLOORF 1
-#endif
-
 #if defined(_MSC_VER)
    // MSVC
    // I guess the MSVC equivalent to "always_inline" is __forceinline, but we
