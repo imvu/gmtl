@@ -744,10 +744,8 @@ namespace gmtl
     * @post if preconditions are not met, then function is undefined (will not compile)
     */
    template<typename TRANS_TYPE, typename SRC_TYPE >
-   inline TRANS_TYPE makeTrans( const SRC_TYPE& arg,
-                             Type2Type< TRANS_TYPE > t = Type2Type< TRANS_TYPE >())
+   inline TRANS_TYPE makeTrans( const SRC_TYPE& arg )
    {
-      gmtl::ignore_unused_variable_warning(t);
       TRANS_TYPE temporary;
       return setTrans( temporary, arg );
    }
@@ -869,10 +867,8 @@ namespace gmtl
     *  @seealso      setScale() for all possible argument types for this function.
     */
    template <typename MATRIX_TYPE, typename INPUT_TYPE>
-   inline MATRIX_TYPE makeScale( const INPUT_TYPE& scale,
-                               Type2Type< MATRIX_TYPE > t = Type2Type< MATRIX_TYPE >() )
+   inline MATRIX_TYPE makeScale( const INPUT_TYPE& scale )
    {
-      gmtl::ignore_unused_variable_warning(t);
       MATRIX_TYPE temporary;
       return setScale( temporary, scale );
    }
@@ -1148,10 +1144,8 @@ namespace gmtl
    template< typename ROTATION_TYPE >
    inline ROTATION_TYPE makeAxes( const Vec<typename ROTATION_TYPE::DataType, 3>& xAxis,
                                   const Vec<typename ROTATION_TYPE::DataType, 3>& yAxis,
-                                  const Vec<typename ROTATION_TYPE::DataType, 3>& zAxis,
-                                  Type2Type< ROTATION_TYPE > t = Type2Type< ROTATION_TYPE >() )
+                                  const Vec<typename ROTATION_TYPE::DataType, 3>& zAxis )
    {
-      gmtl::ignore_unused_variable_warning(t);
       ROTATION_TYPE temporary;
       return setAxes( temporary, xAxis, yAxis, zAxis );
    }
@@ -1308,10 +1302,8 @@ namespace gmtl
     *  @see OpenSGGenerate.h for an example
     */
    template <typename TARGET_TYPE, typename SOURCE_TYPE>
-   inline TARGET_TYPE make( const SOURCE_TYPE& src,
-                           Type2Type< TARGET_TYPE > t = Type2Type< TARGET_TYPE >() )
+   inline TARGET_TYPE make( const SOURCE_TYPE& src )
    {
-      gmtl::ignore_unused_variable_warning(t);
       TARGET_TYPE target;
       return gmtl::set( target, src );
    }
@@ -1321,10 +1313,8 @@ namespace gmtl
     * @post returns a temporary object.
     */
    template <typename ROTATION_TYPE, typename SOURCE_TYPE >
-   inline ROTATION_TYPE makeRot( const SOURCE_TYPE& coord,
-                                Type2Type< ROTATION_TYPE > t = Type2Type< ROTATION_TYPE >() )
+   inline ROTATION_TYPE makeRot( const SOURCE_TYPE& coord )
    {
-      gmtl::ignore_unused_variable_warning(t);
       ROTATION_TYPE temporary;
       return gmtl::set( temporary, coord );
    }
@@ -1346,10 +1336,8 @@ namespace gmtl
                                   const Vec<typename ROTATION_TYPE::DataType, 3>& zDestAxis,
                                   const Vec<typename ROTATION_TYPE::DataType, 3>& xSrcAxis = Vec<typename ROTATION_TYPE::DataType, 3>(1,0,0),
                                   const Vec<typename ROTATION_TYPE::DataType, 3>& ySrcAxis = Vec<typename ROTATION_TYPE::DataType, 3>(0,1,0),
-                                  const Vec<typename ROTATION_TYPE::DataType, 3>& zSrcAxis = Vec<typename ROTATION_TYPE::DataType, 3>(0,0,1),
-                               Type2Type< ROTATION_TYPE > t = Type2Type< ROTATION_TYPE >() )
+                                  const Vec<typename ROTATION_TYPE::DataType, 3>& zSrcAxis = Vec<typename ROTATION_TYPE::DataType, 3>(0,0,1) )
    {
-      gmtl::ignore_unused_variable_warning(t);
       ROTATION_TYPE temporary;
       return setDirCos( temporary, xDestAxis, yDestAxis, zDestAxis, xSrcAxis, ySrcAxis, zSrcAxis );
    }

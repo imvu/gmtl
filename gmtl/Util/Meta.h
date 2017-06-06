@@ -8,18 +8,8 @@
 
 #include <gmtl/Defines.h>
 
-/*** STRINGIZE and JOIN macros */
 /* Taken from boost (see boost.org) */
 
-//
-// Helper macro GMTL_STRINGIZE:
-// Converts the parameter X to a string after macro replacement
-// on X has been performed.
-//
-#define GMTL_STRINGIZE(X) GMTL_DO_STRINGIZE(X)
-#define GMTL_DO_STRINGIZE(X) #X
-
-//
 // Helper macro GMTL_JOIN:
 // The following piece of macro magic joins the two
 // arguments together, even when one of the arguments is
@@ -31,32 +21,5 @@
 #define GMTL_DO_JOIN( X, Y ) GMTL_DO_JOIN2(X,Y)
 #define GMTL_DO_JOIN2( X, Y ) X##Y
 
-
-/** Meta programming classes */
-namespace gmtl
-{
-   /** @ingroup Meta */
-   //@{
-
-   /** A lightweight identifier you can pass to overloaded functions
-    *  to typefy them.
-    *
-    *  Type2Type lets you transport the type information about T to functions
-    */
-   template <typename T>
-   struct Type2Type
-   {
-      typedef T OriginalType;
-   };
-
-   //@}
-
-   /** @ingroup HelperMeta */
-   //@{
-   template <class T> inline void ignore_unused_variable_warning(const T&) { }
-
-   //@}
-
-} // end namespace
 
 #endif
