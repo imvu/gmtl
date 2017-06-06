@@ -819,7 +819,7 @@ namespace gmtl
 
       /* calculate U parameter and test bounds */
       u = gmtl::dot(tvec, pvec);
-      if (u < 0.0 || u > det)
+      if (u < 0.0f || u > det)
       {
          return false;
       }
@@ -829,7 +829,7 @@ namespace gmtl
 
       /* calculate V parameter and test bounds */
       v = gmtl::dot( ray.getDir(), qvec );
-      if (v < 0.0 || u + v > det)
+      if (v < 0.0f || u + v > det)
       {
          return false;
       }

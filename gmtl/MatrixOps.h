@@ -573,7 +573,7 @@ namespace gmtl
          pivot = m[ r[ k] ][ c[ k] ];
 
 
-         if ( gmtl::Math::abs( pivot) <= 1e-20)
+         if ( gmtl::Math::abs( pivot) <= static_cast<DATA_TYPE>(1e-20))
          {
             return result;
          }
