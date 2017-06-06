@@ -67,10 +67,6 @@ namespace gmtl
 #define NO_FLOORF 1
 #endif
 
-#if defined(_MSC_VER) && _MSC_VER < 1310
-#define GMTL_NO_METAPROG
-#endif
-
 #if defined(_MSC_VER)
    // MSVC
    // I guess the MSVC equivalent to "always_inline" is __forceinline, but we

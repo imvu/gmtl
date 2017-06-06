@@ -9,10 +9,6 @@
 #include <gmtl/Defines.h>
 #include <gmtl/Math.h>
 #include <gmtl/Vec.h>
-#ifndef GMTL_NO_METAPROG
-#include <gmtl/VecOpsMeta.h>
-#include <gmtl/VecExprMeta.h>
-#endif
 
 namespace gmtl
 {
@@ -31,7 +27,6 @@ namespace gmtl
  *
  * @return  the result of negating v1.
  */
-#ifdef GMTL_NO_METAPROG
 template<typename DATA_TYPE, unsigned SIZE>
 Vec<DATA_TYPE, SIZE> operator- (const VecBase<DATA_TYPE, SIZE>& v1)
 {
@@ -42,16 +37,6 @@ Vec<DATA_TYPE, SIZE> operator- (const VecBase<DATA_TYPE, SIZE>& v1)
    }
    return ret_val;
 }
-#else
-template<typename T, unsigned SIZE, typename R1>
-inline VecBase<T,SIZE, meta::VecUnaryExpr<VecBase<T,SIZE,R1>, meta::VecNegUnary> >
-operator-(const VecBase<T,SIZE,R1>& v1)
-{
-   return VecBase<T,SIZE,
-                  meta::VecUnaryExpr<VecBase<T,SIZE,R1>, meta::VecNegUnary> >
-                        ( meta::VecUnaryExpr<VecBase<T,SIZE,R1>, meta::VecNegUnary>(v1) );
-}
-#endif
 
 /**
  * Adds v2 to v1 and stores the result in v1. This is equivalent to the
@@ -62,15 +47,9 @@ operator-(const VecBase<T,SIZE,R1>& v1)
  *
  * @return  v1 after v2 has been added to it
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE>
 VecBase<DATA_TYPE, SIZE>& operator +=(VecBase<DATA_TYPE, SIZE>& v1,
                                       const VecBase<DATA_TYPE, SIZE>& v2)
-#else
-template<class DATA_TYPE, unsigned SIZE, typename REP2>
-VecBase<DATA_TYPE, SIZE>& operator +=(VecBase<DATA_TYPE, SIZE>& v1,
-                                      const VecBase<DATA_TYPE, SIZE, REP2>& v2)
-#endif
 {
    for(unsigned i=0;i<SIZE;++i)
    {
@@ -88,7 +67,6 @@ VecBase<DATA_TYPE, SIZE>& operator +=(VecBase<DATA_TYPE, SIZE>& v1,
  *
  * @return  the result of adding v2 to v1
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE>
 VecBase<DATA_TYPE, SIZE> operator +(const VecBase<DATA_TYPE, SIZE>& v1,
                                     const VecBase<DATA_TYPE, SIZE>& v2)
@@ -97,19 +75,6 @@ VecBase<DATA_TYPE, SIZE> operator +(const VecBase<DATA_TYPE, SIZE>& v1,
    ret_val += v2;
    return ret_val;
 }
-#else
-template<typename T, unsigned SIZE, typename R1, typename R2>
-inline VecBase<T,SIZE, meta::VecBinaryExpr<VecBase<T,SIZE,R1>, VecBase<T,SIZE,R2>, meta::VecPlusBinary> >
-operator+(const VecBase<T,SIZE,R1>& v1, const VecBase<T,SIZE,R2>& v2)
-{
-   return VecBase<T,SIZE,
-               meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                   VecBase<T,SIZE,R2>,
-                                   meta::VecPlusBinary> >( meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                                                               VecBase<T,SIZE,R2>,
-                                                                               meta::VecPlusBinary>(v1,v2) );
-}
-#endif
 
 /**
  * Subtracts v2 from v1 and stores the result in v1. This is equivalent to the
@@ -120,15 +85,9 @@ operator+(const VecBase<T,SIZE,R1>& v1, const VecBase<T,SIZE,R2>& v2)
  *
  * @return  v1 after v2 has been subtracted from it
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE>
 VecBase<DATA_TYPE, SIZE>& operator -=(VecBase<DATA_TYPE, SIZE>& v1,
                                       const VecBase<DATA_TYPE, SIZE>& v2)
-#else
-template<class DATA_TYPE, unsigned SIZE, typename REP2>
-VecBase<DATA_TYPE, SIZE>& operator -=(VecBase<DATA_TYPE, SIZE>& v1,
-                                      const VecBase<DATA_TYPE, SIZE, REP2>& v2)
-#endif
 {
    for(unsigned i=0;i<SIZE;++i)
    {
@@ -146,7 +105,6 @@ VecBase<DATA_TYPE, SIZE>& operator -=(VecBase<DATA_TYPE, SIZE>& v1,
  *
  * @return  the result of subtracting v2 from v1
  */
-#ifdef GMTL_NO_METAPROG
 template < class DATA_TYPE, unsigned SIZE>
 Vec<DATA_TYPE, SIZE> operator -(const VecBase<DATA_TYPE, SIZE>& v1,
                                 const VecBase<DATA_TYPE, SIZE>& v2)
@@ -155,19 +113,6 @@ Vec<DATA_TYPE, SIZE> operator -(const VecBase<DATA_TYPE, SIZE>& v1,
    ret_val -= v2;
    return ret_val;
 }
-#else
-template<typename T, unsigned SIZE, typename R1, typename R2>
-inline VecBase<T,SIZE, meta::VecBinaryExpr<VecBase<T,SIZE,R1>, VecBase<T,SIZE,R2>, meta::VecMinusBinary> >
-operator-(const VecBase<T,SIZE,R1>& v1, const VecBase<T,SIZE,R2>& v2)
-{
-   return VecBase<T,SIZE,
-               meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                   VecBase<T,SIZE,R2>,
-                                   meta::VecMinusBinary> >( meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                                                               VecBase<T,SIZE,R2>,
-                                                                               meta::VecMinusBinary>(v1,v2) );
-}
-#endif
 
 /**
  * Multiplies v1 by a scalar value and stores the result in v1. This is
@@ -199,7 +144,6 @@ VecBase<DATA_TYPE, SIZE>& operator *=(VecBase<DATA_TYPE, SIZE>& v1,
  *
  * @return  the result of multiplying v1 by scalar
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE, class SCALAR_TYPE>
 VecBase<DATA_TYPE, SIZE> operator *(const VecBase<DATA_TYPE, SIZE>& v1,
                                     const SCALAR_TYPE& scalar)
@@ -210,36 +154,6 @@ VecBase<DATA_TYPE, SIZE> operator *(const VecBase<DATA_TYPE, SIZE>& v1,
 
    //return VecBase<DATA_TYPE, SIZE>(v1) *= scalar;
 }
-#else
-template<typename T, unsigned SIZE, typename R1>
-inline VecBase<T,SIZE, meta::VecBinaryExpr<VecBase<T,SIZE,R1>, VecBase<T,SIZE, meta::ScalarArg<T> >, meta::VecMultBinary> >
-operator*(const VecBase<T,SIZE,R1>& v1, const T scalar)
-{
-   return VecBase<T,SIZE,
-             meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                 VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                 meta::VecMultBinary> >(
-                                       meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                                           VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                                           meta::VecMultBinary>(v1,
-                                                                                meta::ScalarArg<T>(scalar)) );
-}
-
-template<typename T, unsigned SIZE, typename R1>
-inline VecBase<T,SIZE, meta::VecBinaryExpr< VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                            VecBase<T,SIZE,R1>,
-                                            meta::VecMultBinary> >
-operator*(const T scalar, const VecBase<T,SIZE,R1>& v1)
-{
-   return VecBase<T,SIZE,
-             meta::VecBinaryExpr<VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                 VecBase<T,SIZE,R1>,
-                                 meta::VecMultBinary> >(
-                                       meta::VecBinaryExpr<VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                                           VecBase<T,SIZE,R1>,
-                                                           meta::VecMultBinary>(meta::ScalarArg<T>(scalar), v1 ) );
-}
-#endif
 
 /**
  * Multiplies v1 by a scalar value and returns the result. Thus result = scalar
@@ -250,7 +164,6 @@ operator*(const T scalar, const VecBase<T,SIZE,R1>& v1)
  *
  * @return  the result of multiplying v1 by scalar
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE, class SCALAR_TYPE>
 VecBase<DATA_TYPE, SIZE> operator *(const SCALAR_TYPE& scalar,
                                     const VecBase<DATA_TYPE, SIZE>& v1)
@@ -261,7 +174,6 @@ VecBase<DATA_TYPE, SIZE> operator *(const SCALAR_TYPE& scalar,
 
    //return VecBase<DATA_TYPE, SIZE>(v1) *= scalar;
 }
-#endif
 
 /**
  * Divides v1 by a scalar value and stores the result in v1. This is
@@ -293,7 +205,6 @@ VecBase<DATA_TYPE, SIZE>& operator /=(VecBase<DATA_TYPE, SIZE>& v1,
  *
  * @return  the result of dividing v1 by scalar
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE, class SCALAR_TYPE>
 VecBase<DATA_TYPE, SIZE> operator /(const VecBase<DATA_TYPE, SIZE>& v1,
                                     const SCALAR_TYPE& scalar)
@@ -303,21 +214,6 @@ VecBase<DATA_TYPE, SIZE> operator /(const VecBase<DATA_TYPE, SIZE>& v1,
    return ret_val;
    // return VecBase<DATA_TYPE, SIZE>(v1)( /= scalar;
 }
-#else
-template<typename T, unsigned SIZE, typename R1>
-inline VecBase<T,SIZE, meta::VecBinaryExpr<VecBase<T,SIZE,R1>, VecBase<T,SIZE, meta::ScalarArg<T> >, meta::VecDivBinary> >
-operator/(const VecBase<T,SIZE,R1>& v1, const T scalar)
-{
-   return VecBase<T,SIZE,
-             meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                 VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                 meta::VecDivBinary> >(
-                                       meta::VecBinaryExpr<VecBase<T,SIZE,R1>,
-                                                           VecBase<T,SIZE, meta::ScalarArg<T> >,
-                                                           meta::VecDivBinary>(v1,
-                                                                               meta::ScalarArg<T>(scalar)) );
-}
-#endif
 
 /** @} */
 
@@ -335,7 +231,6 @@ operator/(const VecBase<T,SIZE,R1>& v1, const T scalar)
  *
  * @return the dotproduct of v1 and v2
  */
-#ifdef GMTL_NO_METAPROG
 template<class DATA_TYPE, unsigned SIZE>
 DATA_TYPE dot(const VecBase<DATA_TYPE, SIZE>& v1, const VecBase<DATA_TYPE, SIZE>& v2)
 {
@@ -346,15 +241,6 @@ DATA_TYPE dot(const VecBase<DATA_TYPE, SIZE>& v1, const VecBase<DATA_TYPE, SIZE>
    }
    return ret_val;
 }
-#else
-template<class DATA_TYPE, unsigned SIZE, typename REP1, typename REP2>
-DATA_TYPE dot(const VecBase<DATA_TYPE, SIZE, REP1>& v1, const VecBase<DATA_TYPE, SIZE, REP2>& v2)
-{
-   return gmtl::meta::DotVecUnrolled<SIZE-1,
-                                     VecBase<DATA_TYPE,SIZE,REP1>,
-                                     VecBase<DATA_TYPE,SIZE,REP2> >::func(v1,v2);
-}
-#endif
 
 /**
  * Computes the length of the given vector.
@@ -385,7 +271,6 @@ DATA_TYPE length(const Vec<DATA_TYPE, SIZE>& v1)
 template<class DATA_TYPE, unsigned SIZE>
 DATA_TYPE lengthSquared(const Vec<DATA_TYPE, SIZE>& v1)
 {
-#ifdef GMTL_NO_METAPROG
    DATA_TYPE ret_val(0);
    for(unsigned i=0;i<SIZE;++i)
    {
@@ -393,9 +278,6 @@ DATA_TYPE lengthSquared(const Vec<DATA_TYPE, SIZE>& v1)
    }
 
    return ret_val;
-#else
-   return gmtl::meta::LenSqrVecUnrolled<SIZE-1,Vec<DATA_TYPE,SIZE> >::func(v1);
-#endif
 }
 
 /**
@@ -587,7 +469,6 @@ template<class DATA_TYPE, unsigned SIZE>
 inline bool operator==(const VecBase<DATA_TYPE, SIZE>& v1,
                        const VecBase<DATA_TYPE, SIZE>& v2)
 {
-#ifdef GMTL_NO_METAPROG
    for(unsigned i=0;i<SIZE;++i)
    {
       if(v1[i] != v2[i])
@@ -597,9 +478,6 @@ inline bool operator==(const VecBase<DATA_TYPE, SIZE>& v1,
    }
 
    return true;
-#else
-   return gmtl::meta::EqualVecUnrolled<SIZE-1,Vec<DATA_TYPE,SIZE> >::func(v1,v2);
-#endif
    /*  Would like this
    return(vec[0] == _v[0] &&
           vec[1] == _v[1] &&

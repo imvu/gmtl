@@ -17,69 +17,6 @@
 namespace gmtl
 {
 
-#ifndef GMTL_NO_METAPROG
-namespace meta
-{
-   struct DefaultVecTag
-   {};
-}
-#endif
-
-
-/**
- * Base type for vector-like objects including Points and Vectors. It is
- * templated on the component datatype as well as the number of components that
- * make it up.
- *
- * @param DATA_TYPE  the datatype to use for the components
- * @param SIZE       the number of components this VecB has
- * @param REP        the representation to use for the vector.  (expression template or default)
- */
-#ifndef GMTL_NO_METAPROG
-template<class DATA_TYPE, unsigned SIZE, typename REP=meta::DefaultVecTag>
-class VecBase
-{
-protected:
-   const REP  expRep;      // The expression rep
-
-public:
-   /// The datatype used for the components of this VecB.
-   typedef DATA_TYPE DataType;
-
-   /// The number of components this VecB has.
-   enum Params { Size = SIZE };
-
-public:
-   VecBase()
-   {;}
-
-   VecBase(const REP& rep)
-      : expRep(rep)
-   {;}
-
-   /** Conversion operator to default vecbase type. */
-   /*
-   operator VecBase<DATA_TYPE,SIZE,meta::DefaultVecTag>()
-   {
-      return VecBase<DATA_TYPE,SIZE,meta::DefaultVecTag>(*this);
-   }
-   */
-
-   /** Return the value at given location. */
-   inline DATA_TYPE operator [](const unsigned i)
-   {
-      gmtlASSERT(i < SIZE);
-      return expRep[i];
-   }
-   inline const DATA_TYPE  operator [](const unsigned i) const
-   {
-      gmtlASSERT(i < SIZE);
-      return expRep[i];
-   }
-};
-#endif
-
-
 /**
  * Specialized version of VecBase that is actually used for all user interaction
  * with a traditional vector.
@@ -88,21 +25,13 @@ public:
  * @param SIZE       the number of components this VecBase has
  */
 template<class DATA_TYPE, unsigned SIZE>
-#ifdef GMTL_NO_METAPROG
 class VecBase
-#else
-class VecBase<DATA_TYPE,SIZE,meta::DefaultVecTag>
-#endif
 {
 public:
    /// The datatype used for the components of this VecBase.
    typedef DATA_TYPE DataType;
 
-#ifdef GMTL_NO_METAPROG
    typedef VecBase<DATA_TYPE, SIZE> VecType;
-#else
-   typedef VecBase<DATA_TYPE, SIZE, meta::DefaultVecTag> VecType;
-#endif
 
    /// The number of components this VecBase has.
    enum Params { Size = SIZE };
@@ -129,15 +58,6 @@ public:
       for(unsigned i=0;i<SIZE;++i)
          mData[i] = rVec.mData[i];
    }
-
-#ifndef GMTL_NO_METAPROG
-   template<typename REP2>
-   VecBase(const VecBase<DATA_TYPE, SIZE, REP2>& rVec)
-   {
-      for(unsigned i=0;i<SIZE;++i)
-      {  mData[i] = rVec[i]; }
-   }
-#endif
 
    //@{
    /**
@@ -220,21 +140,7 @@ public:
    //@}
 
    /** Assign from different rep. */
-#ifdef GMTL_NO_METAPROG
    inline VecType& operator=(const VecBase<DATA_TYPE,SIZE>& rhs) = default;
-
-#else
-   template<typename REP2>
-   inline VecType& operator=(const VecBase<DATA_TYPE,SIZE,REP2>& rhs)
-   {
-      for(unsigned i=0;i<SIZE;++i)
-      {
-         mData[i] = rhs[i];
-      }
-
-      return *this;
-   }
-#endif
 
    //@{
    /**

@@ -22,42 +22,6 @@
 
 namespace gmtl
 {
-   namespace output
-   {
-      /** Outputters for vector types. */
-#ifndef GMTL_NO_METAPROG
-      template<typename DATA_TYPE, unsigned SIZE, typename REP>
-      struct VecOutputter
-      {
-         static std::ostream& outStream(std::ostream& out, const VecBase<DATA_TYPE,SIZE,REP>& v)
-         {
-            VecBase<DATA_TYPE,SIZE, gmtl::meta::DefaultVecTag> temp_vec(v);
-            VecOutputter<DATA_TYPE,SIZE,gmtl::meta::DefaultVecTag>::outStream(out,v);
-            return out;
-         }
-      };
-
-      template<typename DATA_TYPE, unsigned SIZE>
-      struct VecOutputter<DATA_TYPE,SIZE,gmtl::meta::DefaultVecTag>
-      {
-         static std::ostream& outStream(std::ostream& out, const VecBase<DATA_TYPE,SIZE,gmtl::meta::DefaultVecTag>& v)
-         {
-            out << "(";
-            for ( unsigned i=0; i<SIZE; ++i )
-            {
-               if ( i != 0 )
-               {
-                  out << ", ";
-               }
-               out << v[i];
-            }
-            out << ")";
-            return out;
-         }
-      };
-#endif
-   }
-
    /** @ingroup Output
     *  @name Output Stream Operators
     */
@@ -72,7 +36,6 @@ namespace gmtl
     *
     * @return  out after it has been written to
     */
-#ifdef GMTL_NO_METAPROG
    template<typename DATA_TYPE, unsigned SIZE>
    std::ostream& operator<<(std::ostream& out, const VecBase<DATA_TYPE, SIZE>& v)
    {
@@ -88,13 +51,6 @@ namespace gmtl
       out << ")";
       return out;
    }
-#else
-   template<typename DATA_TYPE, unsigned SIZE, typename REP>
-   std::ostream& operator<<(std::ostream& out, const VecBase<DATA_TYPE, SIZE, REP>& v)
-   {
-      return output::VecOutputter<DATA_TYPE,SIZE,REP>::outStream(out,v);
-   }
-#endif
 
    /**
     * Outputs a string representation of the given EulerAngle type to the given

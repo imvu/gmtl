@@ -58,17 +58,9 @@ public:
    {;}
    */
 
-#ifdef GMTL_NO_METAPROG
    Point(const VecBase<DATA_TYPE, SIZE>& rVec)
       : BaseType(rVec)
    {;}
-#else
-   template<typename REP2>
-   Point( const VecBase<DATA_TYPE, SIZE, REP2>& rVec )
-      : BaseType( rVec )
-   {
-   }
-#endif
 
    /**
     * Construct a 2-D point with 2 given values
@@ -102,21 +94,11 @@ public:
    //@}
 
    /** Assign from different rep. */
-#ifdef GMTL_NO_METAPROG
    inline VecType& operator=(const VecBase<DATA_TYPE,SIZE>& rhs)
    {
       BaseType::operator=(rhs);
       return *this;
    }
-#else
-   template<typename REP2>
-   inline VecType& operator=(const VecBase<DATA_TYPE,SIZE,REP2>& rhs)
-   {
-      BaseType::operator=(rhs);
-      return *this;
-   }
-#endif
-
 };
 
 // --- helper types --- //

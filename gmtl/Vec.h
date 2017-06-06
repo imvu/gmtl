@@ -27,11 +27,7 @@ namespace gmtl
  * @ingroup Types
  */
 template<class DATA_TYPE, unsigned SIZE>
-#ifdef GMTL_NO_METAPROG
 class Vec : public VecBase<DATA_TYPE, SIZE>
-#else
-class Vec : public VecBase<DATA_TYPE, SIZE, meta::DefaultVecTag>
-#endif
 {
 public:
    /// The datatype used for the components of this Vec.
@@ -69,7 +65,6 @@ public:
    {;}
    */
 
-#ifdef GMTL_NO_METAPROG
    Vec( const VecBase<DATA_TYPE, SIZE>& rVec )
       : BaseType( rVec )
    {
@@ -80,13 +75,6 @@ public:
       : BaseType( rVec )
    {
    }
-#else
-   template<typename REP2>
-   Vec( const VecBase<DATA_TYPE, SIZE, REP2>& rVec )
-      : BaseType( rVec )
-   {
-   }
-#endif
 
    /**
     * Creates a new Vec initialized to the given values.
@@ -111,20 +99,11 @@ public:
    //@}
 
    /** Assign from different rep. */
-#ifdef GMTL_NO_METAPROG
    inline VecType& operator=(const VecBase<DATA_TYPE,SIZE>& rhs)
    {
       BaseType::operator=(rhs);
       return *this;
    }
-#else
-   template<typename REP2>
-   inline VecType& operator=(const VecBase<DATA_TYPE,SIZE,REP2>& rhs)
-   {
-      BaseType::operator=(rhs);
-      return *this;
-   }
-#endif
 };
 
 // --- helper types --- //
