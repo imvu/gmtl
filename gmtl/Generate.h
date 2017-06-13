@@ -192,7 +192,7 @@ namespace gmtl
           if ((s_errCount %10)==0 && (s_errCount<=s_maxErrChecks)) {
               s_errCount++;
               printf("gmtl/Generate.h::set : axisAngle vector is not normalized. length=%10.8f, threshold=%10.8f (errs=%2d) %s\n",
-                  lsq, threshold, s_errCount, (s_errCount>=s_maxErrChecks)? "(further reports disabled...)":"");
+                  static_cast<double>(lsq), static_cast<double>(threshold), s_errCount, (s_errCount>=s_maxErrChecks)? "(further reports disabled...)":"");
           }
           s_errCount++;
       }

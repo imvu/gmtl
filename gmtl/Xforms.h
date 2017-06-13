@@ -50,7 +50,7 @@ namespace gmtl
       if (gmtl::Math::abs(rotLen - static_cast<DATA_TYPE>(1.0)) > threshold) {
           if ((s_errCount %10)==0 && (s_errCount<=s_maxErrChecks)) {
               printf("gmtl/Xforms.h::xform : quaternion is not normalized. length=%10.8f, threshold=%10.8f (errs=%2d) %s\n",
-                rotLen, threshold, s_errCount, (s_errCount>=s_maxErrChecks)? "(further reports disabled...)":"");
+                static_cast<double>(rotLen), static_cast<double>(threshold), s_errCount, (s_errCount>=s_maxErrChecks)? "(further reports disabled...)":"");
           }
           s_errCount++;
       }
