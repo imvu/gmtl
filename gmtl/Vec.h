@@ -79,19 +79,19 @@ public:
    /**
     * Creates a new Vec initialized to the given values.
     */
-   Vec(const DATA_TYPE& val0,const DATA_TYPE& val1)
+   Vec(DATA_TYPE val0, DATA_TYPE val1)
    : BaseType(val0, val1)
    {
       GMTL_STATIC_ASSERT( SIZE == 2, Out_Of_Bounds_Element_Access_In_Vec );
    }
 
-   Vec(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2)
+   Vec(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2)
    : BaseType(val0, val1, val2)
    {
       GMTL_STATIC_ASSERT( SIZE == 3, Out_Of_Bounds_Element_Access_In_Vec );
    }
 
-   Vec(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2,const DATA_TYPE& val3)
+   Vec(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2, DATA_TYPE val3)
    : BaseType(val0, val1, val2, val3)
    {
       GMTL_STATIC_ASSERT( SIZE == 4, Out_Of_Bounds_Element_Access_In_Vec );

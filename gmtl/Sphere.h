@@ -37,7 +37,7 @@ public:
     * @param center     the point at which to center the sphere
     * @param radius     the radius of the sphere
     */
-   Sphere( const Point<DATA_TYPE, 3>& center, const DATA_TYPE& radius )
+   Sphere( const Point<DATA_TYPE, 3>& center, DATA_TYPE radius )
       : mCenter( center ), mRadius( radius )
    {}
 
@@ -65,7 +65,7 @@ public:
     *
     * @return  the radius of the sphere
     */
-   const DATA_TYPE& getRadius() const
+   DATA_TYPE getRadius() const
    {
       return mRadius;
    }
@@ -85,7 +85,7 @@ public:
     *
     * @param radius     the new radius of the sphere
     */
-   void setRadius( const DATA_TYPE& radius )
+   void setRadius( DATA_TYPE radius )
    {
       mRadius = radius;
    }

@@ -67,8 +67,7 @@ public:
     *  [x,y,z,w] == [0,0,0,1].
     *  NOTE: the addition identity is [0,0,0,0]
     */
-   Quat( const DATA_TYPE& x, const DATA_TYPE& y, const DATA_TYPE& z,
-         const DATA_TYPE& w )
+   Quat( DATA_TYPE x, DATA_TYPE y, DATA_TYPE z, DATA_TYPE w )
       : mData( x, y, z, w )
    {
    }

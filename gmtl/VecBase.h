@@ -63,17 +63,17 @@ public:
    /**
     * Creates a new VecBase initialized to the given values.
     */
-   VecBase(const DATA_TYPE& val0,const DATA_TYPE& val1)
+   VecBase(DATA_TYPE val0, DATA_TYPE val1)
    {
       GMTL_STATIC_ASSERT( SIZE == 2, Invalid_constructor_of_size_2_used);
       mData[0] = val0; mData[1] = val1;
    }
-   VecBase(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2)
+   VecBase(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2)
    {
       GMTL_STATIC_ASSERT( SIZE == 3, Invalid_constructor_of_size_3_used );
       mData[0] = val0;  mData[1] = val1;  mData[2] = val2;
    }
-   VecBase(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2,const DATA_TYPE& val3)
+   VecBase(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2, DATA_TYPE val3)
    {
       GMTL_STATIC_ASSERT( SIZE == 4, Invalid_constructor_of_size_4_used);
       mData[0] = val0;  mData[1] = val1;  mData[2] = val2;  mData[3] = val3;
@@ -98,20 +98,20 @@ public:
    /**
     * Sets the components in this VecBase to the given values.
     */
-   inline void set(const DATA_TYPE& val0)
+   inline void set(DATA_TYPE val0)
    { mData[0] = val0; }
 
-   inline void set(const DATA_TYPE& val0,const DATA_TYPE& val1)
+   inline void set(DATA_TYPE val0, DATA_TYPE val1)
    {
       GMTL_STATIC_ASSERT( SIZE >= 2, Set_out_of_valid_range);
       mData[0] = val0; mData[1] = val1;
    }
-   inline void set(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2)
+   inline void set(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2)
    {
       GMTL_STATIC_ASSERT( SIZE >= 3, Set_out_of_valid_range);
       mData[0] = val0;  mData[1] = val1;  mData[2] = val2;
    }
-   inline void set(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2,const DATA_TYPE& val3)
+   inline void set(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2, DATA_TYPE val3)
    {
       GMTL_STATIC_ASSERT( SIZE >= 4, Set_out_of_valid_range);
       mData[0] = val0;  mData[1] = val1;  mData[2] = val2;  mData[3] = val3;

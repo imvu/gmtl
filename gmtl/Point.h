@@ -65,7 +65,7 @@ public:
    /**
     * Construct a 2-D point with 2 given values
     */
-   Point(const DATA_TYPE& val0,const DATA_TYPE& val1)
+   Point(DATA_TYPE val0, DATA_TYPE val1)
    : BaseType(val0, val1)
    {
       // @todo need compile time assert
@@ -73,9 +73,9 @@ public:
    }
 
    /**
-    * Construct a 3-D point with 2 given values
+    * Construct a 3-D point with 3 given values
     */
-   Point(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2)
+   Point(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2)
    : BaseType(val0, val1, val2)
    {
       // @todo need compile time assert
@@ -83,9 +83,9 @@ public:
    }
 
    /**
-    * Construct a 4-D point with 2 given values
+    * Construct a 4-D point with 4 given values
     */
-   Point(const DATA_TYPE& val0,const DATA_TYPE& val1,const DATA_TYPE& val2,const DATA_TYPE& val3)
+   Point(DATA_TYPE val0, DATA_TYPE val1, DATA_TYPE val2, DATA_TYPE val3)
    : BaseType(val0, val1, val2, val3)
    {
       // @todo need compile time assert
