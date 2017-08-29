@@ -22,7 +22,7 @@ namespace gmtl
    struct CompareIndexPointProjections
    {
    public:
-      CompareIndexPointProjections() : points(NULL)
+      CompareIndexPointProjections() : points(nullptr)
       {;}
 
       bool operator()(const unsigned x, const unsigned y)

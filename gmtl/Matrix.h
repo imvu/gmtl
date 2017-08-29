@@ -120,7 +120,7 @@ public:
          : mMat(mat), mRow(row)
       {
          gmtlASSERT(row < ROWS);
-         gmtlASSERT(NULL != mat);
+         gmtlASSERT(nullptr != mat);
       }
 
       GMTL_ALWAYS_INLINE
@@ -149,7 +149,7 @@ public:
          : mMat( mat ), mRow( row )
       {
          gmtlASSERT( row < ROWS );
-         gmtlASSERT( NULL != mat );
+         gmtlASSERT( nullptr != mat );
       }
 
       GMTL_ALWAYS_INLINE
