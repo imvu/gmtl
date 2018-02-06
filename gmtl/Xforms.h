@@ -123,8 +123,8 @@ namespace gmtl
       result = Vec<DATA_TYPE, COLS>();
 
       for (unsigned iRow = 0; iRow < ROWS; ++iRow)
-      for (unsigned iCol = 0; iCol < COLS; ++iCol)
-         result[iRow] += matrix( iRow, iCol ) * vector[iCol];
+         for (unsigned iCol = 0; iCol < COLS; ++iCol)
+            result[iRow] += matrix( iRow, iCol ) * vector[iCol];
 
       return result;
    }
@@ -241,8 +241,8 @@ namespace gmtl
       result = Point<DATA_TYPE, COLS>();
 
       for (unsigned iRow = 0; iRow < ROWS; ++iRow)
-      for (unsigned iCol = 0; iCol < COLS; ++iCol)
-         result[iRow] += matrix( iRow, iCol ) * point[iCol];
+         for (unsigned iCol = 0; iCol < COLS; ++iCol)
+            result[iRow] += matrix( iRow, iCol ) * point[iCol];
 
       return result;
    }

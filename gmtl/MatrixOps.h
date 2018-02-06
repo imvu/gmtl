@@ -156,8 +156,8 @@ namespace gmtl
       // if A is m x n, and B is m x n, then AB is m x n
       // (A - B)ij  = (a)ij - (b)ij     (where:  1 <= i <= m, 1 <= j <= n)
       for (unsigned int i = 0; i < ROWS; ++i)           // 1 <= i <= m
-      for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
-         result( i, j ) = lhs( i, j ) - rhs( i, j );
+         for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
+            result( i, j ) = lhs( i, j ) - rhs( i, j );
 
       return result;
    }
@@ -176,8 +176,8 @@ namespace gmtl
       // if A is m x n, and B is m x n, then AB is m x n
       // (A - B)ij  = (a)ij + (b)ij     (where:  1 <= i <= m, 1 <= j <= n)
       for (unsigned int i = 0; i < ROWS; ++i)           // 1 <= i <= m
-      for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
-         result( i, j ) = lhs( i, j ) + rhs( i, j );
+         for (unsigned int j = 0; j < COLS; ++j)           // 1 <= j <= n
+            result( i, j ) = lhs( i, j ) + rhs( i, j );
 
       return result;
    }
@@ -358,10 +358,10 @@ namespace gmtl
       // The rotational part of the matrix is simply the transpose of the
       // original matrix.
       for (unsigned x = 0; x < 3; ++x)
-      for (unsigned y = 0; y < 3; ++y)
-      {
-         result[x][y] = src[y][x];
-      }
+         for (unsigned y = 0; y < 3; ++y)
+         {
+            result[x][y] = src[y][x];
+         }
 
       // handle matrices with translation
       if (COLS == 4)
